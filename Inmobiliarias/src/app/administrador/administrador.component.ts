@@ -13,10 +13,12 @@ export class AdministradorComponent implements OnInit {
   private usuarioUsuarioAdministrador: string;
   private passwordUsuarioAdministrador: string;
   private tipoUsuarioAdministrador: any;
+  private idUsuarioAdministrador: any;
 
-  private mensaje: string;
+  private mensaje: string;  
   private success: boolean = false;
   private error: boolean = false;
+  private operacion: string;
 
   constructor(private usuarioService: ServicioUsuariosService) { 
     this.TraerUsuarios();
@@ -46,6 +48,7 @@ export class AdministradorComponent implements OnInit {
   }
   altaUsuario()
   {  
+    this.operacion = "Insertar";
     document.getElementById("altaUsuariosAdministrador").style.display = "inline";
   }
 
@@ -73,6 +76,17 @@ export class AdministradorComponent implements OnInit {
      this.TraerUsuarios();
   }
 
+  mostrarUsuario(id, nom, usu, pass, tipo){
+    this.operacion = "Modificar";
+    this.idUsuarioAdministrador=id;
+    this.nombreUsuarioAdministrador = nom;
+    this.usuarioUsuarioAdministrador=usu;
+    this.passwordUsuarioAdministrador=pass;
+    this.tipoUsuarioAdministrador=tipo;
+    console.info(this.tipoUsuarioAdministrador);
+    document.getElementById("altaUsuariosAdministrador").style.display = "inline";
+  }
+
   CancelarUsuario(){     
     document.getElementById("altaUsuariosAdministrador").style.display = "none";
     this.nombreUsuarioAdministrador = "";
@@ -83,7 +97,8 @@ export class AdministradorComponent implements OnInit {
 
   GuardarUsuario()
   {
-     let objUsuario: Usuario = new Usuario(this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador);
+    if (this.operacion == "Insertar"){
+     let objUsuario: Usuario = new Usuario(0,this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador);
      console.log(this.nombreUsuarioAdministrador);
      console.log(this.usuarioUsuarioAdministrador);
      console.log(this.passwordUsuarioAdministrador);
@@ -110,8 +125,13 @@ export class AdministradorComponent implements OnInit {
        err => console.error(err),
        () => this.TraerUsuarios()
      );*/
-     this.TraerUsuarios();
-     this.CancelarUsuario();
+    }else if (this.operacion == "Modificar"){
+      let objUsuario: Usuario = new Usuario(this.idUsuarioAdministrador, this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador);
+      console.log("se va a modificar: "+ objUsuario);
+      this.usuarioService.putUsuario(objUsuario).subscribe();      
+    }
+    this.TraerUsuarios();
+    this.CancelarUsuario();
   }
   /*CambiarEstado(id: number)
   {

@@ -39,19 +39,20 @@ export class ServicioUsuariosService {
     return this.http.post(`${this.rutaUsuario}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
-      { headers: headers }
+      { headers: headers}
       ).map(response =>response.json());
 
   }
 
-  public putUsuario(usuario: any) 
-  {
+  public putUsuario(usuario: Usuario) 
+  {    
     //Configuro headers
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put('${this.ruta}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}',
+    return this.http.put(`${this.rutaUsuario}?id=${usuario.id}&nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
+
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers }

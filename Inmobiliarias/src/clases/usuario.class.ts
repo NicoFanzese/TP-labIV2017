@@ -1,4 +1,5 @@
 export class Usuario{
+    public id;
     public nombre;
     public usuario;
     public password;
@@ -6,8 +7,9 @@ export class Usuario{
     public tipo;    
     public estado;
 
-    constructor(nombre, usuario, password, tipo)
-    {        
+    constructor(id,nombre, usuario, password, tipo)
+    {   
+        this.id =id;        
         this.nombre = nombre;
         this.usuario = usuario;
         this.password = password;
@@ -19,4 +21,12 @@ export class Usuario{
         }*/
 
     }
+    /*constructor(id,nombre, usuario, password, tipo)
+    {     
+        this.id =id;   
+        this.nombre = nombre;
+        this.usuario = usuario;
+        this.password = password;
+        this.tipo = tipo;
+    }*/
 }

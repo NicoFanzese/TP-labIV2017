@@ -76,6 +76,10 @@
     <form>
       <h1 style="text-align: center;"> Usuarios </h1><br>
       <div class="form-group" style="text-align: center;">
+        <label for="idUsuarioAdministrador" style="text-align: center;">ID:</label>
+        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="idUsuarioAdministrador" [(ngModel)]="idUsuarioAdministrador" id="idUsuarioAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
         <label for="nombreUsuarioAdministrador" style="text-align: center;">Nombre y apellido:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="nombreUsuarioAdministrador" [(ngModel)]="nombreUsuarioAdministrador" id="nombreUsuarioAdministrador">
       </div>
@@ -90,14 +94,16 @@
       <div class="form-group" style="text-align: center;">
         <label for="tipoUsuarioAdministrador" style="text-align: center;">Tipo usuario:</label>
         <select name="tipoUsuarioAdministrador" [(ngModel)]="tipoUsuarioAdministrador" id="tipoUsuarioAdministrador">
-          <option [ngValue]="Administrador">Administrador</option>
-          <option [ngValue]="Encargado">Encargado</option>
-          <option [ngValue]="Cliente">Cliente</option>
-          <option [ngValue]="Empleado">Empleado</option>
+          <option [value]="'Administrador'">Administrador</option>
+          <option [value]="'Encargado'">Encargado</option>
+          <option [value]="'Cliente'">Cliente</option>
+          <option [value]="'Empleado'">Empleado</option>
         </select>
+       
        <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
       </div>
       <div style="text-align: center;">
+         {{tipoUsuarioAdministrador}}lalala
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarUsuario()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarUsuario()">Cancelar</button>
       </div>
@@ -140,6 +146,7 @@
             <td>
               <!--<a class="btn btn-primary" [routerLink]="['/datosusuario',u.id]"><i class="material-icons">mode_edit</i></a>-->
               <!--<button class="btn btn-warning" (click)="CambiarEstado(u.id)"><i class="material-icons">do_not_disturb_alt</i></button>-->
+              <button class="btn btn-primary" (click)="mostrarUsuario(u.ID, u.nombre, u.usuario, u.password, u.tipo)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteUsuario(u.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>
