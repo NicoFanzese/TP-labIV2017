@@ -13,6 +13,8 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { AlertModule } from 'ngx-bootstrap';
 
 import { RouterModule, Routes } from '@angular/router';
+import { ServicioUsuariosService} from './servicio-usuarios.service';
+import { Usuario } from '../clases/usuario.class';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,7 +43,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [ServicioUsuariosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

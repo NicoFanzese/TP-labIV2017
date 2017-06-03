@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { Usuario } from '../clases/usuario.class';
 
 @Injectable()
 export class ServicioUsuariosService {
+
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/usuarios/"
+  private rutaUsuario: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/usuario/"
+
   constructor(private http: Http) { }
 
   getUsuarios() {
@@ -17,12 +21,12 @@ export class ServicioUsuariosService {
   }
 
   deleteUsuario(id: number) {
-    console.log(this.ruta + id);
-    return this.http.delete(this.ruta + id).map(
+      return this.http.delete(this.rutaUsuario + id).map(
+      //return this.http.get(rutaDeleteUsuario + id).map(
       data => data.json());
   }
 
-  public addUsuario(usuario: any) 
+  public GuardarUsuario(usuario: Usuario) 
   {
     console.log(usuario);
     //Configuro headers
@@ -31,11 +35,12 @@ export class ServicioUsuariosService {
 
     //Llamo al método POST y le paso los datos
     //return this.http.post(`${this.ruta}?nombre=${usuario.nombre}&password=${usuario.password}&foto=${usuario.foto}&tipo=${usuario.tipo}&estado=${usuario.estado}`,
-    return this.http.post(`${this.ruta}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
+    //return this.http.post(`${this.rutaUsuario}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
+    return this.http.post(`${this.rutaUsuario}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers }
-      ).map(response => response.json());
+      ).map(response =>response.json());
 
   }
 
@@ -46,7 +51,7 @@ export class ServicioUsuariosService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.ruta}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
+    return this.http.put('${this.ruta}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}',
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers }

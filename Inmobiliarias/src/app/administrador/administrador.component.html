@@ -71,34 +71,96 @@
 </div>
 
 <div id="UsuariosAdministrador" style="display: none">
-  <br>
-  <form>
-    <h1 style="text-align: center;"> Usuarios </h1><br>
-    <div class="form-group" style="text-align: center;">
-      <label for="nombreUsuarioAdministrador" style="text-align: center;">Nombre y apellido:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="nombreUsuarioAdministrador">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="usuarioUsuarioAdministrador" style="text-align: center;">Usuario Login:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="usuarioUsuarioAdministrador">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="passwordUsuarioAdministrador" style="text-align: center;" >Password:</label>
-      <input type="password" style="text-align: center;" class="form-control" id="passwordUsuarioAdministrador">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="tipoUsuarioAdministrador" style="text-align: center;">Tipo usuario:</label>
-      <input type="password" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">
-    </div>
-    <div style="text-align: center;">
-      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
-    </div>
-  </form>
+  <div id="altaUsuariosAdministrador" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Usuarios </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreUsuarioAdministrador" style="text-align: center;">Nombre y apellido:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreUsuarioAdministrador" [(ngModel)]="nombreUsuarioAdministrador" id="nombreUsuarioAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="usuarioUsuarioAdministrador" style="text-align: center;">Usuario Login:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="usuarioUsuarioAdministrador" [(ngModel)]="usuarioUsuarioAdministrador" id="usuarioUsuarioAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="passwordUsuarioAdministrador" style="text-align: center;" >Password:</label>
+        <input type="password" style="text-align: center;" class="form-control" name="passwordUsuarioAdministrador" [(ngModel)]="passwordUsuarioAdministrador" id="passwordUsuarioAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="tipoUsuarioAdministrador" style="text-align: center;">Tipo usuario:</label>
+        <select name="tipoUsuarioAdministrador" [(ngModel)]="tipoUsuarioAdministrador" id="tipoUsuarioAdministrador">
+          <option [ngValue]="Administrador">Administrador</option>
+          <option [ngValue]="Encargado">Encargado</option>
+          <option [ngValue]="Cliente">Cliente</option>
+          <option [ngValue]="Empleado">Empleado</option>
+        </select>
+       <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
+      </div>
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarUsuario()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarUsuario()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 
   <div style="text-align: center;">  
-    <br>
-    <h1>Grilla de Usuarios</h1>
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de usuarios</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaUsuario()">Agregar Usuario</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Password</th>
+            <th>Tipo</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{u.usuario}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{u.nombre}}</td>
+            <td>
+              <h3><span type="password">{{u.password}}</span></h3>
+            </td>
+            <td>
+              <h3><span>{{u.tipo}}</span></h3>
+            </td>
+            <!--<td>
+              <div *ngIf="u.estado == 'activo'"><h5><span class="badge badge-success">{{u.estado}}</span></h5></div>
+              <div *ngIf="u.estado == 'bloqueado'"><h5><span class="badge badge-danger">{{u.estado}}</span></h5></div>
+            </td>-->
+            <td>
+              <!--<a class="btn btn-primary" [routerLink]="['/datosusuario',u.id]"><i class="material-icons">mode_edit</i></a>-->
+              <!--<button class="btn btn-warning" (click)="CambiarEstado(u.id)"><i class="material-icons">do_not_disturb_alt</i></button>-->
+              <button class="btn btn-danger" (click)="deleteUsuario(u.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
   </div>
+
+
+
+
+
+
 </div>
 
 <div id="EstadisticasAdministrador" style="display: none">
