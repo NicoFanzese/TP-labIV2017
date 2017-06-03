@@ -1,6 +1,107 @@
+
+<nav class="navbar navbar-inverse">
+
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+    <!--<div class="navbar-header">-->
+      <a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a>
+    <!--</div>-->
+    
+      <!--<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">Locales<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a>Ver Locales</a></li>
+          <li><a>Cargar Local</a></li>  
+        </ul>
+      </li>-->
+
+      <li><a class="navbar-brand" (click)="MostrarLocales()">Locales</a></li>
+
+      <li><a class="navbar-brand" (click)="MostrarEstadisticas()">Estadisticas corporativas</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Desloguearme</a></li>        
+    </ul>
+  </div>
+</nav>
+
+
 <p>
   administradores!
-
-  1- Se encarga de crear locales y usuario de todo tipo. 
+<br>
+  1- Se encarga de crear locales y usuario de todo tipo. <br>
   2- Ve las estadísticas comparativas entre los locales. 
 </p>
+<br>
+<div id="LocalesAdministrador" style="display: none">
+  <br>
+  <form>
+    <h1 style="text-align: center;"> Local </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreLocalAdministrador" style="text-align: center;">Nombre del Local:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreLocalAdministrador">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="direccion" style="text-align: center;">Direccion:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="direccion">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="localidad" style="text-align: center;">Localidad:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="localidad">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="provincia" style="text-align: center;" >Provincia:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="provincia">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="pais" style="text-align: center;">Pais:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="pais">
+    </div>
+
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
+    </div>
+  </form>
+
+  <div style="text-align: center;">  
+    <br>
+    <h1>Grilla de Locales</h1>
+  </div>
+</div>
+
+<div id="UsuariosAdministrador" style="display: none">
+  <br>
+  <form>
+    <h1 style="text-align: center;"> Usuarios </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreUsuarioAdministrador" style="text-align: center;">Nombre y apellido:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreUsuarioAdministrador">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="usuarioUsuarioAdministrador" style="text-align: center;">Usuario Login:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="usuarioUsuarioAdministrador">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="passwordUsuarioAdministrador" style="text-align: center;" >Password:</label>
+      <input type="password" style="text-align: center;" class="form-control" id="passwordUsuarioAdministrador">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="tipoUsuarioAdministrador" style="text-align: center;">Tipo usuario:</label>
+      <input type="password" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">
+    </div>
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
+    </div>
+  </form>
+
+  <div style="text-align: center;">  
+    <br>
+    <h1>Grilla de Usuarios</h1>
+  </div>
+</div>
+
+<div id="EstadisticasAdministrador" style="display: none">
+  <br>
+  <h1 style="text-align: center;"> Estadisticas coorporativas </h1><br>
+</div>

@@ -1,7 +1,180 @@
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
+      <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
+      <li><a class="navbar-brand" (click)="MostrarOfertas()">Ofertas</a></li>
+      <li><a class="navbar-brand" (click)="MostrarReservas()">Pedidos</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Desloguearme</a></li>        
+    </ul>
+  </div>
+</nav>
+
+
 <p>
   empleados!
-
-  2- tiene la opción de dar de altas clientes, producto u ofertas y pedidos (si es funcional). 
+<br>
+  2- tiene la opción de dar de altas clientes, producto u ofertas y pedidos (si es funcional). <br>
   3- Ve la lista de pedidos y clientes con su estado
-
 </p>
+
+<br>
+<div id="ClientesEmpleado" style="display: none">
+  <br>
+  <form>
+    <h1 style="text-align: center;"> Clientes </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreClienteEmpleado" style="text-align: center;">Nombre del Cliente:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreClienteEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="direccionClienteEmpleado" style="text-align: center;">Direccion:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="direccionClienteEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="localidadClienteEmpleado" style="text-align: center;">Localidad:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="localidadClienteEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="provinciaClienteEmpleado" style="text-align: center;" >Provincia:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="provinciaClienteEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="paisClienteEmpleado" style="text-align: center;">Pais:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="paisClienteEmpleado">
+    </div>
+
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
+    </div>
+  </form>
+
+  <div style="text-align: center;">  
+    <br>
+    <h1>Grilla de Clientes</h1>
+  </div>
+</div>
+
+<div id="ProductosEmpleado" style="display: none">
+  <br>
+  <form>
+    <h1 style="text-align: center;"> Productos </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreProductoEmpleado" style="text-align: center;">Nombre:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreProductoEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="codigoProductoEmpleado" style="text-align: center;">Codigo:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="codigoProductoEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="direccionProductoEmpleado" style="text-align: center;" >Direccion:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="direccionProductoEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="localidadProductoEmpleado" style="text-align: center;" >Localidad:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="localidadProductoEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="provinciaProductoEmpleado" style="text-align: center;" >Provincia:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="provinciaProductoEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="paisProductoEmpleado" style="text-align: center;" >Pais:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="paisProductoEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="metrosCuadradosProductoEmpleado" style="text-align: center;">Metros Cuadrados:</label>
+      <input type="numeric" style="text-align: center;" class="form-control" id="metrosCuadradosProductoEmpleado">
+    </div>
+
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
+    </div>
+  </form>
+
+  <div style="text-align: center;">  
+    <br>
+    <h1>Grilla de Productos</h1>
+  </div>
+</div>
+
+<div id="OfertasEmpleado" style="display: none">
+  <br>
+  <form>
+    <h1 style="text-align: center;"> Ofertas </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreOfertaEmpleado" style="text-align: center;">Nombre:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreOfertaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="codigoOfertaEmpleado" style="text-align: center;">Codigo:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="codigoOfertaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="fechaDesdeOfertaEmpleado" style="text-align: center;" >Fecha Desde:</label>
+      <input type="date" style="text-align: center;" class="form-control" id="fechaDesdeOfertaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="fechaHastaOfertaEmpleado" style="text-align: center;" >Fecha Hasta:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="fechaHastaOfertaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="precioOfertaEmpleado" style="text-align: center;" >Precio:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="precioOfertaEmpleado">
+    </div>
+    
+    <h1>Nos debe abrir un cuadro de selección de producto</h1><br><br>
+
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
+    </div>
+  </form>
+
+  <div style="text-align: center;">  
+    <br>
+    <h1>Grilla de Ofertas</h1>
+  </div>
+</div>
+
+
+<div id="ReservasEmpleado" style="display: none">
+<br>
+  <form>
+    <h1 style="text-align: center;"> Reserva </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreClienteReservaEmpleado" style="text-align: center;">Nombre Cliente:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreClienteReservaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="nombreVendedorReservaEmpleado" style="text-align: center;">Nombre Vendedor:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="nombreVendedorReservaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="fechaReservaEmpleado" style="text-align: center;" >Fecha:</label>
+      <input type="date" style="text-align: center;" class="form-control" id="fechaReservaEmpleado">
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="descripcionReservaEmpleado" style="text-align: center;" >Descripcion:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="descripcionReservaEmpleado">
+    </div>
+    <h1>Nos debe abrir un cuadro de selección de producto</h1><br><br>
+    <div class="form-group" style="text-align: center;">
+      <label for="totalReservaEmpleado" style="text-align: center;" >Total:</label>
+      <input type="text" style="text-align: center;" class="form-control" id="totalReservaEmpleado">
+    </div>
+    
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
+    </div>
+  </form>
+
+  <div style="text-align: center;">  
+    <br>
+    <h1>Grilla de Reservas</h1>
+  </div>
+</div>

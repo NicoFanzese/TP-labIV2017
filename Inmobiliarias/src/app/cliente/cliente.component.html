@@ -1,9 +1,47 @@
+
+<nav class="navbar navbar-inverse">
+
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <a class="navbar-brand" (click)="MostrarOfertas()">Ver ofertas</a>
+      <li><a class="navbar-brand" (click)="MostrarOperacionesAnteriores()">Operacion anteriores</a></li>
+      <li><a class="navbar-brand" (click)="MostrarReservar()">Reservar</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Desloguearme</a></li>        
+    </ul>
+  </div>
+</nav>
+
 <p>
   clientes!
-
-  2-Al ingresar sus datos correctos ingresa al sistema. 
-  3- En la aplicación  tiene la opción de ver las ofertas de todos los locales (o seleccionar un local y ver las ofertas). 
-  4- El cliente puede ver operaciones anteriores. ​Reservas​: el cliente puede generar una reserva 
+  <br>
+  3- En la aplicación  tiene la opción de ver las ofertas de todos los locales (o seleccionar un local y ver las ofertas).  <br>
+  4- El cliente puede ver operaciones anteriores. ​<br>
+  5- Reservas​: el cliente puede generar una reserva 
     Inmobiliarias El Campito: un alquiler en la costa(​con no menos de 30 días de anticipación y no máximo de 60 días. )
-  
 </p>
+
+<br>
+<div id="OfertasCliente" style="display: none">
+  <br>
+    <h1 style="text-align: center;"> Ofertas </h1><br>
+    <div class="form-group" style="text-align: center;">
+      <SELECT NAME="filtroLocales" SIZE=1> 
+        <OPTION VALUE="">Todos los Locales</OPTION>
+        <OPTION VALUE="Local1">Local 1</OPTION>
+        <OPTION VALUE="Local2">Local 2</OPTION>
+        <OPTION VALUE="Local3">Local 3</OPTION> 
+      </SELECT> 
+    </div>
+</div>
+
+<div id="OperacionesAnterioresCliente" style="display: none">
+    <br>
+    <h1 style="text-align: center;"> Operaciones Anteriores </h1><br>    
+</div>
+
+<div id="ReservarCliente" style="display: none">
+  <br>
+  <h1>Mostraría el Carrito (Las Ofertas seleccionadas en la grilla de ofertas)</h1>
+</div>
