@@ -36,38 +36,87 @@
 <br>
 <div id="LocalesAdministrador" style="display: none">
   <br>
-  <form>
-    <h1 style="text-align: center;"> Local </h1><br>
-    <div class="form-group" style="text-align: center;">
-      <label for="nombreLocalAdministrador" style="text-align: center;">Nombre del Local:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="nombreLocalAdministrador">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="direccion" style="text-align: center;">Direccion:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="direccion">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="localidad" style="text-align: center;">Localidad:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="localidad">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="provincia" style="text-align: center;" >Provincia:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="provincia">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="pais" style="text-align: center;">Pais:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="pais">
-    </div>
 
-    <div style="text-align: center;">
-      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
-    </div>
-  </form>
+ <div id="altaLocalesAdministrador" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Locales </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idLocalAdministrador" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idLocalAdministrador" [(ngModel)]="idLocalAdministrador" id="idLocalAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreLocalAdministrador" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreLocalAdministrador" [(ngModel)]="nombreLocalAdministrador" id="nombreLocalAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionLocalAdministrador" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalAdministrador" [(ngModel)]="direccionLocalAdministrador" id="direccionLocalAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadLocalAdministrador" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadLocalAdministrador" [(ngModel)]="localidadLocalAdministrador" id="localidadLocalAdministrador">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaLocalAdministrador" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaLocalAdministrador" [(ngModel)]="provinciaLocalAdministrador" id="provinciaLocalAdministrador">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisLocalAdministrador" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisLocalAdministrador" [(ngModel)]="paisLocalAdministrador" id="paisLocalAdministrador">
+      </div>           
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocal()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarLocal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 
   <div style="text-align: center;">  
-    <br>
-    <h1>Grilla de Locales</h1>
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Locales</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocal()">Agregar Local</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of locales" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{l.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{l.direccion}}</td>
+            <td>{{l.localidad}}</td>
+            <td>{{l.provincia}}</td>
+            <td>{{l.pais}}</td>            
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.localidad, l.provincia, l.pais)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteLocal(l.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
   </div>
+
 </div>
 
 <div id="UsuariosAdministrador" style="display: none">
@@ -77,7 +126,7 @@
       <h1 style="text-align: center;"> Usuarios </h1><br>
       <div class="form-group" style="text-align: center;">
         <label for="idUsuarioAdministrador" style="text-align: center;">ID:</label>
-        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="idUsuarioAdministrador" [(ngModel)]="idUsuarioAdministrador" id="idUsuarioAdministrador">
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idUsuarioAdministrador" [(ngModel)]="idUsuarioAdministrador" id="idUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label for="nombreUsuarioAdministrador" style="text-align: center;">Nombre y apellido:</label>
@@ -93,7 +142,8 @@
       </div>
       <div class="form-group" style="text-align: center;">
         <label for="tipoUsuarioAdministrador" style="text-align: center;">Tipo usuario:</label>
-        <select name="tipoUsuarioAdministrador" [(ngModel)]="tipoUsuarioAdministrador" id="tipoUsuarioAdministrador">
+        <select required name="tipoUsuarioAdministrador" [(ngModel)]="tipoUsuarioAdministrador" id="tipoUsuarioAdministrador">
+          <option [value]="''" selected>Elija un tipo de Usuario</option>
           <option [value]="'Administrador'">Administrador</option>
           <option [value]="'Encargado'">Encargado</option>
           <option [value]="'Cliente'">Cliente</option>
@@ -103,7 +153,6 @@
        <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
       </div>
       <div style="text-align: center;">
-         {{tipoUsuarioAdministrador}}lalala
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarUsuario()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarUsuario()">Cancelar</button>
       </div>
@@ -162,12 +211,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
 </div>
 
 <div id="EstadisticasAdministrador" style="display: none">

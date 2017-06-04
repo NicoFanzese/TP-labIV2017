@@ -4,7 +4,6 @@
     <ul class="nav navbar-nav">
       <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
       <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
-      <li><a class="navbar-brand" (click)="MostrarOfertas()">Ofertas</a></li>
       <li><a class="navbar-brand" (click)="MostrarReservas()">Pedidos</a></li>
     </ul>
 
@@ -24,121 +23,230 @@
 
 <br>
 <div id="ClientesEmpleado" style="display: none">
-  <br>
-  <form>
-    <h1 style="text-align: center;"> Clientes </h1><br>
-    <div class="form-group" style="text-align: center;">
-      <label for="nombreClienteEmpleado" style="text-align: center;">Nombre del Cliente:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="nombreClienteEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="direccionClienteEmpleado" style="text-align: center;">Direccion:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="direccionClienteEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="localidadClienteEmpleado" style="text-align: center;">Localidad:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="localidadClienteEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="provinciaClienteEmpleado" style="text-align: center;" >Provincia:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="provinciaClienteEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="paisClienteEmpleado" style="text-align: center;">Pais:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="paisClienteEmpleado">
-    </div>
+<br>
 
-    <div style="text-align: center;">
-      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
-    </div>
-  </form>
+ <div id="altaClientesEmpleado" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Clientes </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idClienteEmpleado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idClienteEmpleado" [(ngModel)]="idClienteEmpleado" id="idClienteEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreClienteEmpleado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreClienteEmpleado" [(ngModel)]="nombreClienteEmpleado" id="nombreClienteEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="mailClienteEmpleado" style="text-align: center;">Mail:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="mailClienteEmpleado" [(ngModel)]="mailClienteEmpleado" id="mailClienteEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="telefonoClienteEmpleado" style="text-align: center;">Teléfono:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="telefonoClienteEmpleado" [(ngModel)]="telefonoClienteEmpleado" id="telefonoClienteEmpleado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionClienteEmpleado" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionClienteEmpleado" [(ngModel)]="direccionClienteEmpleado" id="direccionClienteEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadClienteEmpleado" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadClienteEmpleado" [(ngModel)]="localidadClienteEmpleado" id="localidadClienteEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaClienteEmpleado" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaClienteEmpleado" [(ngModel)]="provinciaClienteEmpleado" id="provinciaClienteEmpleado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisClienteEmpleado" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisClienteEmpleado" [(ngModel)]="paisClienteEmpleado" id="paisClienteEmpleado">
+      </div>           
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarCliente()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarCliente()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 
   <div style="text-align: center;">  
-    <br>
-    <h1>Grilla de Clientes</h1>
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Cientes</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaCliente()">Agregar Cliente</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Mail</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of clientes" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{c.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{c.mail}}</td>
+            <td>{{c.telefono}}</td>
+            <td>{{c.direccion}}</td>
+            <td>{{c.localidad}}</td>
+            <td>{{c.provincia}}</td>
+            <td>{{c.pais}}</td>            
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarCliente(c.ID, c.nombre,c.mail,c.telefono, c.direccion, c.localidad, c.provincia, c.pais)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteCliente(c.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div id="ProductosEmpleado" style="display: none">
-  <br>
-  <form>
-    <h1 style="text-align: center;"> Productos </h1><br>
-    <div class="form-group" style="text-align: center;">
-      <label for="nombreProductoEmpleado" style="text-align: center;">Nombre:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="nombreProductoEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="codigoProductoEmpleado" style="text-align: center;">Codigo:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="codigoProductoEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="direccionProductoEmpleado" style="text-align: center;" >Direccion:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="direccionProductoEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="localidadProductoEmpleado" style="text-align: center;" >Localidad:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="localidadProductoEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="provinciaProductoEmpleado" style="text-align: center;" >Provincia:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="provinciaProductoEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="paisProductoEmpleado" style="text-align: center;" >Pais:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="paisProductoEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="metrosCuadradosProductoEmpleado" style="text-align: center;">Metros Cuadrados:</label>
-      <input type="numeric" style="text-align: center;" class="form-control" id="metrosCuadradosProductoEmpleado">
-    </div>
-
-    <div style="text-align: center;">
-      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
-    </div>
-  </form>
+ <div id="altaProductosEmpleado" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Productos </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idProductoEmpleado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idProductoEmpleado" [(ngModel)]="idProductoEmpleado" id="idProductoEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreProductoEmpleado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreProductoEmpleado" [(ngModel)]="nombreProductoEmpleado" id="nombreProductoEmpleado">
+      </div>   
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionProductoEmpleado" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionProductoEmpleado" [(ngModel)]="direccionProductoEmpleado" id="direccionProductoEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadProductoEmpleado" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadProductoEmpleado" [(ngModel)]="localidadProductoEmpleado" id="localidadProductoEmpleado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaProductoEmpleado" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaProductoEmpleado" [(ngModel)]="provinciaProductoEmpleado" id="provinciaProductoEmpleado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisProductoEmpleado" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisProductoEmpleado" [(ngModel)]="paisProductoEmpleado" id="paisProductoEmpleado">
+      </div>           
+      <div class="form-group" style="text-align: center;">
+        <label for="descripcionProductoEmpleado" style="text-align: center;" >Descripción:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="descripcionProductoEmpleado" [(ngModel)]="descripcionProductoEmpleado" id="descripcionProductoEmpleado">
+      </div>   
+      <div class="form-group" style="text-align: center;">
+        <label for="foto1ProductoEmpleado" style="text-align: center;" >Foto 1:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="foto1ProductoEmpleado" [(ngModel)]="foto1ProductoEmpleado" id="foto1ProductoEmpleado">
+      </div>  
+      <div class="form-group" style="text-align: center;">
+        <label for="foto2ProductoEmpleado" style="text-align: center;" >Foto 2:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="foto2ProductoEmpleado" [(ngModel)]="foto2ProductoEmpleado" id="foto2ProductoEmpleado">
+      </div>  
+      <div class="form-group" style="text-align: center;">
+        <label for="foto3ProductoEmpleado" style="text-align: center;" >Foto 3:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="foto3ProductoEmpleado" [(ngModel)]="foto3ProductoEmpleado" id="foto3ProductoEmpleado">
+      </div>       
+      <div class="form-group" style="text-align: center;">
+        <label for="monedaProductoEmpleado" style="text-align: center;">Moneda:</label>
+        <select required name="monedaProductoEmpleado" [(ngModel)]="monedaProductoEmpleado" id="monedaProductoEmpleado">
+        <option [value]="''" selected>Elija moneda</option>
+        <option [value]="'Pesos'">Pesos</option>
+        <option [value]="'Dolares'">Dolares</option>
+        <option [value]="'Euros'">Euros</option>
+        </select>      
+      <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="precioProductoEmpleado" style="text-align: center;" >Precio:</label>
+        <input type="numeric" style="text-align: center;" class="form-control" name="precioProductoEmpleado" [(ngModel)]="precioProductoEmpleado" id="precioProductoEmpleado">
+      </div>               
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarProducto()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarProducto()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 
   <div style="text-align: center;">  
-    <br>
-    <h1>Grilla de Productos</h1>
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Productos</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaProducto()">Agregar Producto</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <th>Descripcion</th>
+            <th>Foto1</th>
+            <th>Foto2</th>
+            <th>Foto3</th>
+            <th>Moneda</th>
+            <th>Precio</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of productos" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{p.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
+            <td>{{p.direccion}}</td>
+            <td>{{p.localidad}}</td>
+            <td>{{p.provincia}}</td>
+            <td>{{p.pais}}</td>
+            <td>{{p.descripcion}}</td>
+            <td>{{p.foto1}}</td>
+            <td>{{p.foto2}}</td>
+            <td>{{p.foto3}}</td>            
+            <td>{{p.moneda}}</td>
+            <td>{{p.precio}}</td>            
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre,p.direccion, p.localidad, p.provincia, p.pais, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<div id="OfertasEmpleado" style="display: none">
-  <br>
-  <form>
-    <h1 style="text-align: center;"> Ofertas </h1><br>
-    <div class="form-group" style="text-align: center;">
-      <label for="nombreOfertaEmpleado" style="text-align: center;">Nombre:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="nombreOfertaEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="codigoOfertaEmpleado" style="text-align: center;">Codigo:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="codigoOfertaEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="fechaDesdeOfertaEmpleado" style="text-align: center;" >Fecha Desde:</label>
-      <input type="date" style="text-align: center;" class="form-control" id="fechaDesdeOfertaEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="fechaHastaOfertaEmpleado" style="text-align: center;" >Fecha Hasta:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="fechaHastaOfertaEmpleado">
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="precioOfertaEmpleado" style="text-align: center;" >Precio:</label>
-      <input type="text" style="text-align: center;" class="form-control" id="precioOfertaEmpleado">
-    </div>
-    
-    <h1>Nos debe abrir un cuadro de selección de producto</h1><br><br>
 
-    <div style="text-align: center;">
-      <button type="submit" class="btn btn-default" style="text-align: center;">Guardar</button>
-    </div>
-  </form>
 
-  <div style="text-align: center;">  
-    <br>
-    <h1>Grilla de Ofertas</h1>
-  </div>
+
+
+
+
 </div>
 
 

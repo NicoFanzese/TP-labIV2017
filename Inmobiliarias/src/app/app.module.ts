@@ -15,6 +15,12 @@ import { AlertModule } from 'ngx-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { ServicioUsuariosService} from './servicio-usuarios.service';
 import { Usuario } from '../clases/usuario.class';
+import { ServicioLocalesService } from './servicio-locales.service';
+import { Local } from '../clases/local.class';
+import { ServicioClientesService } from './servicio-clientes.service';
+import { Cliente } from '../clases/cliente.class';
+import { ServicioProductosService } from './servicio-productos.service';
+import { Producto } from '../clases/producto.class';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -43,7 +49,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ServicioUsuariosService],
+  providers: [ServicioUsuariosService,ServicioLocalesService,ServicioClientesService,ServicioProductosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 
