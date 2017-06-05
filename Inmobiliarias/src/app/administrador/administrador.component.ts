@@ -16,6 +16,7 @@ export class AdministradorComponent implements OnInit {
   private passwordUsuarioAdministrador: string;
   private tipoUsuarioAdministrador: any;
   private idUsuarioAdministrador: any;
+  private estadoUsuarioAdministrador: any;
 
   private locales;
   private idLocalAdministrador: any;
@@ -39,7 +40,6 @@ export class AdministradorComponent implements OnInit {
   }
 
   MostrarLocales() {
-    console.log("Hola");
     document.getElementById("LocalesAdministrador").style.display = "inline";
     document.getElementById("UsuariosAdministrador").style.display = "none";
     document.getElementById("EstadisticasAdministrador").style.display = "none";
@@ -84,14 +84,20 @@ export class AdministradorComponent implements OnInit {
     this.TraerUsuarios();
   }
 
-  mostrarUsuario(id, nom, usu, pass, tipo) {
+  mostrarUsuario(id, nom, usu, pass, tipo,est) {
     this.operacion = "Modificar";
     this.idUsuarioAdministrador = id;
     this.nombreUsuarioAdministrador = nom;
     this.usuarioUsuarioAdministrador = usu;
     this.passwordUsuarioAdministrador = pass;
     this.tipoUsuarioAdministrador = tipo;
-    console.info(this.tipoUsuarioAdministrador);
+    console.log(est);
+    if((est == "true") || (est == 1)){
+      this.estadoUsuarioAdministrador = 1;
+    }else{
+      this.estadoUsuarioAdministrador = 0;
+    }
+    
     document.getElementById("altaUsuariosAdministrador").style.display = "inline";
   }
 
@@ -101,9 +107,11 @@ export class AdministradorComponent implements OnInit {
     this.usuarioUsuarioAdministrador = "";
     this.passwordUsuarioAdministrador = "";
     this.tipoUsuarioAdministrador = "";
+    this.estadoUsuarioAdministrador = false;
   }
 
   GuardarUsuario() {
+    console.log(this.estadoUsuarioAdministrador);
     if (((this.nombreUsuarioAdministrador == "") || (this.nombreUsuarioAdministrador == undefined) || (this.nombreUsuarioAdministrador == null)) ||
       ((this.usuarioUsuarioAdministrador == "") || (this.usuarioUsuarioAdministrador == undefined) || (this.usuarioUsuarioAdministrador == null)) ||
       ((this.passwordUsuarioAdministrador == "") || (this.passwordUsuarioAdministrador == undefined) || (this.passwordUsuarioAdministrador == null)) ||
@@ -111,11 +119,12 @@ export class AdministradorComponent implements OnInit {
         alert("Los Datos en pantalla son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objUsuario: Usuario = new Usuario(0, this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador);
-        console.log(this.nombreUsuarioAdministrador);
-        console.log(this.usuarioUsuarioAdministrador);
-        console.log(this.passwordUsuarioAdministrador);
-        console.log(this.tipoUsuarioAdministrador);
+        if((this.estadoUsuarioAdministrador == "true") || (this.estadoUsuarioAdministrador == 1)){
+          this.estadoUsuarioAdministrador = 1;
+        }else{
+          this.estadoUsuarioAdministrador = 0;
+        }
+        let objUsuario: Usuario = new Usuario(0, this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador, this.estadoUsuarioAdministrador);
         //console.log(objUsuario);
         /*this.usuarioService.GuardarUsuario(objUsuario).subscribe(
           data => {
@@ -139,8 +148,13 @@ export class AdministradorComponent implements OnInit {
           () => this.TraerUsuarios()
         );*/
       } else if (this.operacion == "Modificar") {
-        let objUsuario: Usuario = new Usuario(this.idUsuarioAdministrador, this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador);
-        console.log("se va a modificar: " + objUsuario);
+        if((this.estadoUsuarioAdministrador == "true") || (this.estadoUsuarioAdministrador == 1)){
+          this.estadoUsuarioAdministrador = 1;
+        }else{
+          this.estadoUsuarioAdministrador = 0;
+        }
+
+        let objUsuario: Usuario = new Usuario(this.idUsuarioAdministrador, this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador, this.estadoUsuarioAdministrador);
         this.usuarioService.putUsuario(objUsuario).subscribe();
       }
       this.TraerUsuarios();

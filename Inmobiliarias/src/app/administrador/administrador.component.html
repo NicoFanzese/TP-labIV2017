@@ -152,6 +152,10 @@
        
        <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
       </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="estadoUsuarioAdministrador" style="text-align: center;" >Estado:</label>
+        <input type="checkbox" style="text-align: center;" class="form-control" name="estadoUsuarioAdministrador" [(ngModel)]="estadoUsuarioAdministrador" id="estadoUsuarioAdministrador">
+      </div>
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarUsuario()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarUsuario()">Cancelar</button>
@@ -174,6 +178,7 @@
             <th>Nombre</th>
             <th>Password</th>
             <th>Tipo</th>
+            <th>Estado</th>
             <!--<th>Acciones</th>-->
           </tr>
         </thead>
@@ -188,6 +193,9 @@
             <td>
               <h3><span>{{u.tipo}}</span></h3>
             </td>
+            <td>
+              <h3><span>{{u.estado}}</span></h3>
+            </td>
             <!--<td>
               <div *ngIf="u.estado == 'activo'"><h5><span class="badge badge-success">{{u.estado}}</span></h5></div>
               <div *ngIf="u.estado == 'bloqueado'"><h5><span class="badge badge-danger">{{u.estado}}</span></h5></div>
@@ -195,7 +203,7 @@
             <td>
               <!--<a class="btn btn-primary" [routerLink]="['/datosusuario',u.id]"><i class="material-icons">mode_edit</i></a>-->
               <!--<button class="btn btn-warning" (click)="CambiarEstado(u.id)"><i class="material-icons">do_not_disturb_alt</i></button>-->
-              <button class="btn btn-primary" (click)="mostrarUsuario(u.ID, u.nombre, u.usuario, u.password, u.tipo)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarUsuario(u.ID, u.nombre, u.usuario, u.password, u.tipo, u.estado)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteUsuario(u.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>

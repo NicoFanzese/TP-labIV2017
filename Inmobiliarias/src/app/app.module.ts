@@ -21,6 +21,8 @@ import { ServicioClientesService } from './servicio-clientes.service';
 import { Cliente } from '../clases/cliente.class';
 import { ServicioProductosService } from './servicio-productos.service';
 import { Producto } from '../clases/producto.class';
+import { ServicioEmpleadosService } from './servicio-empleados.service';
+import { Empleado } from '../clases/empleado.class';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -49,7 +51,11 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ServicioUsuariosService,ServicioLocalesService,ServicioClientesService,ServicioProductosService],
+  providers: [ServicioUsuariosService,
+              ServicioLocalesService,
+              ServicioClientesService,
+              ServicioProductosService,
+              ServicioEmpleadosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

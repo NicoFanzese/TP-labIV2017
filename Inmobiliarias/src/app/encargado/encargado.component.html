@@ -1,21 +1,21 @@
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Empleados</a>
-      <a class="navbar-brand" href="#">Clientes</a>
-      <a class="navbar-brand" href="#">Productos</a>
-      <a class="navbar-brand" href="#">Ofertas</a>
-      <a class="navbar-brand" href="#">Pedidos</a>
-      <a class="navbar-brand" href="#">Usuarios</a>
-      <a class="navbar-brand" href="#">Locales</a>
-    </div>
+    <ul class="nav navbar-nav">
+      <a class="navbar-brand" (click)="MostrarEmpleados()">Empleados</a>
+      <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
+      <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
+      <!--<li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>-->
+      
+      <li><a class="navbar-brand" (click)="MostrarReservas()">Pedidos</a></li>
+      <li><a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a></li>
+      <li><a class="navbar-brand" (click)="MostrarLocales()">Locales</a></li>
+    </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Desloguearme</a></li>        
-      </ul>
-    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Desloguearme</a></li>        
+    </ul>
+  </div>
 </nav>
 
 
@@ -25,5 +25,498 @@
   2- tiene la opción de dar de altas empleado, clientes, producto u ofertas, pedidos. <br>
   3- Puede cambiar el estado de un usuario para que no ingrese más al sistema. <br>
   4- modifica los datos del local. 
-
 </p>
+
+
+<br>
+<div id="ClientesEncargado" style="display: none">
+ <div id="altaClientesEncargado" style="display: none">
+    <form>
+      <h1 style="text-align: center;"> Clientes </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idClienteEncargado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idClienteEncargado" [(ngModel)]="idClienteEncargado" id="idClienteEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreClienteEncargado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreClienteEncargado" [(ngModel)]="nombreClienteEncargado" id="nombreClienteEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="mailClienteEncargado" style="text-align: center;">Mail:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="mailClienteEncargado" [(ngModel)]="mailClienteEncargado" id="mailClienteEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="telefonoClienteEncargado" style="text-align: center;">Teléfono:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="telefonoClienteEncargado" [(ngModel)]="telefonoClienteEncargado" id="telefonoClienteEncargado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionClienteEncargado" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionClienteEncargado" [(ngModel)]="direccionClienteEncargado" id="direccionClienteEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadClienteEncargado" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadClienteEncargado" [(ngModel)]="localidadClienteEncargado" id="localidadClienteEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaClienteEncargado" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaClienteEncargado" [(ngModel)]="provinciaClienteEncargado" id="provinciaClienteEncargado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisClienteEncargado" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisClienteEncargado" [(ngModel)]="paisClienteEncargado" id="paisClienteEncargado">
+      </div>           
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarCliente()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarCliente()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="text-align: center;">  
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Clientes</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaCliente()">Agregar Cliente</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Mail</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of clientes" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{c.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{c.mail}}</td>
+            <td>{{c.telefono}}</td>
+            <td>{{c.direccion}}</td>
+            <td>{{c.localidad}}</td>
+            <td>{{c.provincia}}</td>
+            <td>{{c.pais}}</td>            
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarCliente(c.ID, c.nombre,c.mail,c.telefono, c.direccion, c.localidad, c.provincia, c.pais)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteCliente(c.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ProductosEncargado" style="display: none">
+ <div id="altaProductosEncargado" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Productos </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idProductoEncargado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idProductoEncargado" [(ngModel)]="idProductoEncargado" id="idProductoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreProductoEncargado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreProductoEncargado" [(ngModel)]="nombreProductoEncargado" id="nombreProductoEncargado">
+      </div>   
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionProductoEncargado" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionProductoEncargado" [(ngModel)]="direccionProductoEncargado" id="direccionProductoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadProductoEncargado" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadProductoEncargado" [(ngModel)]="localidadProductoEncargado" id="localidadProductoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaProductoEncargado" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaProductoEncargado" [(ngModel)]="provinciaProductoEncargado" id="provinciaProductoEncargado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisProductoEncargado" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisProductoEncargado" [(ngModel)]="paisProductoEncargado" id="paisProductoEncargado">
+      </div>           
+      <div class="form-group" style="text-align: center;">
+        <label for="descripcionProductoEncargado" style="text-align: center;" >Descripción:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="descripcionProductoEncargado" [(ngModel)]="descripcionProductoEncargado" id="descripcionProductoEncargado">
+      </div>   
+      <div class="form-group" style="text-align: center;">
+        <label for="foto1ProductoEncargado" style="text-align: center;" >Foto 1:</label>
+        <input type="text" class="form-control" style="text-align: center;" class="form-control" name="foto1ProductoEncargado" [(ngModel)]="foto1ProductoEncargado" id="foto1ProductoEncargado">
+      </div>  
+      <div class="form-group" style="text-align: center;">
+        <label for="foto2ProductoEncargado" style="text-align: center;" >Foto 2:</label>
+        <input type="text" class="form-control" style="text-align: center;" class="form-control" name="foto2ProductoEncargado" [(ngModel)]="foto2ProductoEncargado" id="foto2ProductoEncargado">
+      </div>  
+      <div class="form-group" style="text-align: center;">
+        <label for="foto3ProductoEncargado" style="text-align: center;" >Foto 3:</label>
+        <input type="text" class="form-control" style="text-align: center;" class="form-control" name="foto3ProductoEncargado" [(ngModel)]="foto3ProductoEncargado" id="foto3ProductoEncargado">
+      </div>       
+      <div class="form-group" style="text-align: center;">
+        <label for="monedaProductoEncargado" style="text-align: center;">Moneda:</label>
+        <select required name="monedaProductoEncargado" [(ngModel)]="monedaProductoEncargado" id="monedaProductoEncargado">
+        <option [value]="''" selected>Elija moneda</option>
+        <option [value]="'Pesos'">Pesos</option>
+        <option [value]="'Dolares'">Dolares</option>
+        <option [value]="'Euros'">Euros</option>
+        </select>      
+      <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="precioProductoEncargado" style="text-align: center;" >Precio:</label>
+        <input type="numeric" style="text-align: center;" class="form-control" name="precioProductoEncargado" [(ngModel)]="precioProductoEncargado" id="precioProductoEncargado">
+      </div>               
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarProducto()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarProducto()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="text-align: center;">  
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Productos</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaProducto()">Agregar Producto</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <th>Descripcion</th>
+            <th>Foto1</th>
+            <th>Foto2</th>
+            <th>Foto3</th>
+            <th>Moneda</th>
+            <th>Precio</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of productos" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{p.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
+            <td>{{p.direccion}}</td>
+            <td>{{p.localidad}}</td>
+            <td>{{p.provincia}}</td>
+            <td>{{p.pais}}</td>
+            <td>{{p.descripcion}}</td>
+            <td>{{p.foto1}}</td>
+            <td>{{p.foto2}}</td>
+            <td>{{p.foto3}}</td>            
+            <td>{{p.moneda}}</td>
+            <td>{{p.precio}}</td>            
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre,p.direccion, p.localidad, p.provincia, p.pais, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div id="LocalesEncargado" style="display: none">
+ <div id="altaLocalesEncargado" style="display: none">
+    <form>
+      <h1 style="text-align: center;"> Locales </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idLocalEncargado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idLocalEncargado" [(ngModel)]="idLocalEncargado" id="idLocalEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreLocalEncargado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreLocalEncargado" [(ngModel)]="nombreLocalEncargado" id="nombreLocalEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionLocalEncargado" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalEncargado" [(ngModel)]="direccionLocalEncargado" id="direccionLocalEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadLocalEncargado" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadLocalEncargado" [(ngModel)]="localidadLocalEncargado" id="localidadLocalEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaLocalEncargado" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaLocalEncargado" [(ngModel)]="provinciaLocalEncargado" id="provinciaLocalEncargado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisLocalEncargado" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisLocalEncargado" [(ngModel)]="paisLocalEncargado" id="paisLocalEncargado">
+      </div>           
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocal()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarLocal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="text-align: center;">  
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Locales</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocal()">Agregar Local</i></a></div>-->
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of locales" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{l.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{l.direccion}}</td>
+            <td>{{l.localidad}}</td>
+            <td>{{l.provincia}}</td>
+            <td>{{l.pais}}</td>            
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.localidad, l.provincia, l.pais)"><i class="material-icons">Modificar</i></button>
+              <!--<button class="btn btn-danger" (click)="deleteLocal(l.ID)"><i class="material-icons">Borrar</i></button>-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="UsuariosEncargado" style="display: none">
+  <div id="altaUsuariosEncargado" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Usuarios </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idUsuarioEncargado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idUsuarioEncargado" [(ngModel)]="idUsuarioEncargado" id="idUsuarioEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreUsuarioEncargado" style="text-align: center;">Nombre y apellido:</label>
+        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="nombreUsuarioEncargado" [(ngModel)]="nombreUsuarioEncargado" id="nombreUsuarioEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="usuarioUsuarioEncargado" style="text-align: center;">Usuario Login:</label>
+        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="usuarioUsuarioEncargado" [(ngModel)]="usuarioUsuarioEncargado" id="usuarioUsuarioEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="passwordUsuarioEncargado" style="text-align: center;" >Password:</label>
+        <input readonly="true" type="password" style="text-align: center;" class="form-control" name="passwordUsuarioEncargado" [(ngModel)]="passwordUsuarioEncargado" id="passwordUsuarioEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="tipoUsuarioEncargado" style="text-align: center;">Tipo usuario:</label>
+        <select readonly="true" required name="tipoUsuarioEncargado" [(ngModel)]="tipoUsuarioEncargado" id="tipoUsuarioEncargado">
+          <option [value]="''" selected>Elija un tipo de Usuario</option>
+          <option [value]="'Administrador'">Administrador</option>
+          <option [value]="'Encargado'">Encargado</option>
+          <option [value]="'Cliente'">Cliente</option>
+          <option [value]="'Empleado'">Empleado</option>
+        </select>
+       
+       <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="estadoUsuarioEncargado" style="text-align: center;" >Estado:</label>
+        <input type="checkbox" style="text-align: center;" class="form-control" name="estadoUsuarioEncargado" [(ngModel)]="estadoUsuarioEncargado" id="estadoUsuarioEncargado">
+      </div>
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarUsuario()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarUsuario()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="text-align: center;">  
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de usuarios</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <hr class="my-4">
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Password</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{u.usuario}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{u.nombre}}</td>
+            <td>
+              <h3><span type="password">{{u.password}}</span></h3>
+            </td>
+            <td>
+              <h3><span>{{u.tipo}}</span></h3>
+            </td>
+            <td>
+              <h3><span>{{u.estado}}</span></h3>
+            </td>
+            <!--<td>
+              <div *ngIf="u.estado == 'activo'"><h5><span class="badge badge-success">{{u.estado}}</span></h5></div>
+              <div *ngIf="u.estado == 'bloqueado'"><h5><span class="badge badge-danger">{{u.estado}}</span></h5></div>
+            </td>-->
+            <td>
+              <!--<a class="btn btn-primary" [routerLink]="['/datosusuario',u.id]"><i class="material-icons">mode_edit</i></a>-->
+              <!--<button class="btn btn-warning" (click)="CambiarEstado(u.id)"><i class="material-icons">do_not_disturb_alt</i></button>-->
+              <button class="btn btn-primary" (click)="mostrarUsuario(u.ID, u.nombre, u.usuario, u.password, u.tipo, u.estado)"><i class="material-icons">Modificar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="EmpleadosEncargado" style="display: none">
+  <br>
+
+ <div id="altaEmpleadosEncargado" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Locales </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idEmpleadoEncargado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idEmpleadoEncargado" [(ngModel)]="idEmpleadoEncargado" id="idEmpleadoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreEmpleadoEncargado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreEmpleadoEncargado" [(ngModel)]="nombreEmpleadoEncargado" id="nombreEmpleadoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionEmpleadoEncargado" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionEmpleadoEncargado" [(ngModel)]="direccionEmpleadoEncargado" id="direccionEmpleadoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="localidadEmpleadoEncargado" style="text-align: center;" >Localidad:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="localidadEmpleadoEncargado" [(ngModel)]="localidadEmpleadoEncargado" id="localidadEmpleadoEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="provinciaEmpleadoEncargado" style="text-align: center;" >Provincia:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="provinciaEmpleadoEncargado" [(ngModel)]="provinciaEmpleadoEncargado" id="provinciaEmpleadoEncargado">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="paisEmpleadoEncargado" style="text-align: center;" >Pais:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="paisEmpleadoEncargado" [(ngModel)]="paisEmpleadoEncargado" id="paisEmpleadoEncargado">
+      </div>           
+      <div class="form-group" style="text-align: center;">
+        <label for="idUsuarioEmpleadoEncargado" style="text-align: center;" >Usuario Login:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="idUsuarioEmpleadoEncargado" [(ngModel)]="idUsuarioEmpleadoEncargado" id="idUsuarioEmpleadoEncargado">
+      </div>     
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarEmpleado()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarEmpleado()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="text-align: center;">  
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Empleados</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaEmpleado()">Agregar Empleado</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Localidad</th>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <th>Usuario Login</th>
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of empleados" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{e.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+            <td>{{e.direccion}}</td>
+            <td>{{e.localidad}}</td>
+            <td>{{e.provincia}}</td>
+            <td>{{e.pais}}</td>            
+            <td>{{e.idUsuario}}</td>
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarEmpleado(e.ID, e.nombre, e.direccion, e.localidad, e.provincia, e.pais, e.idUsuario)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteEmpleado(e.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
