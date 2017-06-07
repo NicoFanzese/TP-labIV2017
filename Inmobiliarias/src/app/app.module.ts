@@ -11,6 +11,8 @@ import { EmpleadoComponent } from './empleado/empleado.component';
 import { ClienteComponent } from './cliente/cliente.component';
 
 import { AlertModule } from 'ngx-bootstrap';
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { RouterModule, Routes } from '@angular/router';
 import { ServicioUsuariosService} from './servicio-usuarios.service';
@@ -49,6 +51,7 @@ const appRoutes: Routes = [
     AlertModule.forRoot(),
     //AlertModule,
     HttpModule,
+    FileUploadModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [ServicioUsuariosService,

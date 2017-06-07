@@ -3,6 +3,9 @@ import { ServicioClientesService } from '../servicio-clientes.service';
 import { Cliente } from '../../clases/cliente.class';
 import { ServicioProductosService } from '../servicio-productos.service';
 import { Producto } from '../../clases/producto.class';
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+
+const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
   selector: 'app-empleado',
@@ -22,6 +25,11 @@ export class EmpleadoComponent implements OnInit {
   private paisClienteEmpleado: string;
 
   private productos;
+  private proxIdF1;
+  private proxIdF2;
+  private proxIdF3;
+  //private contImagen: number = 0;
+  private contImagen;  
   private idProductoEmpleado: string;
   private nombreProductoEmpleado: string;
   private direccionProductoEmpleado: string;
@@ -30,19 +38,120 @@ export class EmpleadoComponent implements OnInit {
   private paisProductoEmpleado: string;
   private descripcionProductoEmpleado: string;
   private foto1ProductoEmpleado: string;
+  private previsualizacionFoto1: string;
   private foto2ProductoEmpleado: string;
   private foto3ProductoEmpleado: string;
   private monedaProductoEmpleado: string;
   private precioProductoEmpleado: string;
+  
 
   private mensaje: string;
   private success: boolean = false;
   private error: boolean = false;
   private operacion: string;
 
-  constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService) { 
+
+
+  public uploader:FileUploader = new FileUploader({url: URL});
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+ 
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+ 
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
+
+  constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService) 
+  { 
+    this.contImagen = 1;
     this.TraerClientes();
     this.TraerProductos();
+
+    this.TomarProximoIdF1();
+    this.TomarProximoIdF2();
+    this.TomarProximoIdF3();
+
+   //************************************************
+   //***************FILE UPLOAD**********************
+   //************************************************
+
+    //Esto se ejecutará cuando voy a la api.
+    this.uploader.onBeforeUploadItem=(item)=>
+    {
+      //Extraigo el nombre de la imagen, luego la extensión.
+      ///console.log((this.TomarUltimoId() + "") + '.' + extension);
+      //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
+      //console.log(item['file']);
+      console.log(this.contImagen);
+      console.log(item);
+            
+      if (this.contImagen == 1){       
+          /*var nombreFoto =  item['file'].name;
+          let extension = nombreFoto.split('.').pop();
+          this.foto1ProductoEmpleado = this.proxIdF1 + '.' + extension;
+          item['file'].name = this.foto1ProductoEmpleado; */
+          console.log("entró 1");     
+          this.foto1ProductoEmpleado = item['file'].name;
+          this.contImagen = this.contImagen + 1;  
+          item.withCredentials = false;   
+      }else if (this.contImagen == 2){
+        /*var nombreFoto =  item['file'].name;
+        let extension = nombreFoto.split('.').pop();
+        this.foto2ProductoEmpleado = this.proxIdF2 + '.' + extension;
+        item['file'].name = this.foto2ProductoEmpleado;*/
+        console.log("entró 2");
+        this.foto2ProductoEmpleado = item['file'].name;
+        this.contImagen = this.contImagen + 1;  
+        item.withCredentials = false;           
+      }else if (this.contImagen == 3){
+        /*var nombreFoto =  item['file'].name;
+        let extension = nombreFoto.split('.').pop();
+        this.foto3ProductoEmpleado = this.proxIdF3 + '.' + extension;
+        item['file'].name = this.foto3ProductoEmpleado;*/
+        console.log("entró 3");
+        this.foto3ProductoEmpleado = item['file'].name;        
+        this.contImagen = 1;
+        item.withCredentials = false;   
+      }
+    
+    }
+
+    //Esto se ejecutará cuando vuelvo de la api.
+    this.uploader.onSuccessItem=(response,status)=>
+    {
+      //console.info("response", response);
+      console.info("este es el status", status);
+    }
+  }
+
+  TomarProximoIdF1()
+  {
+    this.productoService.getProductos().subscribe(
+      //producto => this.proxIdF1 = ((producto[producto.length -1].ID +1) + "-1"),
+      producto => this.proxIdF1 = ((producto.ID +1) + "-1"),
+      err => console.error(err)
+
+    );
+  }
+  TomarProximoIdF2()
+  {
+    this.productoService.getProductos().subscribe(
+      //producto => this.proxIdF2 = ((producto[producto.length -1].ID +1) + "-2"),
+      producto => this.proxIdF2 = ((producto.ID +1) + "-2"),      
+      err => console.error(err)
+
+    );
+  }
+  TomarProximoIdF3()
+  {
+    this.productoService.getProductos().subscribe(
+      //producto => this.proxIdF3 = ((producto[producto.length -1].ID +1) + "-3"),
+      producto => this.proxIdF3 = ((producto.ID +1) + "-3"),
+      err => console.error(err)
+    );
   }
 
   ngOnInit() {
@@ -212,19 +321,24 @@ export class EmpleadoComponent implements OnInit {
     ((this.paisProductoEmpleado == "") || (this.paisProductoEmpleado == undefined) || (this.paisProductoEmpleado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
+      //Guardo la imagen
+      this.contImagen = 1;
+      this.uploader.uploadAll();
+      
       if (this.operacion == "Insertar") {
+        console.log("inicia insertado");
         let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.direccionProductoEmpleado, this.localidadProductoEmpleado, this.provinciaProductoEmpleado, this.paisProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
-
         this.productoService.GuardarProducto(objProducto).subscribe();
-
+        this.TraerProductos();
+        this.CancelarProducto();
       } else if (this.operacion == "Modificar") {
+        console.log("inicia insertado");
         let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.direccionProductoEmpleado, this.localidadProductoEmpleado, this.provinciaProductoEmpleado, this.paisProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
         this.productoService.putProducto(objProducto).subscribe();
+        this.TraerProductos();
+        this.CancelarProducto();
       }
-      this.TraerProductos();
-      this.CancelarProducto();
     }
-
+    //this.contImagen = 1;
   }
-
 }
