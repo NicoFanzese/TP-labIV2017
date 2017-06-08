@@ -4,7 +4,7 @@ import { Cliente } from '../../clases/cliente.class';
 import { ServicioProductosService } from '../servicio-productos.service';
 import { Producto } from '../../clases/producto.class';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-
+import { CarouselModule } from 'ngx-bootstrap';
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -66,6 +66,11 @@ export class EmpleadoComponent implements OnInit {
 
   constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService) 
   { 
+    
+  /*  $('#myCarousel').carousel({
+      interval: 4000
+    });
+*/
     this.contImagen = 1;
     this.TraerClientes();
     this.TraerProductos();
@@ -294,6 +299,7 @@ export class EmpleadoComponent implements OnInit {
     this.foto3ProductoEmpleado = f3;
     this.monedaProductoEmpleado = mon;
     this.precioProductoEmpleado = pre;
+    this.uploader.clearQueue();
     document.getElementById("altaProductosEmpleado").style.display = "inline";
   }
 
@@ -319,6 +325,7 @@ export class EmpleadoComponent implements OnInit {
       this.foto2ProductoEmpleado ="";
       this.foto3ProductoEmpleado ="";
       this.uploader.uploadAll();      
+      //this.uploader.clearQueue();
       //document.getElementById("fileUploadFotos").innerHTML="";
   }
 
