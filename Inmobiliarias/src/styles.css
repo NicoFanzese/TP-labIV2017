@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+  /****************************************************************************************************************/
+ /****************************************************** GLOBAL **************************************************/
+/****************************************************************************************************************/
+
+.margin-top-10{
+    margin-top: 10px;
+}
+
+.padding-top-10{
+    padding-top: 10px;
+}
+
+.margin-bot-10{
+    margin-bottom:10px;
+}
+
+
+body{
+    background-color: rgba(68, 132, 157, 0.72);
+}
+
+.error-dino{
+    
+    margin-left:35%; 
+    margin-bottom:5%;
+    width:250px
+}
+
+h1, h2{
+    font-family: 'Anton', sans-serif;
+}
+
+
+  /*************************************************************************************/
+ /************************************* ANIMACIÓNES ***********************************/
+/*************************************************************************************/
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.fast {
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fadeIn {
+  animation-name: fadeIn;
+}

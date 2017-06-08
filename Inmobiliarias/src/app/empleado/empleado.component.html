@@ -1,4 +1,22 @@
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title></title>
+    <link href="http://nfranzeseutn.hol.es/miAPIRest/librerias/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="http://nfranzeseutn.hol.es/miAPIRest/librerias/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="http://nfranzeseutn.hol.es/miAPIRest/librerias/full-slider.css" rel="stylesheet">
+
+</head>
+<body>
+ 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
@@ -151,20 +169,6 @@
         <label for="descripcionProductoEmpleado" style="text-align: center;" >Descripción:</label>
         <input type="text" style="text-align: center;" class="form-control" name="descripcionProductoEmpleado" [(ngModel)]="descripcionProductoEmpleado" id="descripcionProductoEmpleado">
       </div>        
-
-        <div class="form-group">
-          <label class="control-label col-sm-2"><b>Imagen:</b></label>
-           <div ng2FileDrop
-                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-                 (fileOver)="fileOverBase($event)"
-                 [uploader]="uploader"
-                 class="well my-drop-zone">
-                Arroja aquì tu imagen
-                <div *ngFor="let item of uploader.queue">
-                {{ item?.file?.name }}
-                </div>
-            </div>
-        </div>
       <!--<img name="previsualizacionFoto1" [(ngModel)]="previsualizacionFoto1" id="previsualizacionFoto1" width="99" height="99" border="0">-->
       <!--<div class="form-group" style="text-align: center;">
         <label for="foto1ProductoEmpleado" style="text-align: center;" >Foto 1:</label>
@@ -192,12 +196,67 @@
         <label for="precioProductoEmpleado" style="text-align: center;" >Precio:</label>
         <input type="numeric" style="text-align: center;" class="form-control" name="precioProductoEmpleado" [(ngModel)]="precioProductoEmpleado" id="precioProductoEmpleado">
       </div>               
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"><b>Imagen:</b></label>
+          <div ng2FileDrop
+                [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                (fileOver)="fileOverBase($event)"
+                [uploader]="uploader"
+                class="well my-drop-zone">
+              Arroja aquì tu imagen
+              <div *ngFor="let item of uploader.queue">
+              {{ item?.file?.name }}
+              </div>
+          </div>
+      </div>
+      <div align="center" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="subirImagenes()">Subir Imagenes</i></a></div>      
+
+  <div class="row animated fadeIn" style="text-align: center;">
+    <br>
+    <div class="col col-md-8" style="text-align: center;">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel" style="text-align: center;">
+
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0"></li>
+          <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <div class="carousel-inner" align="center">
+          <div class="item">
+            <img src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto1ProductoEmpleado}}">
+          </div>
+
+          <div class="item active">
+            <img src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2ProductoEmpleado}}">
+          </div>
+
+          <div class="item">
+            <img src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2ProductoEmpleado}}">
+          </div>
+        </div>
+
+        <a class="left carousel-control" role="button" href="#myCarousel" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" role="button" href="#myCarousel"data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+  </div>
+     
+      <br>
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarProducto()" >Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarProducto()">Cancelar</button>
       </div>
     </form>
   </div>
+
 
   <div style="text-align: center;">  
     <div class="jumbotron margin-top-10 margin-bot-10">
@@ -301,3 +360,37 @@
     <h1>Grilla de Reservas</h1>
   </div>
 </div>
+ 
+           <!-- jQuery -->
+      <script src="http://nfranzeseutn.hol.es/miAPIRest/librerias/jquery.js"></script>
+
+      <!-- Bootstrap Core JavaScript -->
+      <script src="http://nfranzeseutn.hol.es/miAPIRest/librerias/bootstrap.min.js"></script>
+      <script src="http://nfranzeseutn.hol.es/miAPIRest/librerias/bootstrap.js"></script>
+
+      <!-- Script to Activate the Carousel -->
+      <script>
+
+        $('#myCarousel').carousel({
+            interval: 4000
+        });
+
+        $('.carousel .item').each(function () {
+            var next = $(this).next();
+            if (!next.length) {
+                next = $(this).siblings(':first');
+            }
+            next.children(':first-child').clone().appendTo($(this));
+
+            for (var i = 0; i < 4; i++) {
+                next = next.next();
+                if (!next.length) {
+                    next = $(this).siblings(':first');
+                }
+
+                next.children(':first-child').clone().appendTo($(this));
+            }
+        });
+     </script>
+
+</body>

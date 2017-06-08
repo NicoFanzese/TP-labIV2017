@@ -86,7 +86,7 @@ export class EmpleadoComponent implements OnInit {
       //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
       //console.log(item['file']);
       console.log(this.contImagen);
-      console.log(item);
+      //console.log(item);
             
       if (this.contImagen == 1){       
           /*var nombreFoto =  item['file'].name;
@@ -113,7 +113,7 @@ export class EmpleadoComponent implements OnInit {
         item['file'].name = this.foto3ProductoEmpleado;*/
         console.log("entró 3");
         this.foto3ProductoEmpleado = item['file'].name;        
-        this.contImagen = 1;
+        //this.contImagen = 1;
         item.withCredentials = false;   
       }
     
@@ -313,6 +313,15 @@ export class EmpleadoComponent implements OnInit {
     this.precioProductoEmpleado = "";
   }
 
+  subirImagenes() {
+      this.contImagen = 1;
+      this.foto1ProductoEmpleado = "";
+      this.foto2ProductoEmpleado ="";
+      this.foto3ProductoEmpleado ="";
+      this.uploader.uploadAll();      
+      //document.getElementById("fileUploadFotos").innerHTML="";
+  }
+
   GuardarProducto() {
     if (((this.nombreProductoEmpleado == "") || (this.nombreProductoEmpleado == undefined) || (this.nombreProductoEmpleado == null)) ||
     ((this.direccionProductoEmpleado == "") || (this.direccionProductoEmpleado == undefined) || (this.direccionProductoEmpleado == null)) ||
@@ -321,24 +330,21 @@ export class EmpleadoComponent implements OnInit {
     ((this.paisProductoEmpleado == "") || (this.paisProductoEmpleado == undefined) || (this.paisProductoEmpleado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
-      //Guardo la imagen
-      this.contImagen = 1;
-      this.uploader.uploadAll();
-      
+
+      console.log(this.foto1ProductoEmpleado);
+      console.log(this.foto2ProductoEmpleado);
+      console.log(this.foto3ProductoEmpleado);
       if (this.operacion == "Insertar") {
-        console.log("inicia insertado");
         let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.direccionProductoEmpleado, this.localidadProductoEmpleado, this.provinciaProductoEmpleado, this.paisProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
-        this.productoService.GuardarProducto(objProducto).subscribe();
-        this.TraerProductos();
-        this.CancelarProducto();
+        this.productoService.GuardarProducto(objProducto).subscribe();        
       } else if (this.operacion == "Modificar") {
-        console.log("inicia insertado");
         let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.direccionProductoEmpleado, this.localidadProductoEmpleado, this.provinciaProductoEmpleado, this.paisProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
         this.productoService.putProducto(objProducto).subscribe();
-        this.TraerProductos();
-        this.CancelarProducto();
       }
     }
+    this.uploader.clearQueue();
+    this.TraerProductos();
+    this.CancelarProducto();
     //this.contImagen = 1;
   }
 }
