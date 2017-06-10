@@ -54,17 +54,54 @@
         <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalAdministrador" [(ngModel)]="direccionLocalAdministrador" id="direccionLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="localidadLocalAdministrador" style="text-align: center;" >Localidad:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="localidadLocalAdministrador" [(ngModel)]="localidadLocalAdministrador" id="localidadLocalAdministrador">
+        <label for="encargadoLocalAdministrador" style="text-align: center;">Encargado:</label><br>
+        <select name="encargadoLocalAdministrador" [(ngModel)]="encargadoLocalAdministrador" id="encargadoLocalAdministrador">
+          <option *ngFor="let u of usuariosEncargados" [value]="u.usuario">{{u.nombre}}</option>         
+        </select>
       </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="provinciaLocalAdministrador" style="text-align: center;" >Provincia:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="provinciaLocalAdministrador" [(ngModel)]="provinciaLocalAdministrador" id="provinciaLocalAdministrador">
-      </div>      
-      <div class="form-group" style="text-align: center;">
-        <label for="paisLocalAdministrador" style="text-align: center;" >Pais:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="paisLocalAdministrador" [(ngModel)]="paisLocalAdministrador" id="paisLocalAdministrador">
-      </div>           
+
+    <div class="form-group">
+      <label class="control-label col-sm-2"><b>Imagen:</b></label>
+        <div ng2FileDrop
+              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+              (fileOver)="fileOverBase($event)"
+              [uploader]="uploaderLocal"
+              class="well my-drop-zone">
+            Arroja aquì tu imagen
+            <div *ngFor="let item of uploaderLocal.queue">
+            {{ item?.file?.name }}
+            </div>
+        </div>
+    </div>
+    <div align="center" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="subirImagenesLocal()">Subir Imagenes</i></a></div>      
+    
+    <br>
+    <br>
+    <table style="width:100%">
+      <tr style="width: 30%">
+
+      </tr>
+      <tr style="width: 30%">
+        <!--<div style="width: 50%" align="center">-->
+          <div align="center">
+          <carousel>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto1LocalAdministrador}}">
+            </slide>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2LocalAdministrador}}">
+            </slide>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto3LocalAdministrador}}">
+            </slide>
+          </carousel>
+        </div>
+      </tr> 
+      <tr style="width: 30%">
+
+      </tr>
+    </table>
+
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocal()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarLocal()">Cancelar</button>
@@ -85,9 +122,7 @@
           <tr>
             <th>Nombre</th>
             <th>Dirección</th>
-            <th>Localidad</th>
-            <th>Provincia</th>
-            <th>Pais</th>
+            <th>Encargado</th>
             <!--<th>Acciones</th>-->
           </tr>
         </thead>
@@ -96,11 +131,10 @@
             <th scope="row"><span class="badge badge-default badge-pill">{{l.nombre}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
             <td>{{l.direccion}}</td>
-            <td>{{l.localidad}}</td>
-            <td>{{l.provincia}}</td>
-            <td>{{l.pais}}</td>            
+            <td>{{l.idEncargado}}</td>
+    
             <td>              
-              <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.localidad, l.provincia, l.pais)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.idEncargado, l.foto1, l.foto2, l.foto3)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteLocal(l.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>

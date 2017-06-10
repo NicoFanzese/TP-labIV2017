@@ -5,12 +5,18 @@ import { Cliente } from '../clases/cliente.class';
 @Injectable()
 export class ServicioClientesService {
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/clientes/"
+  private rutaUsuariosClientes: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/clientesUsuarios/"
   private rutaCliente: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/cliente/"
 
   constructor(private http: Http) { }
 
   getClientes() {
     return this.http.get(this.ruta).map(
+      data => data.json());
+  }
+  
+  getUsuariosClientes() {
+    return this.http.get(this.rutaUsuariosClientes).map(
       data => data.json());
   }
 
@@ -32,7 +38,7 @@ export class ServicioClientesService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos   
-    return this.http.post(`${this.rutaCliente}?nombre=${cliente.nombre}&mail=${cliente.mail}&telefono=${cliente.telefono}&direccion=${cliente.direccion}&localidad=${cliente.localidad}&provincia=${cliente.provincia}&pais=${cliente.pais}`,
+    return this.http.post(`${this.rutaCliente}?nombre=${cliente.nombre}&mail=${cliente.mail}&telefono=${cliente.telefono}&direccion=${cliente.direccion}&idUsuario=${cliente.idUsuario}`,
       { headers: headers}
       ).map(response =>response.json());
 
@@ -45,7 +51,7 @@ export class ServicioClientesService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.rutaCliente}?id=${cliente.id}&nombre=${cliente.nombre}&mail=${cliente.mail}&telefono=${cliente.telefono}&direccion=${cliente.direccion}&localidad=${cliente.localidad}&provincia=${cliente.provincia}&pais=${cliente.pais}`,
+    return this.http.put(`${this.rutaCliente}?id=${cliente.id}&nombre=${cliente.nombre}&mail=${cliente.mail}&telefono=${cliente.telefono}&direccion=${cliente.direccion}&idUsuario=${cliente.idUsuario}`,
 
       { headers: headers }
       ).map(response => response.json());

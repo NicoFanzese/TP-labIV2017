@@ -54,17 +54,12 @@
         <input required type="text" style="text-align: center;" class="form-control" name="direccionClienteEncargado" [(ngModel)]="direccionClienteEncargado" id="direccionClienteEncargado">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="localidadClienteEncargado" style="text-align: center;" >Localidad:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="localidadClienteEncargado" [(ngModel)]="localidadClienteEncargado" id="localidadClienteEncargado">
+        <label for="usuarioLoginClienteEmpleado" style="text-align: center;">Usuario Login:</label><br>
+        <select name="usuarioLoginClienteEmpleado" [(ngModel)]="usuarioLoginClienteEmpleado" id="usuarioLoginClienteEmpleado">
+          <option *ngFor="let u of usuariosClientes" [value]="u.usuario">{{u.nombre}}</option>         
+        </select>
       </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="provinciaClienteEncargado" style="text-align: center;" >Provincia:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="provinciaClienteEncargado" [(ngModel)]="provinciaClienteEncargado" id="provinciaClienteEncargado">
-      </div>      
-      <div class="form-group" style="text-align: center;">
-        <label for="paisClienteEncargado" style="text-align: center;" >Pais:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="paisClienteEncargado" [(ngModel)]="paisClienteEncargado" id="paisClienteEncargado">
-      </div>           
+
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarCliente()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarCliente()">Cancelar</button>
@@ -87,9 +82,7 @@
             <th>Mail</th>
             <th>Teléfono</th>
             <th>Dirección</th>
-            <th>Localidad</th>
-            <th>Provincia</th>
-            <th>Pais</th>
+            <th>Usuario Login</th>
             <!--<th>Acciones</th>-->
           </tr>
         </thead>
@@ -100,11 +93,10 @@
             <td>{{c.mail}}</td>
             <td>{{c.telefono}}</td>
             <td>{{c.direccion}}</td>
-            <td>{{c.localidad}}</td>
-            <td>{{c.provincia}}</td>
-            <td>{{c.pais}}</td>            
+            <td>{{c.idUsuario}}</td>
+       
             <td>              
-              <button class="btn btn-primary" (click)="mostrarCliente(c.ID, c.nombre,c.mail,c.telefono, c.direccion, c.localidad, c.provincia, c.pais)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarCliente(c.ID, c.nombre,c.mail,c.telefono, c.direccion, c.idUsuario)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteCliente(c.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>
@@ -136,37 +128,9 @@
         <input required type="text" style="text-align: center;" class="form-control" name="nombreProductoEncargado" [(ngModel)]="nombreProductoEncargado" id="nombreProductoEncargado">
       </div>   
       <div class="form-group" style="text-align: center;">
-        <label for="direccionProductoEncargado" style="text-align: center;">Dirección:</label>
-        <input required type="text" style="text-align: center;" class="form-control" name="direccionProductoEncargado" [(ngModel)]="direccionProductoEncargado" id="direccionProductoEncargado">
-      </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="localidadProductoEncargado" style="text-align: center;" >Localidad:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="localidadProductoEncargado" [(ngModel)]="localidadProductoEncargado" id="localidadProductoEncargado">
-      </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="provinciaProductoEncargado" style="text-align: center;" >Provincia:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="provinciaProductoEncargado" [(ngModel)]="provinciaProductoEncargado" id="provinciaProductoEncargado">
-      </div>      
-      <div class="form-group" style="text-align: center;">
-        <label for="paisProductoEncargado" style="text-align: center;" >Pais:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="paisProductoEncargado" [(ngModel)]="paisProductoEncargado" id="paisProductoEncargado">
-      </div>           
-      <div class="form-group" style="text-align: center;">
         <label for="descripcionProductoEncargado" style="text-align: center;" >Descripción:</label>
         <input type="text" style="text-align: center;" class="form-control" name="descripcionProductoEncargado" [(ngModel)]="descripcionProductoEncargado" id="descripcionProductoEncargado">
       </div>   
-      <div class="form-group" style="text-align: center;">
-        <label for="foto1ProductoEncargado" style="text-align: center;" >Foto 1:</label>
-        <input type="text" class="form-control" style="text-align: center;" class="form-control" name="foto1ProductoEncargado" [(ngModel)]="foto1ProductoEncargado" id="foto1ProductoEncargado">
-      </div>  
-      <div class="form-group" style="text-align: center;">
-        <label for="foto2ProductoEncargado" style="text-align: center;" >Foto 2:</label>
-        <input type="text" class="form-control" style="text-align: center;" class="form-control" name="foto2ProductoEncargado" [(ngModel)]="foto2ProductoEncargado" id="foto2ProductoEncargado">
-      </div>  
-      <div class="form-group" style="text-align: center;">
-        <label for="foto3ProductoEncargado" style="text-align: center;" >Foto 3:</label>
-        <input type="text" class="form-control" style="text-align: center;" class="form-control" name="foto3ProductoEncargado" [(ngModel)]="foto3ProductoEncargado" id="foto3ProductoEncargado">
-      </div>       
       <div class="form-group" style="text-align: center;">
         <label for="monedaProductoEncargado" style="text-align: center;">Moneda:</label>
         <select required name="monedaProductoEncargado" [(ngModel)]="monedaProductoEncargado" id="monedaProductoEncargado">
@@ -180,7 +144,51 @@
       <div class="form-group" style="text-align: center;">
         <label for="precioProductoEncargado" style="text-align: center;" >Precio:</label>
         <input type="numeric" style="text-align: center;" class="form-control" name="precioProductoEncargado" [(ngModel)]="precioProductoEncargado" id="precioProductoEncargado">
-      </div>               
+      </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2"><b>Imagen:</b></label>
+        <div ng2FileDrop
+              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+              (fileOver)="fileOverBase($event)"
+              [uploader]="uploader"
+              class="well my-drop-zone">
+            Arroja aquì tu imagen
+            <div *ngFor="let item of uploader.queue">
+            {{ item?.file?.name }}
+            </div>
+        </div>
+    </div>
+    <div align="center" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="subirImagenes()">Subir Imagenes</i></a></div>      
+    
+    <br>
+    <br>
+    <table style="width:100%">
+      <tr style="width: 30%">
+
+      </tr>
+      <tr style="width: 30%">
+        <!--<div style="width: 50%" align="center">-->
+          <div align="center">
+          <carousel>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto1ProductoEncargado}}">
+            </slide>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2ProductoEncargado}}">
+            </slide>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto3ProductoEncargado}}">
+            </slide>
+          </carousel>
+        </div>
+      </tr> 
+      <tr style="width: 30%">
+
+      </tr>
+    </table>
+<br>
+<br>
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarProducto()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarProducto()">Cancelar</button>
@@ -200,14 +208,7 @@
         <thead class="thead-inverse">
           <tr>
             <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Localidad</th>
-            <th>Provincia</th>
-            <th>Pais</th>
             <th>Descripcion</th>
-            <th>Foto1</th>
-            <th>Foto2</th>
-            <th>Foto3</th>
             <th>Moneda</th>
             <th>Precio</th>
             <!--<th>Acciones</th>-->
@@ -217,18 +218,11 @@
           <tr *ngFor="let p of productos" class="table-info animated fadeIn">
             <th scope="row"><span class="badge badge-default badge-pill">{{p.nombre}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
-            <td>{{p.direccion}}</td>
-            <td>{{p.localidad}}</td>
-            <td>{{p.provincia}}</td>
-            <td>{{p.pais}}</td>
             <td>{{p.descripcion}}</td>
-            <td>{{p.foto1}}</td>
-            <td>{{p.foto2}}</td>
-            <td>{{p.foto3}}</td>            
             <td>{{p.moneda}}</td>
             <td>{{p.precio}}</td>            
             <td>              
-              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre,p.direccion, p.localidad, p.provincia, p.pais, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>
@@ -265,18 +259,55 @@
         <label for="direccionLocalEncargado" style="text-align: center;">Dirección:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalEncargado" [(ngModel)]="direccionLocalEncargado" id="direccionLocalEncargado">
       </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="localidadLocalEncargado" style="text-align: center;" >Localidad:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="localidadLocalEncargado" [(ngModel)]="localidadLocalEncargado" id="localidadLocalEncargado">
-      </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="provinciaLocalEncargado" style="text-align: center;" >Provincia:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="provinciaLocalEncargado" [(ngModel)]="provinciaLocalEncargado" id="provinciaLocalEncargado">
-      </div>      
-      <div class="form-group" style="text-align: center;">
-        <label for="paisLocalEncargado" style="text-align: center;" >Pais:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="paisLocalEncargado" [(ngModel)]="paisLocalEncargado" id="paisLocalEncargado">
-      </div>           
+      <!--<div class="form-group" style="text-align: center;">
+        <label for="encargadoLocalEncargado" style="text-align: center;">Encargado:</label><br>
+        <select readonly="true" name="encargadoLocalEncargado" [(ngModel)]="encargadoLocalEncargado" id="encargadoLocalEncargado">
+          <option *ngFor="let u of usuariosEncargados" [value]="u.usuario">{{u.nombre}}</option>         
+        </select>
+      </div>-->
+
+    <div class="form-group">
+      <label class="control-label col-sm-2"><b>Imagen:</b></label>
+        <div ng2FileDrop
+              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+              (fileOver)="fileOverBase($event)"
+              [uploader]="uploaderLocal"
+              class="well my-drop-zone">
+            Arroja aquì tu imagen
+            <div *ngFor="let item of uploaderLocal.queue">
+            {{ item?.file?.name }}
+            </div>
+        </div>
+    </div>
+    <div align="center" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="subirImagenesLocal()">Subir Imagenes</i></a></div>      
+    
+    <br>
+    <br>
+    <table style="width:100%">
+      <tr style="width: 30%">
+
+      </tr>
+      <tr style="width: 30%">
+        <!--<div style="width: 50%" align="center">-->
+          <div align="center">
+          <carousel>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto1LocalEncargado}}">
+            </slide>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2LocalEncargado}}">
+            </slide>
+            <slide>
+              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto3LocalEncargado}}">
+            </slide>
+          </carousel>
+        </div>
+      </tr> 
+      <tr style="width: 30%">
+
+      </tr>
+    </table>
+
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocal()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarLocal()">Cancelar</button>
@@ -297,9 +328,6 @@
           <tr>
             <th>Nombre</th>
             <th>Dirección</th>
-            <th>Localidad</th>
-            <th>Provincia</th>
-            <th>Pais</th>
             <!--<th>Acciones</th>-->
           </tr>
         </thead>
@@ -308,11 +336,9 @@
             <th scope="row"><span class="badge badge-default badge-pill">{{l.nombre}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
             <td>{{l.direccion}}</td>
-            <td>{{l.localidad}}</td>
-            <td>{{l.provincia}}</td>
-            <td>{{l.pais}}</td>            
+         
             <td>              
-              <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.localidad, l.provincia, l.pais)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.idEncargado, l.foto1, l.foto2, l.foto3)"><i class="material-icons">Modificar</i></button>
               <!--<button class="btn btn-danger" (click)="deleteLocal(l.ID)"><i class="material-icons">Borrar</i></button>-->
             </td>
           </tr>
@@ -449,22 +475,14 @@
         <label for="direccionEmpleadoEncargado" style="text-align: center;">Dirección:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="direccionEmpleadoEncargado" [(ngModel)]="direccionEmpleadoEncargado" id="direccionEmpleadoEncargado">
       </div>
+      
       <div class="form-group" style="text-align: center;">
-        <label for="localidadEmpleadoEncargado" style="text-align: center;" >Localidad:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="localidadEmpleadoEncargado" [(ngModel)]="localidadEmpleadoEncargado" id="localidadEmpleadoEncargado">
+        <label for="usuarioLoginEmpleadoEncargado" style="text-align: center;">Usuario Login:</label><br>
+        <select name="usuarioLoginEmpleadoEncargado" [(ngModel)]="usuarioLoginEmpleadoEncargado" id="usuarioLoginEmpleadoEncargado">
+          <option *ngFor="let u of usuariosEmpleados" [value]="u.usuario">{{u.nombre}}</option>         
+        </select>
       </div>
-      <div class="form-group" style="text-align: center;">
-        <label for="provinciaEmpleadoEncargado" style="text-align: center;" >Provincia:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="provinciaEmpleadoEncargado" [(ngModel)]="provinciaEmpleadoEncargado" id="provinciaEmpleadoEncargado">
-      </div>      
-      <div class="form-group" style="text-align: center;">
-        <label for="paisEmpleadoEncargado" style="text-align: center;" >Pais:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="paisEmpleadoEncargado" [(ngModel)]="paisEmpleadoEncargado" id="paisEmpleadoEncargado">
-      </div>           
-      <div class="form-group" style="text-align: center;">
-        <label for="idUsuarioEmpleadoEncargado" style="text-align: center;" >Usuario Login:</label>
-        <input type="text" style="text-align: center;" class="form-control" name="idUsuarioEmpleadoEncargado" [(ngModel)]="idUsuarioEmpleadoEncargado" id="idUsuarioEmpleadoEncargado">
-      </div>     
+
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarEmpleado()">Guardar</button>
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarEmpleado()">Cancelar</button>
@@ -485,9 +503,6 @@
           <tr>
             <th>Nombre</th>
             <th>Dirección</th>
-            <th>Localidad</th>
-            <th>Provincia</th>
-            <th>Pais</th>
             <th>Usuario Login</th>
             <!--<th>Acciones</th>-->
           </tr>
@@ -496,13 +511,10 @@
           <tr *ngFor="let e of empleados" class="table-info animated fadeIn">
             <th scope="row"><span class="badge badge-default badge-pill">{{e.nombre}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
-            <td>{{e.direccion}}</td>
-            <td>{{e.localidad}}</td>
-            <td>{{e.provincia}}</td>
-            <td>{{e.pais}}</td>            
+            <td>{{e.direccion}}</td>       
             <td>{{e.idUsuario}}</td>
             <td>              
-              <button class="btn btn-primary" (click)="mostrarEmpleado(e.ID, e.nombre, e.direccion, e.localidad, e.provincia, e.pais, e.idUsuario)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarEmpleado(e.ID, e.nombre, e.direccion, e.idUsuario)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteEmpleado(e.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>

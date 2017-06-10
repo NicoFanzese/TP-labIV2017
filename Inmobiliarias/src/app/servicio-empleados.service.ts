@@ -7,11 +7,16 @@ export class ServicioEmpleadosService {
 
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/empleados/"
   private rutaEmpleado: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/empleado/"
-
+  private rutaUsuariosEmpleados: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/empleadosUsuarios/"
   constructor(private http: Http) { }
 
   getEmpleados() {
     return this.http.get(this.ruta).map(
+      data => data.json());
+  }
+
+  getUsuariosEmpleados() {
+    return this.http.get(this.rutaUsuariosEmpleados).map(
       data => data.json());
   }
 
@@ -36,7 +41,7 @@ export class ServicioEmpleadosService {
     //Llamo al método POST y le paso los datos
     //return this.http.post(`${this.ruta}?nombre=${usuario.nombre}&password=${usuario.password}&foto=${usuario.foto}&tipo=${usuario.tipo}&estado=${usuario.estado}`,
     //return this.http.post(`${this.rutaUsuario}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
-    return this.http.post(`${this.rutaEmpleado}?nombre=${empleado.nombre}&direccion=${empleado.direccion}&localidad=${empleado.localidad}&provincia=${empleado.provincia}&pais=${empleado.pais}&idUsuario=${empleado.idUsuario}`,
+    return this.http.post(`${this.rutaEmpleado}?nombre=${empleado.nombre}&direccion=${empleado.direccion}&idUsuario=${empleado.idUsuario}`,
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers}
@@ -51,7 +56,7 @@ export class ServicioEmpleadosService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.rutaEmpleado}?id=${empleado.id}&nombre=${empleado.nombre}&direccion=${empleado.direccion}&localidad=${empleado.localidad}&provincia=${empleado.provincia}&pais=${empleado.pais}&idUsuario=${empleado.idUsuario}`,
+    return this.http.put(`${this.rutaEmpleado}?id=${empleado.id}&nombre=${empleado.nombre}&direccion=${empleado.direccion}&idUsuario=${empleado.idUsuario}`,
 
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),

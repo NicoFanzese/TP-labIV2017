@@ -4,12 +4,19 @@ import { Usuario } from '../../clases/usuario.class';
 import { ServicioLocalesService } from '../servicio-locales.service';
 import { Local } from '../../clases/local.class';
 
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { CarouselModule } from 'ngx-bootstrap';
+
+const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
+
 @Component({
   selector: 'app-administrador',
   templateUrl: './administrador.component.html',
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent implements OnInit {
+  private contImagen;    
+
   private usuarios;
   private nombreUsuarioAdministrador: string;
   private usuarioUsuarioAdministrador: string;
@@ -22,18 +29,60 @@ export class AdministradorComponent implements OnInit {
   private idLocalAdministrador: any;
   private nombreLocalAdministrador: any;
   private direccionLocalAdministrador: any;
-  private localidadLocalAdministrador: any;
-  private provinciaLocalAdministrador: any;
-  private paisLocalAdministrador: any;
+  private usuariosEncargados: any;
+  private encargadoLocalAdministrador: any;
+  private foto1LocalAdministrador: any;
+  private foto2LocalAdministrador: any;
+  private foto3LocalAdministrador: any;
 
   private mensaje: string;
   private success: boolean = false;
   private error: boolean = false;
   private operacion: string;
 
+  public uploaderLocal:FileUploader = new FileUploader({url: URL});
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+ 
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+ 
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
+
   constructor(private usuarioService: ServicioUsuariosService, private localService: ServicioLocalesService) {
     this.TraerUsuarios();
     this.TraerLocales();
+    this.TraerUsuariosLocales();
+
+    this.uploaderLocal.onBeforeUploadItem=(item)=>
+    {
+      //Extraigo el nombre de la imagen, luego la extensión.
+      ///console.log((this.TomarUltimoId() + "") + '.' + extension);
+      //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
+      //console.log(item['file']);
+      console.log(this.contImagen);
+          
+      if (this.contImagen == 1){       
+          console.log("entró 1");     
+          this.foto1LocalAdministrador = item['file'].name;
+          this.contImagen = this.contImagen + 1;  
+          item.withCredentials = false;   
+      }else if (this.contImagen == 2){
+        console.log("entró 2");
+        this.foto2LocalAdministrador = item['file'].name;
+        this.contImagen = this.contImagen + 1;  
+        item.withCredentials = false;           
+      }else if (this.contImagen == 3){
+        console.log("entró 3");
+        this.foto3LocalAdministrador = item['file'].name;        
+        //this.contImagen = 1;
+        item.withCredentials = false;   
+      }
+    
+    }
   }
 
   ngOnInit() {
@@ -61,6 +110,9 @@ export class AdministradorComponent implements OnInit {
   altaLocal() {
     this.operacion = "Insertar";
     document.getElementById("altaLocalesAdministrador").style.display = "inline";
+    this.foto1LocalAdministrador="";
+    this.foto2LocalAdministrador="";
+    this.foto3LocalAdministrador="";
   }
 
   //USUARIOS
@@ -174,6 +226,18 @@ export class AdministradorComponent implements OnInit {
     );
   }
 
+  TraerUsuariosLocales() {
+    this.localService.getUsuariosEncargados().subscribe(
+      data => this.usuariosEncargados = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("usuarios traidos con éxito")
+    );
+  }  
+
+
   deleteLocal(id: number) {
     this.localService.deleteLocal(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
@@ -183,15 +247,15 @@ export class AdministradorComponent implements OnInit {
     this.TraerLocales();
   }
 
-  mostrarLocal(id, nom, dir, loc, pro, pais) {
+  mostrarLocal(id, nom, dir, enc, f1, f2, f3) {
     this.operacion = "Modificar";
     this.idLocalAdministrador = id;
     this.nombreLocalAdministrador = nom;
     this.direccionLocalAdministrador = dir;
-    this.localidadLocalAdministrador = loc;
-    this.provinciaLocalAdministrador = pro;
-    this.paisLocalAdministrador = pais;
-    
+    this.encargadoLocalAdministrador = enc;
+    this.foto1LocalAdministrador = f1;
+    this.foto2LocalAdministrador = f2;
+    this.foto3LocalAdministrador = f3;    
     document.getElementById("altaLocalesAdministrador").style.display = "inline";
   }
 
@@ -200,31 +264,40 @@ export class AdministradorComponent implements OnInit {
     this.idLocalAdministrador = "";
     this.nombreLocalAdministrador = "";
     this.direccionLocalAdministrador = "";
-    this.localidadLocalAdministrador = "";
-    this.provinciaLocalAdministrador = "";
-    this.paisLocalAdministrador = "";
+    this.encargadoLocalAdministrador = "";
+    this.foto1LocalAdministrador = "";
+    this.foto2LocalAdministrador = "";
+    this.foto3LocalAdministrador = "";    
+    this.uploaderLocal.clearQueue();    
   }
+
+    subirImagenesLocal() {
+        this.contImagen = 1;
+        this.foto1LocalAdministrador = "";
+        this.foto2LocalAdministrador ="";
+        this.foto3LocalAdministrador ="";
+        this.uploaderLocal.uploadAll();      
+        //this.uploader.clearQueue();
+        //document.getElementById("fileUploadFotos").innerHTML="";
+    }
 
   GuardarLocal() {
     if (((this.nombreLocalAdministrador == "") || (this.nombreLocalAdministrador == undefined) || (this.nombreLocalAdministrador == null)) ||
-      ((this.direccionLocalAdministrador == "") || (this.direccionLocalAdministrador == undefined) || (this.direccionLocalAdministrador == null)) ||
-      ((this.localidadLocalAdministrador == "") || (this.localidadLocalAdministrador == undefined) || (this.localidadLocalAdministrador == null)) ||
-      ((this.provinciaLocalAdministrador == "") || (this.provinciaLocalAdministrador == undefined) || (this.provinciaLocalAdministrador == null)) ||
-      ((this.paisLocalAdministrador == "") || (this.paisLocalAdministrador == undefined) || (this.paisLocalAdministrador == null))) {
+      ((this.direccionLocalAdministrador == "") || (this.direccionLocalAdministrador == undefined) || (this.direccionLocalAdministrador == null))) {
         alert("Los Datos en pantalla son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objLocal: Local = new Local(0, this.nombreLocalAdministrador, this.direccionLocalAdministrador, this.localidadLocalAdministrador, this.provinciaLocalAdministrador, this.paisLocalAdministrador);
-
+        let objLocal: Local = new Local(0, this.nombreLocalAdministrador, this.direccionLocalAdministrador, this.encargadoLocalAdministrador, this.foto1LocalAdministrador, this.foto2LocalAdministrador, this.foto3LocalAdministrador);
         this.localService.GuardarLocal(objLocal).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objLocal: Local = new Local(this.idLocalAdministrador, this.nombreLocalAdministrador, this.direccionLocalAdministrador, this.localidadLocalAdministrador, this.provinciaLocalAdministrador, this.paisLocalAdministrador);
+        let objLocal: Local = new Local(this.idLocalAdministrador, this.nombreLocalAdministrador, this.direccionLocalAdministrador, this.encargadoLocalAdministrador, this.foto1LocalAdministrador, this.foto2LocalAdministrador, this.foto3LocalAdministrador);
         console.log("se va a modificar: " + objLocal);
         this.localService.putLocal(objLocal).subscribe();
       }
       this.TraerLocales();
       this.CancelarLocal();
+      this.uploaderLocal.clearQueue();
     }
 
   }

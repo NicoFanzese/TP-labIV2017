@@ -3,8 +3,11 @@ import { ServicioClientesService } from '../servicio-clientes.service';
 import { Cliente } from '../../clases/cliente.class';
 import { ServicioProductosService } from '../servicio-productos.service';
 import { Producto } from '../../clases/producto.class';
+import { LocalProducto } from '../../clases/localProducto.class';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
+import { ServicioLocalesService } from '../servicio-locales.service';
+
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -15,15 +18,16 @@ const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 export class EmpleadoComponent implements OnInit {
 
   private clientes;
+  private usuariosClientes;
   private idClienteEmpleado: string;
   private nombreClienteEmpleado: string;
   private mailClienteEmpleado: string;
   private telefonoClienteEmpleado: string;
   private direccionClienteEmpleado: string;
-  private localidadClienteEmpleado: string;
-  private provinciaClienteEmpleado: string;
-  private paisClienteEmpleado: string;
+  private usuarioLoginClienteEmpleado: string;
 
+  private localesProductos;
+  private LocalProductoEmpleado;
   private productos;
   private proxIdF1;
   private proxIdF2;
@@ -33,9 +37,6 @@ export class EmpleadoComponent implements OnInit {
   private idProductoEmpleado: string;
   private nombreProductoEmpleado: string;
   private direccionProductoEmpleado: string;
-  private localidadProductoEmpleado: string;
-  private provinciaProductoEmpleado: string;
-  private paisProductoEmpleado: string;
   private descripcionProductoEmpleado: string;
   private foto1ProductoEmpleado: string;
   private previsualizacionFoto1: string;
@@ -43,8 +44,9 @@ export class EmpleadoComponent implements OnInit {
   private foto3ProductoEmpleado: string;
   private monedaProductoEmpleado: string;
   private precioProductoEmpleado: string;
-  
-
+  private productoLocal: string;
+  private idProductoLocal: any;
+  private locales: any;
   private mensaje: string;
   private success: boolean = false;
   private error: boolean = false;
@@ -64,7 +66,7 @@ export class EmpleadoComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService) 
+  constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService,private localService: ServicioLocalesService) 
   { 
     
   /*  $('#myCarousel').carousel({
@@ -78,7 +80,11 @@ export class EmpleadoComponent implements OnInit {
     this.TomarProximoIdF1();
     this.TomarProximoIdF2();
     this.TomarProximoIdF3();
+    this.TraerUsuariosClientes();
+    this.TraerLocales();
 
+
+console.info(this.usuariosClientes);
    //************************************************
    //***************FILE UPLOAD**********************
    //************************************************
@@ -166,6 +172,7 @@ export class EmpleadoComponent implements OnInit {
   {
     document.getElementById("ClientesEmpleado").style.display = "inline";
     document.getElementById("ProductosEmpleado").style.display = "none";
+    document.getElementById("altaLocalesProductosEmpleado").style.display = "none";    
     document.getElementById("ReservasEmpleado").style.display = "none";
   }
 
@@ -173,18 +180,21 @@ export class EmpleadoComponent implements OnInit {
   {
     document.getElementById("ClientesEmpleado").style.display = "none";
     document.getElementById("ProductosEmpleado").style.display = "inline";
+    document.getElementById("altaLocalesProductosEmpleado").style.display = "none";    
     document.getElementById("ReservasEmpleado").style.display = "none";
   }
     MostrarOfertas()
   {
     document.getElementById("ClientesEmpleado").style.display = "none";
     document.getElementById("ProductosEmpleado").style.display = "none";
+    document.getElementById("altaLocalesProductosEmpleado").style.display = "none";    
     document.getElementById("ReservasEmpleado").style.display = "none";
   }
     MostrarReservas()
   {
     document.getElementById("ClientesEmpleado").style.display = "none";
     document.getElementById("ProductosEmpleado").style.display = "none";
+    document.getElementById("altaLocalesProductosEmpleado").style.display = "none";    
     document.getElementById("ReservasEmpleado").style.display = "inline";
   }
 
@@ -200,6 +210,17 @@ export class EmpleadoComponent implements OnInit {
     );
   }
 
+  TraerUsuariosClientes() {
+    this.clienteService.getUsuariosClientes().subscribe(
+      data => this.usuariosClientes = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("usuarios traidos con éxito")
+    );
+  }  
+
   altaCliente() {
     this.operacion = "Insertar";
     document.getElementById("altaClientesEmpleado").style.display = "inline";
@@ -214,16 +235,15 @@ export class EmpleadoComponent implements OnInit {
     this.TraerClientes();
   }
 
-  mostrarCliente(id, nom, mail, tel, dir, loc, pro, pais) {
+  mostrarCliente(id, nom, mail, tel, dir, usuLog) {
     this.operacion = "Modificar";
     this.idClienteEmpleado = id;
     this.nombreClienteEmpleado = nom;
     this.mailClienteEmpleado = mail;
     this.telefonoClienteEmpleado = tel;
     this.direccionClienteEmpleado = dir;
-    this.localidadClienteEmpleado = loc;
-    this.provinciaClienteEmpleado = pro;
-    this.paisClienteEmpleado = pais;
+    this.usuarioLoginClienteEmpleado = usuLog;
+
     document.getElementById("altaClientesEmpleado").style.display = "inline";
   }
 
@@ -234,9 +254,7 @@ export class EmpleadoComponent implements OnInit {
     this.mailClienteEmpleado = "";
     this.telefonoClienteEmpleado = "";
     this.direccionClienteEmpleado = "";
-    this.localidadClienteEmpleado = "";
-    this.provinciaClienteEmpleado = "";
-    this.paisClienteEmpleado = "";
+    this.usuarioLoginClienteEmpleado ="";
   }
 
   GuardarCliente() {
@@ -245,12 +263,12 @@ export class EmpleadoComponent implements OnInit {
         alert("El nombre del cliente y Mail son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objCliente: Cliente = new Cliente(0, this.nombreClienteEmpleado, this.mailClienteEmpleado, this.telefonoClienteEmpleado, this.direccionClienteEmpleado, this.localidadClienteEmpleado, this.provinciaClienteEmpleado, this.paisClienteEmpleado);
+        let objCliente: Cliente = new Cliente(0, this.nombreClienteEmpleado, this.mailClienteEmpleado, this.telefonoClienteEmpleado, this.direccionClienteEmpleado, this.usuarioLoginClienteEmpleado);
 
         this.clienteService.GuardarCliente(objCliente).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objCliente: Cliente = new Cliente(this.idClienteEmpleado, this.nombreClienteEmpleado, this.mailClienteEmpleado, this.telefonoClienteEmpleado, this.direccionClienteEmpleado, this.localidadClienteEmpleado, this.provinciaClienteEmpleado, this.paisClienteEmpleado);
+        let objCliente: Cliente = new Cliente(this.idClienteEmpleado, this.nombreClienteEmpleado, this.mailClienteEmpleado, this.telefonoClienteEmpleado, this.direccionClienteEmpleado, this.usuarioLoginClienteEmpleado);
         this.clienteService.putCliente(objCliente).subscribe();
       }
       this.TraerClientes();
@@ -260,6 +278,17 @@ export class EmpleadoComponent implements OnInit {
   }
 
 //PRODUCTOS
+  TraerLocales() {
+    this.localService.getLocales().subscribe(
+      data => this.locales = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Locales traidos con éxito")
+    );
+  }
+
   TraerProductos() {
     this.productoService.getProductos().subscribe(
       data => this.productos = data,
@@ -285,14 +314,10 @@ export class EmpleadoComponent implements OnInit {
     this.TraerProductos();
   }
 
-  mostrarProducto(id, nom,dir, loc, pro, pais, des, f1, f2, f3, mon, pre) {
+  mostrarProducto(id, nom, des, f1, f2, f3, mon, pre) {
     this.operacion = "Modificar";
     this.idProductoEmpleado = id;
     this.nombreProductoEmpleado = nom;
-    this.direccionProductoEmpleado = dir;
-    this.localidadProductoEmpleado = loc;
-    this.provinciaProductoEmpleado = pro;
-    this.paisProductoEmpleado = pais;
     this.descripcionProductoEmpleado = des;
     this.foto1ProductoEmpleado = f1;
     this.foto2ProductoEmpleado = f2;
@@ -301,16 +326,13 @@ export class EmpleadoComponent implements OnInit {
     this.precioProductoEmpleado = pre;
     this.uploader.clearQueue();
     document.getElementById("altaProductosEmpleado").style.display = "inline";
+    document.getElementById("altaLocalesProductosEmpleado").style.display = "none";
   }
 
   CancelarProducto() {
     document.getElementById("altaProductosEmpleado").style.display = "none";
     this.idProductoEmpleado = "";
     this.nombreProductoEmpleado = "";
-    this.direccionProductoEmpleado = "";
-    this.localidadProductoEmpleado = "";
-    this.provinciaProductoEmpleado = "";
-    this.paisProductoEmpleado = "";
     this.descripcionProductoEmpleado = "";
     this.foto1ProductoEmpleado = "";
     this.foto2ProductoEmpleado = "";
@@ -330,22 +352,14 @@ export class EmpleadoComponent implements OnInit {
   }
 
   GuardarProducto() {
-    if (((this.nombreProductoEmpleado == "") || (this.nombreProductoEmpleado == undefined) || (this.nombreProductoEmpleado == null)) ||
-    ((this.direccionProductoEmpleado == "") || (this.direccionProductoEmpleado == undefined) || (this.direccionProductoEmpleado == null)) ||
-    ((this.localidadProductoEmpleado == "") || (this.localidadProductoEmpleado == undefined) || (this.localidadProductoEmpleado == null)) ||
-    ((this.provinciaProductoEmpleado == "") || (this.provinciaProductoEmpleado == undefined) || (this.provinciaProductoEmpleado == null)) ||
-    ((this.paisProductoEmpleado == "") || (this.paisProductoEmpleado == undefined) || (this.paisProductoEmpleado == null))) {
+    if (((this.nombreProductoEmpleado == "") || (this.nombreProductoEmpleado == undefined) || (this.nombreProductoEmpleado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
-
-      console.log(this.foto1ProductoEmpleado);
-      console.log(this.foto2ProductoEmpleado);
-      console.log(this.foto3ProductoEmpleado);
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.direccionProductoEmpleado, this.localidadProductoEmpleado, this.provinciaProductoEmpleado, this.paisProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
+        let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
         this.productoService.GuardarProducto(objProducto).subscribe();        
       } else if (this.operacion == "Modificar") {
-        let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.direccionProductoEmpleado, this.localidadProductoEmpleado, this.provinciaProductoEmpleado, this.paisProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
+        let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
         this.productoService.putProducto(objProducto).subscribe();
       }
     }
@@ -354,4 +368,51 @@ export class EmpleadoComponent implements OnInit {
     this.CancelarProducto();
     //this.contImagen = 1;
   }
+
+//DETALLE LOCALES PRODUCTO
+  TraerDetalleLocales(id: number) {
+    this.productoService.getDetalleLocalesProducto(id).subscribe(
+      data => this.localesProductos = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Locales de Producto traidos con éxito")
+    );
+    console.log("Locales:" +this.localesProductos);
+  }
+
+  agregarLocales(id, nombre){
+    console.log(id);
+    document.getElementById("altaLocalesProductosEmpleado").style.display = "inline";
+    document.getElementById("altaProductosEmpleado").style.display = "none";    
+    this.productoLocal = nombre;
+    this.idProductoLocal = id;
+    this.TraerDetalleLocales(id);    
+  }
+
+  GuardarLocalProducto() {
+    if ((this.LocalProductoEmpleado == "") || (this.LocalProductoEmpleado == undefined) || (this.LocalProductoEmpleado == null)) {
+        alert("Debe elegir un local en el Combo de locales");
+    } else {      
+        let objLocalProducto: LocalProducto = new LocalProducto(0, this.idProductoLocal, this.LocalProductoEmpleado);
+        this.productoService.GuardarLocalProducto(objLocalProducto).subscribe();               
+    }
+        this.TraerDetalleLocales(this.idProductoLocal);    
+  }
+  
+  deleteLocalProducto(id: number) {
+    this.productoService.deleteLocalProducto(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    )
+    console.log(this.idProductoLocal);
+    this.TraerDetalleLocales(this.idProductoLocal);
+    this.TraerDetalleLocales(this.idProductoLocal);
+  }
+
+  CerrarLocalProducto(){
+     document.getElementById("altaLocalesProductosEmpleado").style.display = "none";
+  }  
 }

@@ -6,12 +6,18 @@ import { Local } from '../clases/local.class';
 export class ServicioLocalesService {
 
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/locales/"
-  private rutaLocal: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/local/"
+  private rutaLocal: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/local/" 
+  private rutaUsuariosEncargados: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/encargadosUsuarios/"
 
   constructor(private http: Http) { }
 
   getLocales() {
     return this.http.get(this.ruta).map(
+      data => data.json());
+  }
+
+  getUsuariosEncargados() {
+    return this.http.get(this.rutaUsuariosEncargados).map(
       data => data.json());
   }
 
@@ -36,7 +42,7 @@ export class ServicioLocalesService {
     //Llamo al método POST y le paso los datos
     //return this.http.post(`${this.ruta}?nombre=${usuario.nombre}&password=${usuario.password}&foto=${usuario.foto}&tipo=${usuario.tipo}&estado=${usuario.estado}`,
     //return this.http.post(`${this.rutaUsuario}?nombre=${usuario.nombre}&usuario=${usuario.usuario}&password=${usuario.password}&tipo=${usuario.tipo}`,
-    return this.http.post(`${this.rutaLocal}?nombre=${local.nombre}&direccion=${local.direccion}&localidad=${local.localidad}&provincia=${local.provincia}&pais=${local.pais}`,
+    return this.http.post(`${this.rutaLocal}?nombre=${local.nombre}&direccion=${local.direccion}&idEncargado=${local.idEncargado}&foto1=${local.foto1}&foto2=${local.foto2}&foto3=${local.foto3}`,
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers}
@@ -51,7 +57,7 @@ export class ServicioLocalesService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.rutaLocal}?id=${local.id}&nombre=${local.nombre}&direccion=${local.direccion}&localidad=${local.localidad}&provincia=${local.provincia}&pais=${local.pais}`,
+    return this.http.put(`${this.rutaLocal}?id=${local.id}&nombre=${local.nombre}&direccion=${local.direccion}&idEncargado=${local.idEncargado}&foto1=${local.foto1}&foto2=${local.foto2}&foto3=${local.foto3}`,
 
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),

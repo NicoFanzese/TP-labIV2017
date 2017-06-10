@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { CarouselModule } from 'ngx-bootstrap';
+
 import { ServicioClientesService } from '../servicio-clientes.service';
 import { Cliente } from '../../clases/cliente.class';
 import { ServicioProductosService } from '../servicio-productos.service';
@@ -10,30 +13,28 @@ import { Usuario } from '../../clases/usuario.class';
 import { ServicioEmpleadosService } from '../servicio-empleados.service';
 import { Empleado } from '../../clases/empleado.class';
 
+const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
+
 @Component({
   selector: 'app-encargado',
   templateUrl: './encargado.component.html',
   styleUrls: ['./encargado.component.css']
 })
 export class EncargadoComponent implements OnInit {
+  private contImagen;    
 
   private clientes;
+  private usuariosClientes;
   private idClienteEncargado: string;
   private nombreClienteEncargado: string;
   private mailClienteEncargado: string;
   private telefonoClienteEncargado: string;
   private direccionClienteEncargado: string;
-  private localidadClienteEncargado: string;
-  private provinciaClienteEncargado: string;
-  private paisClienteEncargado: string;
+  private usuarioLoginClienteEncargado: string;
 
   private productos;
   private idProductoEncargado: string;
   private nombreProductoEncargado: string;
-  private direccionProductoEncargado: string;
-  private localidadProductoEncargado: string;
-  private provinciaProductoEncargado: string;
-  private paisProductoEncargado: string;
   private descripcionProductoEncargado: string;
   private foto1ProductoEncargado: string;
   private foto2ProductoEncargado: string;
@@ -45,9 +46,11 @@ export class EncargadoComponent implements OnInit {
   private idLocalEncargado: any;
   private nombreLocalEncargado: any;
   private direccionLocalEncargado: any;
-  private localidadLocalEncargado: any;
-  private provinciaLocalEncargado: any;
-  private paisLocalEncargado: any;
+  private encargadoLocalEncargado: any;
+  private foto1LocalEncargado: any;
+  private foto2LocalEncargado: any;
+  private foto3LocalEncargado: any;
+
 
   private usuarios;
   private nombreUsuarioEncargado: string;
@@ -58,18 +61,29 @@ export class EncargadoComponent implements OnInit {
   private estadoUsuarioEncargado: any;
 
   private empleados;
+  private usuariosEmpleados;
   private idEmpleadoEncargado: any;
   private nombreEmpleadoEncargado: any;
   private direccionEmpleadoEncargado: any;
-  private localidadEmpleadoEncargado: any;
-  private provinciaEmpleadoEncargado: any;
-  private paisEmpleadoEncargado: any;
-  private idUsuarioEmpleadoEncargado: any;
+  private usuarioLoginEmpleadoEncargado: any;
 
   private mensaje: string;
   private success: boolean = false;
   private error: boolean = false;
   private operacion: string;
+
+  public uploader:FileUploader = new FileUploader({url: URL});
+  public uploaderLocal:FileUploader = new FileUploader({url: URL});
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+ 
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+ 
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
 
   constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService, private localService: ServicioLocalesService,private usuarioService: ServicioUsuariosService,private empleadoService: ServicioEmpleadosService) { 
     this.TraerClientes();
@@ -77,6 +91,81 @@ export class EncargadoComponent implements OnInit {
     this.TraerLocales();
     this.TraerUsuarios();
     this.TraerEmpleados();
+    this.TraerUsuariosClientes();
+    this.TraerUsuariosEmpleados();
+    this.contImagen = 1;
+    //************************************************
+   //***************FILE UPLOAD**********************
+   //************************************************
+
+    //Esto se ejecutará cuando voy a la api.
+    this.uploader.onBeforeUploadItem=(item)=>
+    {
+      //Extraigo el nombre de la imagen, luego la extensión.
+      ///console.log((this.TomarUltimoId() + "") + '.' + extension);
+      //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
+      //console.log(item['file']);
+      console.log(this.contImagen);
+      //console.log(item);
+            
+      if (this.contImagen == 1){       
+          /*var nombreFoto =  item['file'].name;
+          let extension = nombreFoto.split('.').pop();
+          this.foto1ProductoEncargado = this.proxIdF1 + '.' + extension;
+          item['file'].name = this.foto1ProductoEncargado; */
+          console.log("entró 1");     
+          this.foto1ProductoEncargado = item['file'].name;
+          this.contImagen = this.contImagen + 1;  
+          item.withCredentials = false;   
+      }else if (this.contImagen == 2){
+        /*var nombreFoto =  item['file'].name;
+        let extension = nombreFoto.split('.').pop();
+        this.foto2ProductoEncargado = this.proxIdF2 + '.' + extension;
+        item['file'].name = this.foto2ProductoEncargado;*/
+        console.log("entró 2");
+        this.foto2ProductoEncargado = item['file'].name;
+        this.contImagen = this.contImagen + 1;  
+        item.withCredentials = false;           
+      }else if (this.contImagen == 3){
+        /*var nombreFoto =  item['file'].name;
+        let extension = nombreFoto.split('.').pop();
+        this.foto3ProductoEncargado = this.proxIdF3 + '.' + extension;
+        item['file'].name = this.foto3ProductoEncargado;*/
+        console.log("entró 3");
+        this.foto3ProductoEncargado = item['file'].name;        
+        //this.contImagen = 1;
+        item.withCredentials = false;   
+      }
+    
+    }
+
+    this.uploaderLocal.onBeforeUploadItem=(item)=>
+    {
+      //Extraigo el nombre de la imagen, luego la extensión.
+      ///console.log((this.TomarUltimoId() + "") + '.' + extension);
+      //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
+      //console.log(item['file']);
+      console.log(this.contImagen);
+          
+      if (this.contImagen == 1){       
+          console.log("entró 1");     
+          this.foto1LocalEncargado = item['file'].name;
+          this.contImagen = this.contImagen + 1;  
+          item.withCredentials = false;   
+      }else if (this.contImagen == 2){
+        console.log("entró 2");
+        this.foto2LocalEncargado = item['file'].name;
+        this.contImagen = this.contImagen + 1;  
+        item.withCredentials = false;           
+      }else if (this.contImagen == 3){
+        console.log("entró 3");
+        this.foto3LocalEncargado = item['file'].name;        
+        //this.contImagen = 1;
+        item.withCredentials = false;   
+      }
+    
+    }
+
   }
 
   ngOnInit() {
@@ -159,6 +248,17 @@ export class EncargadoComponent implements OnInit {
     );
   }
 
+  TraerUsuariosClientes() {
+    this.clienteService.getUsuariosClientes().subscribe(
+      data => this.usuariosClientes = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("usuarios traidos con éxito")
+    );
+  }  
+
   altaCliente() {
     this.operacion = "Insertar";
     document.getElementById("altaClientesEncargado").style.display = "inline";
@@ -173,16 +273,14 @@ export class EncargadoComponent implements OnInit {
     this.TraerClientes();
   }
 
-  mostrarCliente(id, nom, mail, tel, dir, loc, pro, pais) {
+  mostrarCliente(id, nom, mail, tel, dir, usuLog) {
     this.operacion = "Modificar";
     this.idClienteEncargado = id;
     this.nombreClienteEncargado = nom;
     this.mailClienteEncargado = mail;
     this.telefonoClienteEncargado = tel;
     this.direccionClienteEncargado = dir;
-    this.localidadClienteEncargado = loc;
-    this.provinciaClienteEncargado = pro;
-    this.paisClienteEncargado = pais;
+    this.usuarioLoginClienteEncargado = usuLog;
     document.getElementById("altaClientesEncargado").style.display = "inline";
   }
 
@@ -193,9 +291,7 @@ export class EncargadoComponent implements OnInit {
     this.mailClienteEncargado = "";
     this.telefonoClienteEncargado = "";
     this.direccionClienteEncargado = "";
-    this.localidadClienteEncargado = "";
-    this.provinciaClienteEncargado = "";
-    this.paisClienteEncargado = "";
+    this.usuarioLoginClienteEncargado = "";
   }
 
   GuardarCliente() {
@@ -204,12 +300,12 @@ export class EncargadoComponent implements OnInit {
         alert("El nombre del cliente y Mail son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objCliente: Cliente = new Cliente(0, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.localidadClienteEncargado, this.provinciaClienteEncargado, this.paisClienteEncargado);
+        let objCliente: Cliente = new Cliente(0, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
 
         this.clienteService.GuardarCliente(objCliente).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.localidadClienteEncargado, this.provinciaClienteEncargado, this.paisClienteEncargado);
+        let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
         this.clienteService.putCliente(objCliente).subscribe();
       }
       this.TraerClientes();
@@ -244,14 +340,10 @@ export class EncargadoComponent implements OnInit {
     this.TraerProductos();
   }
 
-  mostrarProducto(id, nom,dir, loc, pro, pais, des, f1, f2, f3, mon, pre) {
+  mostrarProducto(id, nom,des, f1, f2, f3, mon, pre) {
     this.operacion = "Modificar";
     this.idProductoEncargado = id;
     this.nombreProductoEncargado = nom;
-    this.direccionProductoEncargado = dir;
-    this.localidadProductoEncargado = loc;
-    this.provinciaProductoEncargado = pro;
-    this.paisProductoEncargado = pais;
     this.descripcionProductoEncargado = des;
     this.foto1ProductoEncargado = f1;
     this.foto2ProductoEncargado = f2;
@@ -265,10 +357,6 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("altaProductosEncargado").style.display = "none";
     this.idProductoEncargado = "";
     this.nombreProductoEncargado = "";
-    this.direccionProductoEncargado = "";
-    this.localidadProductoEncargado = "";
-    this.provinciaProductoEncargado = "";
-    this.paisProductoEncargado = "";
     this.descripcionProductoEncargado = "";
     this.foto1ProductoEncargado = "";
     this.foto2ProductoEncargado = "";
@@ -276,24 +364,30 @@ export class EncargadoComponent implements OnInit {
     this.monedaProductoEncargado = "";
     this.precioProductoEncargado = "";
   }
+  subirImagenes() {
+      this.contImagen = 1;
+      this.foto1ProductoEncargado = "";
+      this.foto2ProductoEncargado ="";
+      this.foto3ProductoEncargado ="";
+      this.uploader.uploadAll();      
+      //this.uploader.clearQueue();
+      //document.getElementById("fileUploadFotos").innerHTML="";
+  }
 
   GuardarProducto() {
-    if (((this.nombreProductoEncargado == "") || (this.nombreProductoEncargado == undefined) || (this.nombreProductoEncargado == null)) ||
-    ((this.direccionProductoEncargado == "") || (this.direccionProductoEncargado == undefined) || (this.direccionProductoEncargado == null)) ||
-    ((this.localidadProductoEncargado == "") || (this.localidadProductoEncargado == undefined) || (this.localidadProductoEncargado == null)) ||
-    ((this.provinciaProductoEncargado == "") || (this.provinciaProductoEncargado == undefined) || (this.provinciaProductoEncargado == null)) ||
-    ((this.paisProductoEncargado == "") || (this.paisProductoEncargado == undefined) || (this.paisProductoEncargado == null))) {
+    if (((this.nombreProductoEncargado == "") || (this.nombreProductoEncargado == undefined) || (this.nombreProductoEncargado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.direccionProductoEncargado, this.localidadProductoEncargado, this.provinciaProductoEncargado, this.paisProductoEncargado, this.descripcionProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado);
+        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado);
 
         this.productoService.GuardarProducto(objProducto).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado, this.direccionProductoEncargado, this.localidadProductoEncargado, this.provinciaProductoEncargado, this.paisProductoEncargado, this.descripcionProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado);
+        let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado,this.descripcionProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado);
         this.productoService.putProducto(objProducto).subscribe();
       }
+      this.uploader.clearQueue();
       this.TraerProductos();
       this.CancelarProducto();
     }
@@ -312,15 +406,15 @@ export class EncargadoComponent implements OnInit {
     );
   }
 
-  mostrarLocal(id, nom, dir, loc, pro, pais) {
+  mostrarLocal(id, nom, dir,enc, f1, f2, f3) {
     this.operacion = "Modificar";
     this.idLocalEncargado = id;
     this.nombreLocalEncargado = nom;
     this.direccionLocalEncargado = dir;
-    this.localidadLocalEncargado = loc;
-    this.provinciaLocalEncargado = pro;
-    this.paisLocalEncargado = pais;
-    
+    this.encargadoLocalEncargado = enc;
+    this.foto1LocalEncargado = f1;
+    this.foto2LocalEncargado = f2;
+    this.foto3LocalEncargado = f3;
     document.getElementById("altaLocalesEncargado").style.display = "inline";
   }
 
@@ -329,25 +423,35 @@ export class EncargadoComponent implements OnInit {
     this.idLocalEncargado = "";
     this.nombreLocalEncargado = "";
     this.direccionLocalEncargado = "";
-    this.localidadLocalEncargado = "";
-    this.provinciaLocalEncargado = "";
-    this.paisLocalEncargado = "";
+    this.encargadoLocalEncargado="";
+    this.foto1LocalEncargado = "";
+    this.foto2LocalEncargado = "";
+    this.foto3LocalEncargado = "";
+
   }
+
+    subirImagenesLocal() {
+        this.contImagen = 1;
+        this.foto1LocalEncargado = "";
+        this.foto2LocalEncargado ="";
+        this.foto3LocalEncargado ="";
+        this.uploaderLocal.uploadAll();      
+        //this.uploader.clearQueue();
+        //document.getElementById("fileUploadFotos").innerHTML="";
+    }
 
   GuardarLocal() {
     if (((this.nombreLocalEncargado == "") || (this.nombreLocalEncargado == undefined) || (this.nombreLocalEncargado == null)) ||
-      ((this.direccionLocalEncargado == "") || (this.direccionLocalEncargado == undefined) || (this.direccionLocalEncargado == null)) ||
-      ((this.localidadLocalEncargado == "") || (this.localidadLocalEncargado == undefined) || (this.localidadLocalEncargado == null)) ||
-      ((this.provinciaLocalEncargado == "") || (this.provinciaLocalEncargado == undefined) || (this.provinciaLocalEncargado == null)) ||
-      ((this.paisLocalEncargado == "") || (this.paisLocalEncargado == undefined) || (this.paisLocalEncargado == null))) {
+      ((this.direccionLocalEncargado == "") || (this.direccionLocalEncargado == undefined) || (this.direccionLocalEncargado == null))) {
         alert("Los Datos en pantalla son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
         alert("Usted no tiene los permisos para poder insertar Locales")
       } else if (this.operacion == "Modificar") {
-        let objLocal: Local = new Local(this.idLocalEncargado, this.nombreLocalEncargado, this.direccionLocalEncargado, this.localidadLocalEncargado, this.provinciaLocalEncargado, this.paisLocalEncargado);
+        let objLocal: Local = new Local(this.idLocalEncargado, this.nombreLocalEncargado, this.direccionLocalEncargado, this.encargadoLocalEncargado, this.foto1LocalEncargado, this.foto2LocalEncargado, this.foto3LocalEncargado);
         this.localService.putLocal(objLocal).subscribe();
       }
+      this.uploaderLocal.clearQueue();
       this.TraerLocales();
       this.CancelarLocal();
     }
@@ -448,6 +552,17 @@ export class EncargadoComponent implements OnInit {
     );
   }
 
+  TraerUsuariosEmpleados() {
+    this.empleadoService.getUsuariosEmpleados().subscribe(
+      data => this.usuariosEmpleados = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("usuarios traidos con éxito")
+    );
+  }  
+
   deleteEmpleado(id: number) {
     this.empleadoService.deleteEmpleado(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
@@ -457,15 +572,12 @@ export class EncargadoComponent implements OnInit {
     this.TraerEmpleados();
   }
 
-  mostrarEmpleado(id, nom, dir, loc, pro, pais, idUsu) {
+  mostrarEmpleado(id, nom, dir, idUsu) {
     this.operacion = "Modificar";
     this.idEmpleadoEncargado = id;
     this.nombreEmpleadoEncargado = nom;
     this.direccionEmpleadoEncargado = dir;
-    this.localidadEmpleadoEncargado = loc;
-    this.provinciaEmpleadoEncargado = pro;
-    this.paisEmpleadoEncargado = pais;
-    this.idUsuarioEmpleadoEncargado = idUsu;
+    this.usuarioLoginEmpleadoEncargado = idUsu;
     
     document.getElementById("altaEmpleadosEncargado").style.display = "inline";
   }
@@ -475,10 +587,7 @@ export class EncargadoComponent implements OnInit {
     this.idEmpleadoEncargado = "";
     this.nombreEmpleadoEncargado = "";
     this.direccionEmpleadoEncargado = "";
-    this.localidadEmpleadoEncargado = "";
-    this.provinciaEmpleadoEncargado = "";
-    this.paisEmpleadoEncargado = "";
-    this.idUsuarioEmpleadoEncargado = "";
+    this.usuarioLoginEmpleadoEncargado = "";
   }
 
   GuardarEmpleado() {
@@ -486,12 +595,12 @@ export class EncargadoComponent implements OnInit {
         alert("El nombre es obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objEmpleado: Empleado = new Empleado(0, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.localidadEmpleadoEncargado, this.provinciaEmpleadoEncargado, this.paisEmpleadoEncargado, this.idUsuarioEmpleadoEncargado);
+        let objEmpleado: Empleado = new Empleado(0, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.usuarioLoginEmpleadoEncargado);
 
         this.empleadoService.GuardarEmpleado(objEmpleado).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objEmpleado: Empleado = new Empleado(this.idEmpleadoEncargado, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.localidadEmpleadoEncargado, this.provinciaEmpleadoEncargado, this.paisEmpleadoEncargado, this.idUsuarioEmpleadoEncargado);
+        let objEmpleado: Empleado = new Empleado(this.idEmpleadoEncargado, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.usuarioLoginEmpleadoEncargado);
         this.empleadoService.putEmpleado(objEmpleado).subscribe();
       }
       this.TraerEmpleados();
