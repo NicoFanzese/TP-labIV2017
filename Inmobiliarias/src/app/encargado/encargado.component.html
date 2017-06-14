@@ -5,11 +5,11 @@
       <a class="navbar-brand" (click)="MostrarEmpleados()">Empleados</a>
       <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
       <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
+      <li><a class="navbar-brand" (click)="MostrarOfertas()">Ofertas</a></li>
       <!--<li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>-->
-      
-      <li><a class="navbar-brand" (click)="MostrarReservas()">Pedidos</a></li>
       <li><a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a></li>
       <li><a class="navbar-brand" (click)="MostrarLocales()">Locales</a></li>
+      <li><a class="navbar-brand" (click)="MostrarReservas()">Pedidos</a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
@@ -196,6 +196,65 @@
     </form>
   </div>
 
+  <div id="altaLocalesProductosEncargado" style="display: none">
+        <br>
+        <div id="formularioAltaLocal">
+          <form align="center">          
+            <div class="form-group" style="text-align: center;">
+              <label for="LocalProductoEncargado" style="text-align: center;">Elija Local a agregar:</label><br>
+              <select name="LocalProductoEncargado" [(ngModel)]="LocalProductoEncargado" id="LocalProductoEncargado">
+                <option *ngFor="let l of locales" [value]="l.ID">{{l.nombre}}</option>         
+              </select>
+            </div>
+     
+            <br>
+            <div style="text-align: center;">
+              <!--<button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocalProducto(idProductoLocal, LocalProductoEncargado)" >Guardar</button>-->
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocalProducto()" >Guardar</button>
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CerrarLocalProducto()">Cerrar</button>        
+            </div>
+          </form>
+        </div>  
+
+        <div style="text-align: center;">  
+          <div class="jumbotron margin-top-10 margin-bot-10">
+            <h2 class="display-3 animated bounceInRight">Listado de locales Asociados al producto {{productoLocal}}</h2>
+            <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocalProducto()">Agregar Local</i></a></div>-->
+            <hr class="my-4">
+
+            <table class="table table-hover" *ngIf="!error">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Nombre</th>
+                  <th>Direccion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let lp of localesProductos" class="table-info animated fadeIn">
+                  <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
+                  <td>{{lp.nombre}}</td>
+                  <td>{{lp.direccion}}</td>                  
+                  <td>              
+                    <button class="btn btn-danger" (click)="deleteLocalProducto(lp.ID)"><i class="material-icons">Borrar</i></button>                  
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!--Si no hay datos-->
+            <div *ngIf="error">
+              <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+              <div class="alert alert-danger" role="alert">
+                <strong>404</strong> Error de servidor.
+              </div>
+            </div>
+          </div>
+        </div>
+                
+      </div>  
+
   <div style="text-align: center;">  
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight">Listado de Productos</h1>
@@ -211,6 +270,8 @@
             <th>Descripcion</th>
             <th>Moneda</th>
             <th>Precio</th>
+            <th>Detalles</th>
+            <th>Acciones</th>            
             <!--<th>Acciones</th>-->
           </tr>
         </thead>
@@ -220,7 +281,10 @@
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
             <td>{{p.descripcion}}</td>
             <td>{{p.moneda}}</td>
-            <td>{{p.precio}}</td>            
+            <td>{{p.precio}}</td>       
+            <td>              
+              <button class="btn btn-warning" (click)="agregarLocales(p.ID, p.nombre)"><i class="material-icons">Locales</i></button>                                    
+            </td>                 
             <td>              
               <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>
@@ -241,7 +305,166 @@
 
 </div>
 
+<div id="OfertasEncargado" style="display: none">
+ <div id="altaOfertasEncargado" style="display: none">
+    <br>
+    <form>
+      <h1 style="text-align: center;"> Ofertas </h1><br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idOfertaEncargado" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idOfertaEncargado" [(ngModel)]="idOfertaEncargado" id="idOfertaEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreOfertaEncargado" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreOfertaEncargado" [(ngModel)]="nombreOfertaEncargado" id="nombreOfertaEncargado">
+      </div>   
+      <div class="form-group" style="text-align: center;">
+        <label for="descripcionOfertaEncargado" style="text-align: center;" >Descripción:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="descripcionOfertaEncargado" [(ngModel)]="descripcionOfertaEncargado" id="descripcionOfertaEncargado">
+      </div>   
+      <div class="form-group" style="text-align: center;">
+        <label for="monedaOfertaEncargado" style="text-align: center;">Moneda:</label>
+        <select required name="monedaOfertaEncargado" [(ngModel)]="monedaOfertaEncargado" id="monedaOfertaEncargado">
+        <option [value]="''" selected>Elija moneda</option>
+        <option [value]="'Pesos'">Pesos</option>
+        <option [value]="'Dolares'">Dolares</option>
+        <option [value]="'Euros'">Euros</option>
+        </select>      
+      <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="precioOfertaEncargado" style="text-align: center;" >Precio:</label>
+        <input type="numeric" style="text-align: center;" class="form-control" name="precioOfertaEncargado" [(ngModel)]="precioOfertaEncargado" id="precioOfertaEncargado">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="tipoOfertaEncargado" style="text-align: center;">Tipo:</label>
+        <select required name="tipoOfertaEncargado" [(ngModel)]="tipoOfertaEncargado" id="tipoOfertaEncargado">
+        <option [value]="''" selected>Elija Tipo</option>
+        <option [value]="'Alquiler'">Alquiler</option>
+        <option [value]="'Venta'">Venta</option>
+        </select>      
+      <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
+      </div>      
 
+<br>
+<br>
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarOferta()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarOferta()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="altaProductosOfertasEncargado" style="display: none">
+        <br>
+        <div id="formularioAltaProductoOferta">
+          <form align="center">          
+            <div class="form-group" style="text-align: center;">
+              <label for="ProductoOfertaEncargado" style="text-align: center;">Elija Producto a agregar:</label><br>
+              <select name="ProductoOfertaEncargado" [(ngModel)]="ProductoOfertaEncargado" id="ProductoOfertaEncargado">
+                <option *ngFor="let p of productos" [value]="p.ID">{{p.nombre}}</option>         
+              </select>
+            </div>
+     
+            <br>
+            <div style="text-align: center;">
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="AgregarProductoOferta(idOfertaProducto, ProductoOfertaEncargado)" >Guardar</button>
+              <!--<button type="submit" class="btn btn-default" style="text-align: center;" (click)="AgregarProductoOferta()" >Guardar</button>-->
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CerrarProductoOferta()">Cerrar</button>        
+            </div>
+          </form>
+        </div>  
+
+        <div style="text-align: center;">  
+          <div class="jumbotron margin-top-10 margin-bot-10">
+            <h2 class="display-3 animated bounceInRight">Listado de productos Asociados a la oferta {{ofertaProducto}}</h2>
+            <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocalProducto()">Agregar Local</i></a></div>-->
+            <hr class="my-4">
+
+            <table class="table table-hover" *ngIf="!error">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Nombre</th>
+                  <!--<th>Direccion</th>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of ProductosOfertas" class="table-info animated fadeIn">
+                  <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
+                  <td>{{p.nombre}}</td>
+                  <!--<td>{{p.direccion}}</td>                  -->
+                  <td>              
+                    <button class="btn btn-danger" (click)="deleteProductoOferta(p.ID)"><i class="material-icons">Borrar</i></button>                  
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!--Si no hay datos-->
+            <div *ngIf="error">
+              <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+              <div class="alert alert-danger" role="alert">
+                <strong>404</strong> Error de servidor.
+              </div>
+            </div>
+          </div>
+        </div>
+                
+      </div>  
+
+  <div style="text-align: center;">  
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight">Listado de Ofertas</h1>
+      <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+      <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+      <div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaOferta()">Agregar Oferta</i></a></div>
+      <hr class="my-4">
+
+      <table class="table table-hover" *ngIf="!error">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Moneda</th>
+            <th>Precio</th>
+            <th>Tipo</th>
+            <th>Detalles</th>
+            <th>Acciones</th>            
+            <!--<th>Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let o of ofertas" class="table-info animated fadeIn">
+            <th scope="row"><span class="badge badge-default badge-pill">{{o.nombre}}</span></th>
+            <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
+            <td>{{o.descripcion}}</td>
+            <td>{{o.moneda}}</td>
+            <td>{{o.precio}}</td>  
+            <td>{{o.tipo}}</td>  
+            <td>              
+              <button class="btn btn-warning" (click)="agregarProductosOferta(o.ID, o.nombre)"><i class="material-icons">Productos</i></button>                                    
+            </td>                 
+            <td>              
+              <button class="btn btn-primary" (click)="mostrarOferta(o.ID, o.nombre, o.descripcion, o.moneda, o.precio, o.tipo)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-danger" (click)="deleteOferta(o.ID)"><i class="material-icons">Borrar</i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <div id="LocalesEncargado" style="display: none">
  <div id="altaLocalesEncargado" style="display: none">

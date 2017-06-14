@@ -12,6 +12,11 @@ import { ServicioUsuariosService } from '../servicio-usuarios.service';
 import { Usuario } from '../../clases/usuario.class';
 import { ServicioEmpleadosService } from '../servicio-empleados.service';
 import { Empleado } from '../../clases/empleado.class';
+import { LocalProducto } from '../../clases/localProducto.class';
+
+import { Oferta } from '../../clases/oferta.class';
+import { ProductoOferta } from '../../clases/productoOferta.class';
+import { ServicioOfertasService } from '../servicio-ofertas.service';
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -41,6 +46,10 @@ export class EncargadoComponent implements OnInit {
   private foto3ProductoEncargado: string;
   private monedaProductoEncargado: string;
   private precioProductoEncargado: string;
+  private localesProductos;
+  private LocalProductoEncargado;
+  private productoLocal: string;
+  private idProductoLocal: any;
 
   private locales;
   private idLocalEncargado: any;
@@ -67,6 +76,17 @@ export class EncargadoComponent implements OnInit {
   private direccionEmpleadoEncargado: any;
   private usuarioLoginEmpleadoEncargado: any;
 
+  private ofertas;
+  private idOfertaEncargado;
+  private nombreOfertaEncargado: string;
+  private descripcionOfertaEncargado: string;
+  private monedaOfertaEncargado: string;
+  private precioOfertaEncargado: string;
+  private tipoOfertaEncargado: string;
+  private ofertaProducto: string;
+  private idOfertaProducto: any;
+  private ProductoOfertaEncargado: string; 
+
   private mensaje: string;
   private success: boolean = false;
   private error: boolean = false;
@@ -85,12 +105,18 @@ export class EncargadoComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService, private localService: ServicioLocalesService,private usuarioService: ServicioUsuariosService,private empleadoService: ServicioEmpleadosService) { 
+  constructor(private clienteService: ServicioClientesService, 
+              private productoService: ServicioProductosService, 
+              private localService: ServicioLocalesService,
+              private usuarioService: ServicioUsuariosService,
+              private empleadoService: ServicioEmpleadosService,
+              private ofertaService: ServicioOfertasService) { 
     this.TraerClientes();
     this.TraerProductos();
     this.TraerLocales();
     this.TraerUsuarios();
     this.TraerEmpleados();
+    this.TraerOfertas();
     this.TraerUsuariosClientes();
     this.TraerUsuariosEmpleados();
     this.contImagen = 1;
@@ -175,6 +201,8 @@ export class EncargadoComponent implements OnInit {
   {
     document.getElementById("ClientesEncargado").style.display = "inline";
     document.getElementById("ProductosEncargado").style.display = "none";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";  
+    document.getElementById("OfertasEncargado").style.display = "none";      
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -185,6 +213,8 @@ export class EncargadoComponent implements OnInit {
   {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "inline";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";     
+    document.getElementById("OfertasEncargado").style.display = "none";   
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -194,6 +224,8 @@ export class EncargadoComponent implements OnInit {
   {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "none";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";        
+    document.getElementById("OfertasEncargado").style.display = "inline";    
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -203,6 +235,8 @@ export class EncargadoComponent implements OnInit {
   {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "none";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
+    document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "inline";
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -212,6 +246,8 @@ export class EncargadoComponent implements OnInit {
   MostrarLocales() {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "none";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
+    document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "inline";
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -221,6 +257,8 @@ export class EncargadoComponent implements OnInit {
   MostrarUsuarios() {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "none";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
+    document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("UsuariosEncargado").style.display = "inline";
@@ -230,6 +268,8 @@ export class EncargadoComponent implements OnInit {
   MostrarEmpleados() {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "none";
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";  
+    document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -608,5 +648,185 @@ export class EncargadoComponent implements OnInit {
     }
 
   }  
+
+//DETALLE LOCALES PRODUCTO
+  TraerDetalleLocales(id: number) {
+    this.productoService.getDetalleLocalesProducto(id).subscribe(
+      data => this.localesProductos = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Locales de Producto traidos con éxito")
+    );
+    console.log("Locales:" +this.localesProductos);
+  }
+
+  agregarLocales(id, nombre){
+    console.log(id);
+    document.getElementById("altaLocalesProductosEncargado").style.display = "inline";
+    document.getElementById("altaProductosEncargado").style.display = "none";    
+    this.productoLocal = nombre;
+    this.idProductoLocal = id;
+    this.TraerDetalleLocales(id);    
+  }
+
+  GuardarLocalProducto() {
+    if ((this.LocalProductoEncargado == "") || (this.LocalProductoEncargado == undefined) || (this.LocalProductoEncargado == null)) {
+        alert("Debe elegir un producto en el Combo de productos");
+    } else {      
+        let objLocalProducto: LocalProducto = new LocalProducto(0, this.idProductoLocal, this.LocalProductoEncargado);
+        this.productoService.GuardarLocalProducto(objLocalProducto).subscribe();               
+   }
+        this.TraerDetalleLocales(this.idProductoLocal);    
+  }
+  
+  deleteLocalProducto(id: number) {
+    this.productoService.deleteLocalProducto(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    )
+    console.log(this.idProductoLocal);
+    this.TraerDetalleLocales(this.idProductoLocal);
+    this.TraerDetalleLocales(this.idProductoLocal);
+  }
+
+  CerrarLocalProducto(){
+     document.getElementById("altaLocalesProductosEncargado").style.display = "none";
+  }    
+
+
+
+//OFERTAS
+  TraerOfertas() {
+    this.ofertaService.getOfertas().subscribe(
+      data => this.ofertas = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Locales traidos con éxito")
+    );
+  }
+
+  /*TraerProductosOfertas() {
+    this.ofertaService.getProductos().subscribe(
+      data => this.productos = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Productos traidos con éxito")
+    );
+  }*/
+
+  altaOferta() {
+    this.operacion = "Insertar";
+    document.getElementById("altaOfertasEncargado").style.display = "inline";
+  }
+  
+  deleteOferta(id: number) {
+    this.ofertaService.deleteOferta(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    );
+    this.TraerOfertas();
+  }
+
+  mostrarOferta(id, nom, des, mon, pre, tipo) {
+    this.operacion = "Modificar";
+    this.idOfertaEncargado = id;
+    this.nombreOfertaEncargado = nom;
+    this.descripcionOfertaEncargado = des;
+    this.monedaOfertaEncargado = mon;
+    this.precioOfertaEncargado = pre;
+    this.tipoOfertaEncargado = tipo;
+
+    document.getElementById("altaOfertasEncargado").style.display = "inline";
+    document.getElementById("altaProductosOfertasEncargado").style.display = "none";
+  }
+
+  CancelarOferta() {
+    document.getElementById("altaOfertasEncargado").style.display = "none";
+    this.idOfertaEncargado = "";
+    this.nombreOfertaEncargado = "";
+    this.descripcionOfertaEncargado = "";
+    this.monedaOfertaEncargado = "";
+    this.precioOfertaEncargado = "";
+    this.tipoOfertaEncargado = "";
+  }
+
+
+  GuardarOferta() {
+    if (((this.nombreOfertaEncargado == "") || (this.nombreOfertaEncargado == undefined) || (this.nombreOfertaEncargado == null))) {
+        alert("El nombre de la oferta");
+    } else {
+      if (this.operacion == "Insertar") {
+        let objOferta: Oferta = new Oferta(0, this.nombreOfertaEncargado, this.descripcionOfertaEncargado, this.monedaOfertaEncargado, this.precioOfertaEncargado, this.tipoOfertaEncargado);
+        this.ofertaService.GuardarOferta(objOferta).subscribe();        
+      } else if (this.operacion == "Modificar") {
+        let objOferta: Oferta = new Oferta(this.idOfertaEncargado, this.nombreOfertaEncargado, this.descripcionOfertaEncargado, this.monedaOfertaEncargado, this.precioOfertaEncargado, this.tipoOfertaEncargado);
+        this.ofertaService.putOferta(objOferta).subscribe();
+      }
+    }
+
+    this.TraerOfertas();
+    this.CancelarOferta();
+    //this.contImagen = 1;
+  }
+
+//DETALLE PRODUCTO DE OFERTAS
+  TraerDetalleOfertas(id: number) {
+    this.ofertaService.getDetalleProductosOferta(id).subscribe(
+      data => this.ofertaService = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Productos de Ofertas traidos con éxito")
+    );
+    console.log("Ofertas:" +this.ofertaService);
+  }
+
+  agregarProductosOferta(id, nombre){
+    console.log(id);
+    document.getElementById("altaProductosOfertasEncargado").style.display = "inline";
+    document.getElementById("altaOfertasEncargado").style.display = "none";    
+    this.ofertaProducto = nombre;
+    this.idOfertaProducto = id;
+    this.TraerDetalleOfertas(id);    
+  }
+
+  AgregarProductoOferta(oferta, producto) {
+    this.idOfertaEncargado = oferta;
+    console.log(this.idOfertaEncargado);
+    console.log(this.ProductoOfertaEncargado);
+
+    if ((this.ProductoOfertaEncargado == "") || (this.ProductoOfertaEncargado == undefined) || (this.ProductoOfertaEncargado == null)) {
+        alert("Debe elegir un producto en el Combo de locales");
+    } else {      
+        let objProductoOferta: ProductoOferta = new ProductoOferta(0, this.idOfertaEncargado, this.ProductoOfertaEncargado);
+        this.ofertaService.GuardarProductoOferta(objProductoOferta).subscribe();                       
+    }
+        this.TraerDetalleLocales(this.idOfertaProducto);    
+  }
+  
+
+  deleteProductoOferta(id: number) {
+    this.ofertaService.deleteProductoOferta(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    )
+    console.log(this.idOfertaProducto);
+    this.TraerDetalleOfertas(this.idOfertaProducto);
+    this.TraerDetalleOfertas(this.idOfertaProducto);
+  }
+
+  CerrarProductoOferta(){
+     document.getElementById("altaProductosOfertasEncargado").style.display = "none";
+  }    
 
 }

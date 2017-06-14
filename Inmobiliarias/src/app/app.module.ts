@@ -27,6 +27,12 @@ import { Producto } from '../clases/producto.class';
 import { ServicioEmpleadosService } from './servicio-empleados.service';
 import { Empleado } from '../clases/empleado.class';
 
+
+
+import { ServicioOfertasService } from './servicio-ofertas.service';
+import { Oferta } from '../clases/oferta.class';
+import { ProductoOferta } from '../clases/productoOferta.class';
+
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'administrador', component: AdministradorComponent },
@@ -60,7 +66,8 @@ const appRoutes: Routes = [
               ServicioLocalesService,
               ServicioClientesService,
               ServicioProductosService,
-              ServicioEmpleadosService],
+              ServicioEmpleadosService,
+              ServicioOfertasService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 
