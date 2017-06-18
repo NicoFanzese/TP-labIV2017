@@ -4,19 +4,29 @@ import { CarouselModule } from 'ngx-bootstrap';
 
 import { ServicioClientesService } from '../servicio-clientes.service';
 import { Cliente } from '../../clases/cliente.class';
+
 import { ServicioProductosService } from '../servicio-productos.service';
 import { Producto } from '../../clases/producto.class';
+import { LocalProducto } from '../../clases/localProducto.class';
+
 import { ServicioLocalesService } from '../servicio-locales.service';
 import { Local } from '../../clases/local.class';
+
 import { ServicioUsuariosService } from '../servicio-usuarios.service';
 import { Usuario } from '../../clases/usuario.class';
 import { ServicioEmpleadosService } from '../servicio-empleados.service';
 import { Empleado } from '../../clases/empleado.class';
-import { LocalProducto } from '../../clases/localProducto.class';
 
+//import { ServicioOfertasService } from '../servicio-ofertas.service';
+import { ServicioOfertaService } from '../servicio-oferta.service';
 import { Oferta } from '../../clases/oferta.class';
 import { ProductoOferta } from '../../clases/productoOferta.class';
-import { ServicioOfertasService } from '../servicio-ofertas.service';
+
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+import { NgModule, NgZone, ViewChild } from '@angular/core';
+
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -26,6 +36,16 @@ const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
   styleUrls: ['./encargado.component.css']
 })
 export class EncargadoComponent implements OnInit {
+
+  public latitude: number;
+  public longitude: number;
+  public searchControl: FormControl;
+  public zoom: number;
+  public dirURL;
+  @ViewChild("search")
+  //public searchElementRef: ElementRef;
+  public searchElementRef;
+
   private contImagen;    
 
   private clientes;
@@ -41,6 +61,10 @@ export class EncargadoComponent implements OnInit {
   private idProductoEncargado: string;
   private nombreProductoEncargado: string;
   private descripcionProductoEncargado: string;
+  private direccionProductoEncargado: string;
+  private tipoProductoEncargado;
+  private vDesdeProductoEncargado;
+  private vHastaProductoEncargado;  
   private foto1ProductoEncargado: string;
   private foto2ProductoEncargado: string;
   private foto3ProductoEncargado: string;
@@ -59,7 +83,6 @@ export class EncargadoComponent implements OnInit {
   private foto1LocalEncargado: any;
   private foto2LocalEncargado: any;
   private foto3LocalEncargado: any;
-
 
   private usuarios;
   private nombreUsuarioEncargado: string;
@@ -86,6 +109,7 @@ export class EncargadoComponent implements OnInit {
   private ofertaProducto: string;
   private idOfertaProducto: any;
   private ProductoOfertaEncargado: string; 
+  private ofertasServiceAux:any;
 
   private mensaje: string;
   private success: boolean = false;
@@ -110,7 +134,10 @@ export class EncargadoComponent implements OnInit {
               private localService: ServicioLocalesService,
               private usuarioService: ServicioUsuariosService,
               private empleadoService: ServicioEmpleadosService,
-              private ofertaService: ServicioOfertasService) { 
+              private ofertaService: ServicioOfertaService,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone) { 
+
     this.TraerClientes();
     this.TraerProductos();
     this.TraerLocales();
@@ -127,50 +154,28 @@ export class EncargadoComponent implements OnInit {
     //Esto se ejecutará cuando voy a la api.
     this.uploader.onBeforeUploadItem=(item)=>
     {
-      //Extraigo el nombre de la imagen, luego la extensión.
-      ///console.log((this.TomarUltimoId() + "") + '.' + extension);
-      //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
-      //console.log(item['file']);
       console.log(this.contImagen);
-      //console.log(item);
             
       if (this.contImagen == 1){       
-          /*var nombreFoto =  item['file'].name;
-          let extension = nombreFoto.split('.').pop();
-          this.foto1ProductoEncargado = this.proxIdF1 + '.' + extension;
-          item['file'].name = this.foto1ProductoEncargado; */
           console.log("entró 1");     
           this.foto1ProductoEncargado = item['file'].name;
           this.contImagen = this.contImagen + 1;  
           item.withCredentials = false;   
       }else if (this.contImagen == 2){
-        /*var nombreFoto =  item['file'].name;
-        let extension = nombreFoto.split('.').pop();
-        this.foto2ProductoEncargado = this.proxIdF2 + '.' + extension;
-        item['file'].name = this.foto2ProductoEncargado;*/
         console.log("entró 2");
         this.foto2ProductoEncargado = item['file'].name;
         this.contImagen = this.contImagen + 1;  
         item.withCredentials = false;           
       }else if (this.contImagen == 3){
-        /*var nombreFoto =  item['file'].name;
-        let extension = nombreFoto.split('.').pop();
-        this.foto3ProductoEncargado = this.proxIdF3 + '.' + extension;
-        item['file'].name = this.foto3ProductoEncargado;*/
         console.log("entró 3");
         this.foto3ProductoEncargado = item['file'].name;        
-        //this.contImagen = 1;
-        item.withCredentials = false;   
+       item.withCredentials = false;   
       }
     
     }
 
     this.uploaderLocal.onBeforeUploadItem=(item)=>
     {
-      //Extraigo el nombre de la imagen, luego la extensión.
-      ///console.log((this.TomarUltimoId() + "") + '.' + extension);
-      //Le asigno un nuevo nombre a la imagen compuesta por el proximo id de la tabla
-      //console.log(item['file']);
       console.log(this.contImagen);
           
       if (this.contImagen == 1){       
@@ -186,15 +191,62 @@ export class EncargadoComponent implements OnInit {
       }else if (this.contImagen == 3){
         console.log("entró 3");
         this.foto3LocalEncargado = item['file'].name;        
-        //this.contImagen = 1;
         item.withCredentials = false;   
       }
     
     }
 
+    this.ngOnInit();
+
   }
 
   ngOnInit() {
+    //set google maps defaults
+    this.zoom = 4;
+    this.latitude = 39.8282;
+    this.longitude = -98.5795;
+
+    //create search FormControl
+    this.searchControl = new FormControl();
+
+    //set current position
+    this.setCurrentPosition();
+
+    //load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          console.log(place);
+          this.direccionProductoEncargado = place.formatted_address;    
+          this.dirURL = place.url;    
+          console.log("al presionar en el combo: " + this.direccionProductoEncargado);  
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 12;
+        });
+      });
+    });
+  }
+
+  setCurrentPosition() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
   }
 
   MostrarClientes()
@@ -380,11 +432,15 @@ export class EncargadoComponent implements OnInit {
     this.TraerProductos();
   }
 
-  mostrarProducto(id, nom,des, f1, f2, f3, mon, pre) {
+  mostrarProducto(id, nom,des, dir, tip, vd, vh, f1, f2, f3, mon, pre) {
     this.operacion = "Modificar";
     this.idProductoEncargado = id;
     this.nombreProductoEncargado = nom;
     this.descripcionProductoEncargado = des;
+    this.direccionProductoEncargado = dir;    
+    this.tipoProductoEncargado = tip;
+    this.vDesdeProductoEncargado = vd;
+    this.vHastaProductoEncargado = vh;
     this.foto1ProductoEncargado = f1;
     this.foto2ProductoEncargado = f2;
     this.foto3ProductoEncargado = f3;
@@ -398,6 +454,10 @@ export class EncargadoComponent implements OnInit {
     this.idProductoEncargado = "";
     this.nombreProductoEncargado = "";
     this.descripcionProductoEncargado = "";
+    this.direccionProductoEncargado = "";
+    this.tipoProductoEncargado = "";
+    this.vDesdeProductoEncargado = "";
+    this.vHastaProductoEncargado = "";    
     this.foto1ProductoEncargado = "";
     this.foto2ProductoEncargado = "";
     this.foto3ProductoEncargado = "";
@@ -415,16 +475,17 @@ export class EncargadoComponent implements OnInit {
   }
 
   GuardarProducto() {
+    console.log(this.direccionProductoEncargado);
     if (((this.nombreProductoEncargado == "") || (this.nombreProductoEncargado == undefined) || (this.nombreProductoEncargado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado);
+        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.direccionProductoEncargado, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
 
         this.productoService.GuardarProducto(objProducto).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado,this.descripcionProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado);
+        let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado,this.descripcionProductoEncargado, this.direccionProductoEncargado, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
       }
       this.uploader.clearQueue();
@@ -706,7 +767,7 @@ export class EncargadoComponent implements OnInit {
         console.error(err);
         this.error = true;
       },
-      () => console.log("Locales traidos con éxito")
+      () => console.log("Ofertas traidas con éxito traidos con éxito")
     );
   }
 
@@ -778,39 +839,50 @@ export class EncargadoComponent implements OnInit {
   }
 
 //DETALLE PRODUCTO DE OFERTAS
-  TraerDetalleOfertas(id: number) {
-    this.ofertaService.getDetalleProductosOferta(id).subscribe(
+  getDetalleProductosOferta(id: number) {
+    this.ofertaService.getDetProductoOferta(id).subscribe(
       data => this.ofertaService = data,
       err => {
         console.error(err);
         this.error = true;
       },
-      () => console.log("Productos de Ofertas traidos con éxito")
-    );
-    console.log("Ofertas:" +this.ofertaService);
+      () => console.log("Productos de Oferta traidos con éxito")
+    );   
   }
 
-  agregarProductosOferta(id, nombre){
+  agregarProductosOferta(id, nom){
     console.log(id);
     document.getElementById("altaProductosOfertasEncargado").style.display = "inline";
     document.getElementById("altaOfertasEncargado").style.display = "none";    
-    this.ofertaProducto = nombre;
+    this.ofertaProducto = nom;
     this.idOfertaProducto = id;
-    this.TraerDetalleOfertas(id);    
+    this.getDetalleProductosOferta(id);    
   }
 
-  AgregarProductoOferta(oferta, producto) {
-    this.idOfertaEncargado = oferta;
-    console.log(this.idOfertaEncargado);
-    console.log(this.ProductoOfertaEncargado);
+  AddProductoOferta() {
+    //this.idOfertaEncargado = ofe;
+    /*console.log(this.idOfertaProducto);
+    console.log(this.ProductoOfertaEncargado);*/
 
     if ((this.ProductoOfertaEncargado == "") || (this.ProductoOfertaEncargado == undefined) || (this.ProductoOfertaEncargado == null)) {
         alert("Debe elegir un producto en el Combo de locales");
-    } else {      
-        let objProductoOferta: ProductoOferta = new ProductoOferta(0, this.idOfertaEncargado, this.ProductoOfertaEncargado);
-        this.ofertaService.GuardarProductoOferta(objProductoOferta).subscribe();                       
-    }
-        this.TraerDetalleLocales(this.idOfertaProducto);    
+    } else {   
+        let objProductoOferta: ProductoOferta = new ProductoOferta(0, this.idOfertaProducto, this.ProductoOfertaEncargado);
+        console.log(this.ofertaService);
+        this.ofertaService.AddProductoOferta(objProductoOferta).subscribe();  
+//this.ofertasServiceAux(objProductoOferta).subscribe();  
+
+        /*let objProductoOferta: ProductoOferta = new ProductoOferta(0, this.idOfertaProducto, this.ProductoOfertaEncargado);
+        console.info(objProductoOferta);
+        this.ofertaService.AddProductoOferta(objProductoOferta).subscribe();                       */
+
+        /*this.ofertaService.AddProductoOferta(objProductoOferta).subscribe(
+          data => console.info('Id: ${data.id} insertado con éxito'),
+          err => console.error(err),
+          () => console.info('éxito')
+        )*/     
+    }    
+    this.getDetalleProductosOferta(this.idOfertaProducto);        
   }
   
 
@@ -821,8 +893,8 @@ export class EncargadoComponent implements OnInit {
       () => console.info('éxito')
     )
     console.log(this.idOfertaProducto);
-    this.TraerDetalleOfertas(this.idOfertaProducto);
-    this.TraerDetalleOfertas(this.idOfertaProducto);
+    this.getDetalleProductosOferta(this.idOfertaProducto);
+    this.getDetalleProductosOferta(this.idOfertaProducto);
   }
 
   CerrarProductoOferta(){

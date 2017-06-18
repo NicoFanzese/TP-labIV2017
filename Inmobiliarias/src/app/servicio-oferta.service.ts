@@ -4,7 +4,8 @@ import { Oferta } from '../clases/oferta.class';
 import { ProductoOferta } from '../clases/productoOferta.class';
 
 @Injectable()
-export class ServicioOfertasService {
+export class ServicioOfertaService {
+
 
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/ofertas/"
   private rutaOferta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/oferta/"
@@ -12,11 +13,10 @@ export class ServicioOfertasService {
   private rutaOfertaProductos: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/ofertaProductos/"
   private rutaOfertaProducto: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/ofertaProducto/"
 
-  public httpAux:any;
+
 
   constructor(public http: Http) { 
     console.log(http);
-    this.httpAux = http.post;
   }
 
   getOfertas() {
@@ -82,13 +82,11 @@ export class ServicioOfertasService {
     console.log("ingreso a addproductooferta");
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    console.log(this);
     //Llamo al método POST y le paso los datos   
-    return this.httpAux(`${this.rutaOfertaProducto}?idOferta=${productoOferta.idOferta}&idProducto=${productoOferta.idProducto}`,
+    return this.http.post(`${this.rutaOfertaProducto}?idOferta=${productoOferta.idOferta}&idProducto=${productoOferta.idProducto}`,
     //return this.http.post("https://restcountries.eu/rest/v1/callingcode/7",
       { headers: headers}
       ).map(response =>response.json());
 
   }
-
 }

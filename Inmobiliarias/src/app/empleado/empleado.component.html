@@ -128,7 +128,38 @@
         <label for="descripcionProductoEmpleado" style="text-align: center;" >Descripción:</label>
         <input type="text" style="text-align: center;" class="form-control" name="descripcionProductoEmpleado" [(ngModel)]="descripcionProductoEmpleado" id="descripcionProductoEmpleado">
       </div>        
+      <!--<div class="form-group" style="text-align: center;">
+        <label for="direccionProductoEmpleado" style="text-align: center;" >Descripción:</label>
+        <input type="text" style="text-align: center;" class="form-control" name="direccionProductoEmpleado" [(ngModel)]="direccionProductoEmpleado" id="direccionProductoEmpleado">
+      </div>    -->       
 
+    <!--<div class="container">-->
+      <div class="form-group">
+        <label for="direccionProductoEmpleado" style="text-align: center;">Direccion:</label>
+        <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl" name="direccionProductoEmpleado" [(ngModel)]="direccionProductoEmpleado" id="direccionProductoEmpleado">
+      </div>
+      <!--<sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+        <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+      </sebm-google-map>-->
+    <!--</div>-->
+
+      <div class="form-group" style="text-align: center;">
+        <label for="tipoProductoEmpleado" style="text-align: center;">Tipo:</label>
+        <select required name="tipoProductoEmpleado" [(ngModel)]="tipoProductoEmpleado" id="tipoProductoEmpleado">
+        <option [value]="''" selected>Elija tipo</option>
+        <option [value]="'Venta'">Venta</option>
+        <option [value]="'Alquiler'">Alquiler</option>
+        </select>      
+      <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="vDesdeProductoEmpleado" style="text-align: center;" >Vigencia Desde:</label>
+        <input type="date" style="text-align: center;" class="form-control" name="vDesdeProductoEmpleado" [(ngModel)]="vDesdeProductoEmpleado" id="vDesdeProductoEmpleado">
+      </div>    
+      <div class="form-group" style="text-align: center;">
+        <label for="vHastaProductoEmpleado" style="text-align: center;" >Vigencia Desde:</label>
+        <input type="date" style="text-align: center;" class="form-control" name="vHastaProductoEmpleado" [(ngModel)]="vHastaProductoEmpleado" id="vHastaProductoEmpleado">
+      </div>  
       <div class="form-group" style="text-align: center;">
         <label for="monedaProductoEmpleado" style="text-align: center;">Moneda:</label>
         <select required name="monedaProductoEmpleado" [(ngModel)]="monedaProductoEmpleado" id="monedaProductoEmpleado">
@@ -264,11 +295,15 @@
         <thead class="thead-inverse">
           <tr>
             <th>Nombre</th>
-             <th>Descripcion</th>
+            <th>Descripcion</th>
+            <th>Direccion</th>
+            <th>Tipo</th>
+            <th>Vigencia Desde</th>
+            <th>Vigencia Hasta</th>
             <th>Moneda</th>
             <th>Precio</th>
             <th>Detalles</th>
-            <th>Acciones</th>
+            <th>Acciones</th>   
             <!--<th>Acciones</th>-->
           </tr>
         </thead>
@@ -277,13 +312,17 @@
             <th scope="row"><span class="badge badge-default badge-pill">{{p.nombre}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
             <td>{{p.descripcion}}</td>
+            <td>{{p.direccion}}</td>
+            <td>{{p.tipo}}</td>
+            <td>{{p.vDesde}}</td>
+            <td>{{p.vHasta}}</td>
             <td>{{p.moneda}}</td>
-            <td>{{p.precio}}</td>            
+            <td>{{p.precio}}</td>           
             <td>              
               <button class="btn btn-warning" (click)="agregarLocales(p.ID, p.nombre)"><i class="material-icons">Locales</i></button>                                    
             </td>
             <td>
-              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion,p.direccion, p.tipo,p.vDesde, p.vHasta, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>           
             </td>
           </tr>

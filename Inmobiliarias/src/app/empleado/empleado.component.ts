@@ -8,6 +8,11 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { CarouselModule } from 'ngx-bootstrap';
 import { ServicioLocalesService } from '../servicio-locales.service';
 
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+import { NgModule, NgZone, ViewChild } from '@angular/core';
+
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -16,6 +21,16 @@ const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
+
+  public latitude: number;
+  public longitude: number;
+  public searchControl: FormControl;
+  public zoom: number;
+  public dirURL;
+
+  @ViewChild("search")
+  //public searchElementRef: ElementRef;
+  public searchElementRef;
 
   private clientes;
   private usuariosClientes;
@@ -38,6 +53,9 @@ export class EmpleadoComponent implements OnInit {
   private nombreProductoEmpleado: string;
   private direccionProductoEmpleado: string;
   private descripcionProductoEmpleado: string;
+  private tipoProductoEmpleado;
+  private vDesdeProductoEmpleado;
+  private vHastaProductoEmpleado;    
   private foto1ProductoEmpleado: string;
   private previsualizacionFoto1: string;
   private foto2ProductoEmpleado: string;
@@ -46,6 +64,7 @@ export class EmpleadoComponent implements OnInit {
   private precioProductoEmpleado: string;
   private productoLocal: string;
   private idProductoLocal: any;
+
   private locales: any;
   private mensaje: string;
   private success: boolean = false;
@@ -66,7 +85,11 @@ export class EmpleadoComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  constructor(private clienteService: ServicioClientesService, private productoService: ServicioProductosService,private localService: ServicioLocalesService) 
+  constructor(private clienteService: ServicioClientesService, 
+              private productoService: ServicioProductosService,
+              private localService: ServicioLocalesService,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone) 
   { 
     
   /*  $('#myCarousel').carousel({
@@ -165,7 +188,54 @@ console.info(this.usuariosClientes);
     );
   }
 
+
   ngOnInit() {
+    //set google maps defaults
+    this.zoom = 4;
+    this.latitude = 39.8282;
+    this.longitude = -98.5795;
+
+    //create search FormControl
+    this.searchControl = new FormControl();
+
+    //set current position
+    this.setCurrentPosition();
+
+    //load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          this.direccionProductoEmpleado = place.formatted_address;    
+          console.log(place.url);
+          this.dirURL = place.url;  
+          console.log("al presionar en el combo: " + this.direccionProductoEmpleado);  
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 12;
+        });
+      });
+    });
+  }
+
+  setCurrentPosition() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
   }
 
   MostrarClientes()
@@ -314,11 +384,15 @@ console.info(this.usuariosClientes);
     this.TraerProductos();
   }
 
-  mostrarProducto(id, nom, des, f1, f2, f3, mon, pre) {
+  mostrarProducto(id, nom, des, dir, tip, vd, vh,  f1, f2, f3, mon, pre) {
     this.operacion = "Modificar";
     this.idProductoEmpleado = id;
     this.nombreProductoEmpleado = nom;
     this.descripcionProductoEmpleado = des;
+    this.direccionProductoEmpleado = dir;
+    this.tipoProductoEmpleado = tip;
+    this.vDesdeProductoEmpleado = vd;
+    this.vHastaProductoEmpleado = vh;    
     this.foto1ProductoEmpleado = f1;
     this.foto2ProductoEmpleado = f2;
     this.foto3ProductoEmpleado = f3;
@@ -334,6 +408,10 @@ console.info(this.usuariosClientes);
     this.idProductoEmpleado = "";
     this.nombreProductoEmpleado = "";
     this.descripcionProductoEmpleado = "";
+    this.direccionProductoEmpleado = "";
+    this.tipoProductoEmpleado = "";
+    this.vDesdeProductoEmpleado = "";
+    this.vHastaProductoEmpleado = "";       
     this.foto1ProductoEmpleado = "";
     this.foto2ProductoEmpleado = "";
     this.foto3ProductoEmpleado = "";
@@ -352,14 +430,17 @@ console.info(this.usuariosClientes);
   }
 
   GuardarProducto() {
+    console.log(this.tipoProductoEmpleado);
+    console.log(this.vDesdeProductoEmpleado);
+    console.log(this.vHastaProductoEmpleado);
     if (((this.nombreProductoEmpleado == "") || (this.nombreProductoEmpleado == undefined) || (this.nombreProductoEmpleado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
+        let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.direccionProductoEmpleado, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.GuardarProducto(objProducto).subscribe();        
       } else if (this.operacion == "Modificar") {
-        let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado);
+        let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.direccionProductoEmpleado, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
       }
     }

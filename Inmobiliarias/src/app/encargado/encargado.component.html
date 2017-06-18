@@ -5,7 +5,7 @@
       <a class="navbar-brand" (click)="MostrarEmpleados()">Empleados</a>
       <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
       <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
-      <li><a class="navbar-brand" (click)="MostrarOfertas()">Ofertas</a></li>
+      <!--<li><a class="navbar-brand" (click)="MostrarOfertas()">Ofertas</a></li>-->
       <!--<li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>-->
       <li><a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a></li>
       <li><a class="navbar-brand" (click)="MostrarLocales()">Locales</a></li>
@@ -131,6 +131,40 @@
         <label for="descripcionProductoEncargado" style="text-align: center;" >Descripción:</label>
         <input type="text" style="text-align: center;" class="form-control" name="descripcionProductoEncargado" [(ngModel)]="descripcionProductoEncargado" id="descripcionProductoEncargado">
       </div>   
+      <!--<div class="form-group" style="text-align: center;">
+        <label for="direccionProductoEncargado" style="text-align: center;">Direccion:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionProductoEncargado" [(ngModel)]="direccionProductoEncargado" id="direccionProductoEncargado">
+      </div>   -->
+
+
+    <!--<div class="container">-->
+      <div class="form-group">
+        <label for="direccionProductoEncargado" style="text-align: center;">Direccion:</label>
+        <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl" name="direccionProductoEncargado" [(ngModel)]="direccionProductoEncargado" id="direccionProductoEncargado">
+      </div>
+      <!--<sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+        <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+      </sebm-google-map>-->
+    <!--</div>-->
+
+
+      <div class="form-group" style="text-align: center;">
+        <label for="tipoProductoEncargado" style="text-align: center;">Tipo:</label>
+        <select required name="tipoProductoEncargado" [(ngModel)]="tipoProductoEncargado" id="tipoProductoEncargado">
+        <option [value]="''" selected>Elija tipo</option>
+        <option [value]="'Venta'">Venta</option>
+        <option [value]="'Alquiler'">Alquiler</option>
+        </select>      
+      <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="vDesdeProductoEncargado" style="text-align: center;" >Vigencia Desde:</label>
+        <input type="date" style="text-align: center;" class="form-control" name="vDesdeProductoEncargado" [(ngModel)]="vDesdeProductoEncargado" id="vDesdeProductoEncargado">
+      </div>    
+      <div class="form-group" style="text-align: center;">
+        <label for="vHastaProductoEncargado" style="text-align: center;" >Vigencia Desde:</label>
+        <input type="date" style="text-align: center;" class="form-control" name="vHastaProductoEncargado" [(ngModel)]="vHastaProductoEncargado" id="vHastaProductoEncargado">
+      </div>            
       <div class="form-group" style="text-align: center;">
         <label for="monedaProductoEncargado" style="text-align: center;">Moneda:</label>
         <select required name="monedaProductoEncargado" [(ngModel)]="monedaProductoEncargado" id="monedaProductoEncargado">
@@ -268,6 +302,10 @@
           <tr>
             <th>Nombre</th>
             <th>Descripcion</th>
+            <th>Direccion</th>
+            <th>Tipo</th>
+            <th>Vigencia Desde</th>
+            <th>Vigencia Hasta</th>
             <th>Moneda</th>
             <th>Precio</th>
             <th>Detalles</th>
@@ -280,13 +318,17 @@
             <th scope="row"><span class="badge badge-default badge-pill">{{p.nombre}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
             <td>{{p.descripcion}}</td>
+            <td>{{p.direccion}}</td>
+            <td>{{p.tipo}}</td>
+            <td>{{p.vDesde}}</td>
+            <td>{{p.vHasta}}</td>
             <td>{{p.moneda}}</td>
             <td>{{p.precio}}</td>       
             <td>              
               <button class="btn btn-warning" (click)="agregarLocales(p.ID, p.nombre)"><i class="material-icons">Locales</i></button>                                    
             </td>                 
             <td>              
-              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion,p.direccion, p.tipo,p.vDesde, p.vHasta, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>
@@ -358,6 +400,7 @@
   <div id="altaProductosOfertasEncargado" style="display: none">
         <br>
         <div id="formularioAltaProductoOferta">
+          
           <form align="center">          
             <div class="form-group" style="text-align: center;">
               <label for="ProductoOfertaEncargado" style="text-align: center;">Elija Producto a agregar:</label><br>
@@ -368,7 +411,7 @@
      
             <br>
             <div style="text-align: center;">
-              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="AgregarProductoOferta(idOfertaProducto, ProductoOfertaEncargado)" >Guardar</button>
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="AddProductoOferta()">Guardar</button>
               <!--<button type="submit" class="btn btn-default" style="text-align: center;" (click)="AgregarProductoOferta()" >Guardar</button>-->
               <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CerrarProductoOferta()">Cerrar</button>        
             </div>

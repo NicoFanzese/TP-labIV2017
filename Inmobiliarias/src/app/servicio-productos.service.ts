@@ -36,7 +36,7 @@ export class ServicioProductosService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos   
-    return this.http.post(`${this.rutaProducto}?nombre=${producto.nombre}&descripcion=${producto.descripcion}&foto1=${producto.foto1}&foto2=${producto.foto2}&foto3=${producto.foto3}&moneda=${producto.moneda}&precio=${producto.precio}`,
+    return this.http.post(`${this.rutaProducto}?nombre=${producto.nombre}&descripcion=${producto.descripcion}&direccion=${producto.direccion}&tipo=${producto.tipo}&vDesde=${producto.vigenciaDesde}&vHasta=${producto.vigenciaHasta}&foto1=${producto.foto1}&foto2=${producto.foto2}&foto3=${producto.foto3}&moneda=${producto.moneda}&precio=${producto.precio}&lat=${producto.lat}&lng=${producto.lng}&dirURL=${producto.dirURL}`,
       { headers: headers}
       ).map(response =>response.json());
 
@@ -49,7 +49,7 @@ export class ServicioProductosService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.rutaProducto}?id=${producto.id}&nombre=${producto.nombre}&descripcion=${producto.descripcion}&foto1=${producto.foto1}&foto2=${producto.foto2}&foto3=${producto.foto3}&moneda=${producto.moneda}&precio=${producto.precio}`,
+    return this.http.put(`${this.rutaProducto}?id=${producto.id}&nombre=${producto.nombre}&descripcion=${producto.descripcion}&direccion=${producto.direccion}&tipo=${producto.tipo}&vDesde=${producto.vigenciaDesde}&vHasta=${producto.vigenciaHasta}&foto1=${producto.foto1}&foto2=${producto.foto2}&foto3=${producto.foto3}&moneda=${producto.moneda}&precio=${producto.precio}&lat=${producto.lat}&lng=${producto.lng}&dirURL=${producto.dirURL}`,
 
       { headers: headers }
       ).map(response => response.json());
