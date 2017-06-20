@@ -6,7 +6,7 @@ import { LocalProducto } from '../clases/localProducto.class';
 @Injectable()
 export class ServicioProductosService {
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/productos/"
-  private rutaProducto: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/producto/"
+  private rutaProducto: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/producto/"  
   private rutaProductosLocales: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/productosLocales/"
   private rutaProductoLocales: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/productoLocales/"
   private rutaProductoLocal: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/productoLocal/"
@@ -15,6 +15,11 @@ export class ServicioProductosService {
 
   getProductos() {
     return this.http.get(this.ruta).map(
+      data => data.json());
+  }
+
+  getProductosPorLocal(local: string) {
+    return this.http.get(this.rutaProductosLocales +"?idLocal="+ local).map(
       data => data.json());
   }
 

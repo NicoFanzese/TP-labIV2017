@@ -3,6 +3,8 @@ import { ServicioUsuariosService } from '../servicio-usuarios.service';
 import { Usuario } from '../../clases/usuario.class';
 import { ServicioLocalesService } from '../servicio-locales.service';
 import { Local } from '../../clases/local.class';
+import { EmpleadoLocal } from '../../clases/empleadoLocal.class';
+import { ServicioEmpleadosService } from '../servicio-empleados.service';
 
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
@@ -34,6 +36,11 @@ export class AdministradorComponent implements OnInit {
   private foto1LocalAdministrador: any;
   private foto2LocalAdministrador: any;
   private foto3LocalAdministrador: any;
+  private empleadosLocales;
+  private localEmpleado;
+  private idLocalEmpleado;
+  private EmpleadoLocalAdministrador;
+  private empleados;
 
   private mensaje: string;
   private success: boolean = false;
@@ -52,10 +59,13 @@ export class AdministradorComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  constructor(private usuarioService: ServicioUsuariosService, private localService: ServicioLocalesService) {
+  constructor(private usuarioService: ServicioUsuariosService, 
+              private localService: ServicioLocalesService,
+              private empleadoService: ServicioEmpleadosService) {
     this.TraerUsuarios();
     this.TraerLocales();
     this.TraerUsuariosLocales();
+    this.TraerEmpleados();    
 
     this.uploaderLocal.onBeforeUploadItem=(item)=>
     {
@@ -90,16 +100,19 @@ export class AdministradorComponent implements OnInit {
 
   MostrarLocales() {
     document.getElementById("LocalesAdministrador").style.display = "inline";
+    document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";      
     document.getElementById("UsuariosAdministrador").style.display = "none";
     document.getElementById("EstadisticasAdministrador").style.display = "none";
   }
   MostrarUsuarios() {
     document.getElementById("LocalesAdministrador").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";          
     document.getElementById("UsuariosAdministrador").style.display = "inline";
     document.getElementById("EstadisticasAdministrador").style.display = "none";
   }
   MostrarEstadisticas() {
     document.getElementById("LocalesAdministrador").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";          
     document.getElementById("UsuariosAdministrador").style.display = "none";
     document.getElementById("EstadisticasAdministrador").style.display = "inline";
   }
@@ -300,6 +313,66 @@ export class AdministradorComponent implements OnInit {
       this.uploaderLocal.clearQueue();
     }
 
+  }
+
+
+//DETALLE EMPLEADO
+  TraerEmpleados() {
+    this.empleadoService.getEmpleados().subscribe(
+      data => this.empleados = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Empleados traidos con éxito")
+    );
+  }
+
+  getDetalleEmpleadosLocales(id: number) {
+    this.localService.getDetalleEmpleadosLocales(id).subscribe(
+      data => this.empleadosLocales = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("empleados de Local traidos con éxito")
+    );
+    console.log("Empleados:" +this.empleadosLocales);
+  }
+
+agregarEmpleadosLocal(id, nom){
+    console.log(id);
+    document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "inline";
+    document.getElementById("altaLocalesAdministrador").style.display = "none";    
+    this.localEmpleado = nom;
+    this.idLocalEmpleado = id;
+    this.getDetalleEmpleadosLocales(id);    
+  }
+
+  AddEmpleadoLocal() {
+
+    if ((this.EmpleadoLocalAdministrador == "") || (this.EmpleadoLocalAdministrador == undefined) || (this.EmpleadoLocalAdministrador == null)) {
+        alert("Debe elegir un empleado en el Combo de empleados");
+    } else {   
+        let objEmpleadoLocal: EmpleadoLocal = new EmpleadoLocal(0, this.idLocalEmpleado, this.EmpleadoLocalAdministrador);
+        console.log(this.localService);
+        this.localService.GuardarEmpleadoLocal(objEmpleadoLocal).subscribe();  
+    }    
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);        
+  }
+  
+  deleteEmpleadoLocal(id: number) {
+    this.localService.deleteEmpleadoLocal(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    )
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
+  }
+
+  CerrarEmpleadoLocal(){
+     document.getElementById("altaEmpleadoLocalEncargado").style.display = "none";
   }
 
 }

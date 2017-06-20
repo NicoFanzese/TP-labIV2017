@@ -11,6 +11,7 @@ import { LocalProducto } from '../../clases/localProducto.class';
 
 import { ServicioLocalesService } from '../servicio-locales.service';
 import { Local } from '../../clases/local.class';
+import { EmpleadoLocal } from '../../clases/empleadoLocal.class';
 
 import { ServicioUsuariosService } from '../servicio-usuarios.service';
 import { Usuario } from '../../clases/usuario.class';
@@ -83,6 +84,10 @@ export class EncargadoComponent implements OnInit {
   private foto1LocalEncargado: any;
   private foto2LocalEncargado: any;
   private foto3LocalEncargado: any;
+  private empleadosLocales:any;
+  private localEmpleado;
+  private idLocalEmpleado;
+  private EmpleadoLocalEncargado: string; 
 
   private usuarios;
   private nombreUsuarioEncargado: string;
@@ -253,10 +258,11 @@ export class EncargadoComponent implements OnInit {
   {
     document.getElementById("ClientesEncargado").style.display = "inline";
     document.getElementById("ProductosEncargado").style.display = "none";
-    document.getElementById("altaLocalesProductosEncargado").style.display = "none";  
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
     document.getElementById("OfertasEncargado").style.display = "none";      
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";      
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }
@@ -265,10 +271,11 @@ export class EncargadoComponent implements OnInit {
   {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "inline";
-    document.getElementById("altaLocalesProductosEncargado").style.display = "none";     
+    document.getElementById("altaLocalesProductosEncargado").style.display = "none";         
     document.getElementById("OfertasEncargado").style.display = "none";   
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";      
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }
@@ -280,6 +287,7 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("OfertasEncargado").style.display = "inline";    
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";      
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }
@@ -291,6 +299,7 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "inline";
     document.getElementById("LocalesEncargado").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }
@@ -302,6 +311,7 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "inline";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }
@@ -313,6 +323,7 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "inline";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }  
@@ -324,6 +335,7 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("OfertasEncargado").style.display = "none";     
     //document.getElementById("ReservasEncargado").style.display = "none";
     document.getElementById("LocalesEncargado").style.display = "none";
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "inline";
   }  
@@ -557,6 +569,55 @@ export class EncargadoComponent implements OnInit {
       this.CancelarLocal();
     }
 
+  }
+
+  //DETALLE DE EMPLEADOS LOCALES
+  getDetalleEmpleadosLocales(id: number) {
+    this.localService.getDetalleEmpleadosLocales(id).subscribe(
+      data => this.empleadosLocales = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("empleados de Local traidos con éxito")
+    );
+    console.log("Empleados:" +this.empleadosLocales);
+  }
+
+agregarEmpleadosLocal(id, nom){
+    console.log(id);
+    document.getElementById("altaEmpleadosLocalesEncargado").style.display = "inline";
+    document.getElementById("altaLocalesEncargado").style.display = "none";    
+    this.localEmpleado = nom;
+    this.idLocalEmpleado = id;
+    this.getDetalleEmpleadosLocales(id);    
+  }
+
+  AddEmpleadoLocal() {
+
+    if ((this.EmpleadoLocalEncargado == "") || (this.EmpleadoLocalEncargado == undefined) || (this.EmpleadoLocalEncargado == null)) {
+        alert("Debe elegir un empleado en el Combo de empleados");
+    } else {   
+        let objEmpleadoLocal: EmpleadoLocal = new EmpleadoLocal(0, this.idLocalEmpleado, this.EmpleadoLocalEncargado);
+        console.log(this.localService);
+        this.localService.GuardarEmpleadoLocal(objEmpleadoLocal).subscribe();  
+    }    
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);        
+  }
+  
+
+  deleteEmpleadoLocal(id: number) {
+    this.localService.deleteEmpleadoLocal(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    )
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
+  }
+
+  CerrarEmpleadoLocal(){
+     document.getElementById("altaEmpleadoLocalEncargado").style.display = "none";
   }
 
   //USUARIOS

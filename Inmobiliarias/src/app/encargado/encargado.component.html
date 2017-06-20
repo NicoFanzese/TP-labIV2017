@@ -581,6 +581,64 @@
     </form>
   </div>
 
+  <div id="altaEmpleadosLocalesEncargado" style="display: none">
+        <br>
+        <div id="formularioAltaEmpleadoLocal">
+          <form align="center">          
+            <div class="form-group" style="text-align: center;">
+              <label for="EmpleadoLocalEncargado" style="text-align: center;">Elija Empleado a agregar:</label><br>
+              <select name="EmpleadoLocalEncargado" [(ngModel)]="EmpleadoLocalEncargado" id="EmpleadoLocalEncargado">
+                <option *ngFor="let e of empleados" [value]="e.ID">{{e.nombre}}</option>         
+              </select>
+            </div>
+     
+            <br>
+            <div style="text-align: center;">
+              <!--<button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocalProducto(idProductoLocal, LocalProductoEncargado)" >Guardar</button>-->
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="AddEmpleadoLocal()" >Guardar</button>
+              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CerrarEmpleadoLocal()">Cerrar</button>        
+            </div>
+          </form>
+        </div>  
+
+        <div style="text-align: center;">  
+          <div class="jumbotron margin-top-10 margin-bot-10">
+            <h2 class="display-3 animated bounceInRight">Listado de empleados asociados al local {{localEmpleado}}</h2>
+            <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocalProducto()">Agregar Local</i></a></div>-->
+            <hr class="my-4">
+
+            <table class="table table-hover" *ngIf="!error">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Nombre</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let el of empleadosLocales" class="table-info animated fadeIn">
+                  <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
+                  <td>{{el.nombre}}</td>
+                  <td>              
+                    <button class="btn btn-danger" (click)="deleteEmpleadoLocal(el.ID)"><i class="material-icons">Borrar</i></button>                  
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!--Si no hay datos-->
+            <div *ngIf="error">
+              <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+              <div class="alert alert-danger" role="alert">
+                <strong>404</strong> Error de servidor.
+              </div>
+            </div>
+          </div>
+        </div>
+                
+      </div>  
+
+
   <div style="text-align: center;">  
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight">Listado de Locales</h1>
@@ -594,7 +652,8 @@
           <tr>
             <th>Nombre</th>
             <th>Dirección</th>
-            <!--<th>Acciones</th>-->
+            <th>Detalles</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -603,7 +662,10 @@
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
             <td>{{l.direccion}}</td>
          
-            <td>              
+            <td>
+              <button class="btn btn-warning" (click)="agregarEmpleadosLocal(l.ID, l.nombre)"><i class="material-icons">Empleados</i></button>                                    
+            </td>
+            <td>                            
               <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.idEncargado, l.foto1, l.foto2, l.foto3)"><i class="material-icons">Modificar</i></button>
               <!--<button class="btn btn-danger" (click)="deleteLocal(l.ID)"><i class="material-icons">Borrar</i></button>-->
             </td>

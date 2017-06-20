@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-inverse">
 
   <div class="container-fluid">
@@ -8,109 +7,105 @@
       <li><a class="navbar-brand" (click)="MostrarReservar()">Reservar</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">Desloguearme</a></li>        
+      <li><a href="#">Desloguearme</a></li>
     </ul>
   </div>
 </nav>
 
 <p>
   clientes!
-  <br>
-  3- En la aplicación  tiene la opción de ver las ofertas de todos los locales (o seleccionar un local y ver las ofertas).  <br>
-  4- El cliente puede ver operaciones anteriores. ​<br>
-  5- Reservas​: el cliente puede generar una reserva 
-    Inmobiliarias El Campito: un alquiler en la costa(​con no menos de 30 días de anticipación y no máximo de 60 días. )
+  <br> 3- En la aplicación tiene la opción de ver las ofertas de todos los locales (o seleccionar un local y ver las ofertas).
+  <br> 4- El cliente puede ver operaciones anteriores. ​<br> 5- Reservas​: el cliente puede generar una reserva Inmobiliarias El Campito: un alquiler en la costa(​con
+  no menos de 30 días de anticipación y no máximo de 60 días. )
 </p>
 
 <br>
 <div id="OfertasCliente" style="display: none">
   <br>
-    <h1 style="text-align: center;"> Ofertas </h1><br>
-    <div class="form-group" style="text-align: center;">
-      <SELECT NAME="filtroLocales" SIZE=1> 
-        <OPTION VALUE="">Todos los Locales</OPTION>
-        <OPTION VALUE="Local1">Local 1</OPTION>
-        <OPTION VALUE="Local2">Local 2</OPTION>
-        <OPTION VALUE="Local3">Local 3</OPTION> 
-      </SELECT> 
-    </div>
+  <div class="form-group" style="text-align: center;">
+    <label for="filtroLocal" style="text-align: center;">Elija Local:</label><br>
+    <select name="filtroLocal" [(ngModel)]="filtroLocal" id="filtroLocal" (change)="cambiarFiltro()">
+        <option value="todas">Todas las sucursales</option>
+        <option *ngFor="let l of locales" [value]="l.ID">{{l.nombre}}</option>         
+      </select>
+  </div>
 
-    <div class="jumbotron margin-top-10 margin-bot-10">
-      <h1 class="display-3 animated bounceInRight">Nuestros Productos</h1>
-      <p class="lead animated bounceInRight">En esta sección podrás encontrar nuestros productos.</p>      
-      <hr class="my-4">
+  <div class="jumbotron margin-top-10 margin-bot-10">
+    <h1 class="display-3 animated bounceInRight">Nuestros Productos</h1>
+    <p class="lead animated bounceInRight">En esta sección podrás encontrar nuestros productos.</p>
+    <hr class="my-4">
 
-      <div class="row">
-        <div class="col col-md-3 animated fadeIn" *ngFor="let p of productos">
-          <div class="card margin-top-10">
-            <div class="card-block">
-               <h2 align="center"><b>{{p.nombre}}</b></h2>
+    <div class="row">
+      <div class="col col-md-3 animated fadeIn" *ngFor="let p of productos">
+        <div class="card margin-top-10">
+          <div class="card-block">
+            <h2 align="center"><b>{{p.nombre}}</b></h2>
             <!--<img class="card-img-top img-fluid" src="http://localhost:8080/ApiRestPizzeria/assets/img/producto/{{p.imagen}}" alt="Card image cap">-->
-              <table>
-                <!--<tr style="width: 0px">
+            <table>
+              <!--<tr style="width: 0px">
 
                 </tr>-->
-                <tr style="width: 100%;  height:100%;" >
-                  <!--<div style="width: 50%" align="center">-->
-                    <div align="center">
-                    <carousel>
-                      <slide>
-                        <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto1}}">                      
-                      </slide>
-                      <slide>
-                        <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto2}}">
-                      </slide>
-                      <slide>
-                        <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto3}}">
-                      </slide>
-                    </carousel>
-                  </div>
-                </tr> 
-                <!--<tr style="width:30px;  height:200px;">
+              <tr style="width: 100%;  height:100%;">
+                <!--<div style="width: 50%" align="center">-->
+                <div align="center">
+                  <carousel>
+                    <slide>
+                      <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto1}}">
+                    </slide>
+                    <slide>
+                      <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto2}}">
+                    </slide>
+                    <slide>
+                      <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto3}}">
+                    </slide>
+                  </carousel>
+                </div>
+              </tr>
+              <!--<tr style="width:30px;  height:200px;">
 
                 </tr>-->
-              </table> 
-              <h3 align="center"><b>{{p.tipo}}</b></h3>
-              <h4 align="center"><b>Vigencia Desde:</b> {{p.vDesde}}</h4>
-              <h4 align="center"><b>Vigencia Hasta:</b> {{p.vHasta}}</h4>
-              <h4 align="center">{{p.descripcion}}</h4>
-              <br>
-              <!--<h3 class="card-text"><small class="text-muted">Precio: {{p.moneda}} - {{p.precio}}</small></h3>-->
-              <h4 align="center"><b>Dirección:</b> {{p.direccion}}</h4>
-              <h3 align="center"><b>Precio:</b> {{p.moneda}} - {{p.precio}}</h3>
+            </table>
+            <h3 align="center"><b>{{p.tipo}}</b></h3>
+            <h4 align="center"><b>Vigencia Desde:</b> {{p.vDesde}}</h4>
+            <h4 align="center"><b>Vigencia Hasta:</b> {{p.vHasta}}</h4>
+            <h4 align="center">{{p.descripcion}}</h4>
+            <br>
+            <!--<h3 class="card-text"><small class="text-muted">Precio: {{p.moneda}} - {{p.precio}}</small></h3>-->
+            <h4 align="center"><b>Dirección:</b> {{p.direccion}}</h4>
+            <h3 align="center"><b>Precio:</b> {{p.moneda}} - {{p.precio}}</h3>
 
-              <div style="text-align:center">
-                <button class="btn btn-warning" (click)="addCarrito(p)"><i class="material-icons">Agregar a Carrito</i></button>
-                <!--<button class="btn btn-primary" routerLink="/mapa" (click)="verMapa(p)"><i class="material-icons">Ver en Mapa</i></button>-->
-                <button class="btn btn-primary" (click)="verMapa(p)"><i class="material-icons">Ver en Mapa</i></button>
-                <!--<a class="btn btn-primary" [routerLink]="['/datosproducto',p.id]" *ngIf="btnEditar"><i class="material-icons">editar</i></a>
+            <div style="text-align:center">
+              <button class="btn btn-warning" (click)="addCarrito(p)"><i class="material-icons">Agregar a Carrito</i></button>
+              <!--<button class="btn btn-primary" routerLink="/mapa" (click)="verMapa(p)"><i class="material-icons">Ver en Mapa</i></button>-->
+              <button class="btn btn-primary" (click)="verMapa(p)"><i class="material-icons">Ver en Mapa</i></button>
+              <!--<a class="btn btn-primary" [routerLink]="['/datosproducto',p.id]" *ngIf="btnEditar"><i class="material-icons">editar</i></a>
                 <button class="btn btn-danger" (click)="BorrarProducto(p.id)" *ngIf="btnBorrar"><i class="material-icons"></i></button>-->
-              </div>
-
             </div>
 
           </div>
 
         </div>
 
-
       </div>
-      <!--Si no hay datos-->
-      <div *ngIf="error">
-        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
-        <div class="alert alert-danger" role="alert">
-          <strong>404</strong> Error de servidor.
-        </div>
+
+
+    </div>
+    <!--Si no hay datos-->
+    <div *ngIf="error">
+      <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+      <div class="alert alert-danger" role="alert">
+        <strong>404</strong> Error de servidor.
       </div>
     </div>
+  </div>
 
 
 
 
 
 
-    <!--BARRA DE PEDIDO-->
-<!--
+  <!--BARRA DE PEDIDO-->
+  <!--
     <div class="bloque-pedido" *ngIf="carrito.length != 0">
       <div class="row">
 
@@ -140,8 +135,8 @@
 </div>
 
 <div id="OperacionesAnterioresCliente" style="display: none">
-    <br>
-    <h1 style="text-align: center;"> Operaciones Anteriores </h1><br>    
+  <br>
+  <h1 style="text-align: center;"> Operaciones Anteriores </h1><br>
 </div>
 
 <div id="ReservarCliente" style="display: none">

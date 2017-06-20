@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Local } from '../clases/local.class';
+import { EmpleadoLocal } from '../clases/empleadoLocal.class';
+
 
 @Injectable()
 export class ServicioLocalesService {
@@ -8,6 +10,9 @@ export class ServicioLocalesService {
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/locales/"
   private rutaLocal: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/local/" 
   private rutaUsuariosEncargados: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/encargadosUsuarios/"
+  private rutaLocalEmpleados: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/localEmpleados/"
+  private rutaLocalEmpleado: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/localEmpleado/"
+
 
   constructor(private http: Http) { }
 
@@ -63,6 +68,31 @@ export class ServicioLocalesService {
     //   JSON.stringify(usuario),
       { headers: headers }
       ).map(response => response.json());
+
+  }
+
+  //DETALLE EMPLEADOS
+  getDetalleEmpleadosLocales(idLocal) {
+    console.log(this.rutaLocalEmpleados +"?idLocal="+ idLocal);
+      return this.http.get(this.rutaLocalEmpleados +"?idLocal="+ idLocal).map(
+      data => data.json());
+  }
+
+  deleteEmpleadoLocal(id: number) {
+      return this.http.delete(this.rutaLocalEmpleado + id).map(
+      data => data.json());
+  }
+
+  public GuardarEmpleadoLocal(empleadoLocal: EmpleadoLocal) 
+  {
+    //Configuro headers
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    //Llamo al método POST y le paso los datos   
+    return this.http.post(`${this.rutaLocalEmpleado}?idLocal=${empleadoLocal.idLocal}&idEmpleado=${empleadoLocal.idEmpleado}`,
+      { headers: headers}
+      ).map(response =>response.json());
 
   }
 
