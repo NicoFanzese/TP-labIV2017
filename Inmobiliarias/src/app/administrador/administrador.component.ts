@@ -372,7 +372,7 @@ agregarEmpleadosLocal(id, nom){
   }
 
   CerrarEmpleadoLocal(){
-     document.getElementById("altaEmpleadoLocalEncargado").style.display = "none";
+     document.getElementById("altaEmpleadoLocalAdministrador").style.display = "none";
   }
 
 }

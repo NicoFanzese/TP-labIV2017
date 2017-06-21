@@ -28,6 +28,8 @@ import { Producto } from '../clases/producto.class';
 import { ServicioEmpleadosService } from './servicio-empleados.service';
 import { Empleado } from '../clases/empleado.class';
 
+import { ServicioReservasService } from './servicio-reservas.service';
+
 import { ServicioOfertaService } from './servicio-oferta.service';
 import { ServicioOfertasService } from './servicio-ofertas.service';
 import { Oferta } from '../clases/oferta.class';
@@ -45,7 +47,6 @@ import { FormControl } from "@angular/forms";
 import { MapsAPILoader } from 'angular2-google-maps/core';
 import {GoogleMapsNg2Module} from 'google-maps-ng2';
 //import {GoogleMapComponent, MapsManager} from "google-maps-ng2";
-
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -95,7 +96,8 @@ const appRoutes: Routes = [
               ServicioProductosService,
               ServicioEmpleadosService,
               ServicioOfertasService,
-              ServicioOfertaService],
+              ServicioOfertaService,
+              ServicioReservasService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

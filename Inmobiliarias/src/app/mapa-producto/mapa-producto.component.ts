@@ -66,8 +66,8 @@ export class MapaProductoComponent implements OnInit {
       
     this.latitude = Number(localStorage.getItem("Lat"));
     this.longitude = Number(localStorage.getItem("Lng"));
-console.log(this.latitude);
-console.log(this.longitude);
+    console.log(this.latitude);
+    console.log(this.longitude);
     //create search FormControl
     this.searchControl = new FormControl();
 
@@ -105,8 +105,7 @@ console.log(this.longitude);
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-        console.log(this.latitude);
-console.log(this.longitude);  
+   
         this.zoom = 12;
       });
     }

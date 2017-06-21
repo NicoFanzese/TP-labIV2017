@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ServicioProductosService } from '../servicio-productos.service';
 import { Producto } from '../../clases/producto.class';
+import { Reserva } from '../../clases/reserva.class';
 import { ServicioLocalesService } from '../servicio-locales.service';
+import { ServicioReservasService } from '../servicio-reservas.service';
+
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
@@ -10,6 +13,17 @@ import { ServicioLocalesService } from '../servicio-locales.service';
 export class ClienteComponent implements OnInit {
   private productos;
   private locales;
+  private idProductoSeleccionado;
+  private productoSeleccionado;
+  private tipoProducto;
+  private nombreProducto;
+  private direccionProducto;
+  private clienteProducto;
+  private fechaDesdeProducto;
+  private fechaHastaProducto;
+  private fecha;
+
+  private reservas;
 
   private mensaje: string;
   private success: boolean = false;
@@ -18,10 +32,13 @@ export class ClienteComponent implements OnInit {
 
   private filtroLocal:string;
 
-  constructor(private productoService: ServicioProductosService,private localService: ServicioLocalesService) { 
+  constructor(private productoService: ServicioProductosService,
+              private localService: ServicioLocalesService,
+              private reservaService: ServicioReservasService) { 
 
         this.TraerProductos();
         this.TraerLocales();
+        this.TraerReservas()        
   }
 
   ngOnInit() {
@@ -32,6 +49,7 @@ export class ClienteComponent implements OnInit {
     document.getElementById("OfertasCliente").style.display = "inline";
     document.getElementById("OperacionesAnterioresCliente").style.display = "none";
     document.getElementById("ReservarCliente").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";        
   }
 
   MostrarOperacionesAnteriores()
@@ -39,12 +57,14 @@ export class ClienteComponent implements OnInit {
     document.getElementById("OfertasCliente").style.display = "none";
     document.getElementById("OperacionesAnterioresCliente").style.display = "inline";
     document.getElementById("ReservarCliente").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";        
   }
     MostrarReservar()
   {
     document.getElementById("OfertasCliente").style.display = "none";
     document.getElementById("OperacionesAnterioresCliente").style.display = "none";
     document.getElementById("ReservarCliente").style.display = "inline";
+    document.getElementById("altaReservas").style.display = "none";    
   }
 
   TraerLocales() {
@@ -97,5 +117,89 @@ cambiarFiltro(){
     localStorage.setItem("Lng",p.lng);
 
   }
+
+
+  addCarrito(p: Producto, id){
+    this.MostrarReservar();
+    document.getElementById("altaReservas").style.display = "inline";
+    this.clienteProducto = "Generico";
+    this.productoSeleccionado = p;
+    this.idProductoSeleccionado = id;    
+    console.log(p.id +id);
+    this.nombreProducto = p.nombre;
+    this.direccionProducto = p.direccion;
+    this.tipoProducto = p.tipo;
+    console.log(this.productoSeleccionado);
+  }
+
+  TraerReservas() {
+    this.reservaService.getReservas().subscribe(
+      data => this.reservas = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Reservas traidos con éxito")
+    );
+  }
+/*altaReserva() {
+    this.operacion = "Insertar";
+    document.getElementById("altaClientesEncargado").style.display = "inline";
+  }
+
+  deleteCliente(id: number) {
+    this.clienteService.deleteCliente(id).subscribe(
+      data => console.info('Id: ${data.id} borrado con éxito'),
+      err => console.error(err),
+      () => console.info('éxito')
+    );
+    this.TraerClientes();
+  }
+
+  mostrarCliente(id, nom, mail, tel, dir, usuLog) {
+    this.operacion = "Modificar";
+    this.idClienteEncargado = id;
+    this.nombreClienteEncargado = nom;
+    this.mailClienteEncargado = mail;
+    this.telefonoClienteEncargado = tel;
+    this.direccionClienteEncargado = dir;
+    this.usuarioLoginClienteEncargado = usuLog;
+    document.getElementById("altaClientesEncargado").style.display = "inline";
+  }*/
+
+  CancelarReserva() {
+    document.getElementById("altaReservas").style.display = "none";
+    this.idProductoSeleccionado = "";
+    this.productoSeleccionado = "";
+    this.nombreProducto = "";
+    this.direccionProducto = "";
+    this.tipoProducto = "";
+    this.fechaDesdeProducto = "";
+    this.fechaHastaProducto = "";
+    this.fecha = "";
+    this.clienteProducto = "";
+  }
+
+  GuardarReserva() {
+    console.log(this.idProductoSeleccionado);
+    console.log(this.clienteProducto);
+    if (((this.idProductoSeleccionado == "") || (this.idProductoSeleccionado == undefined) || (this.idProductoSeleccionado == null)) ||
+        ((this.clienteProducto == "") || (this.clienteProducto == undefined) || (this.clienteProducto == null))) {
+        alert("Debe existir un cliente para la reserva y seleccionar un producto en la seccion de productos y ofertas");
+    } else {
+      //if (this.operacion == "Insertar") {
+        let objCliente: Reserva = new Reserva(0, this.clienteProducto, this.fecha, this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
+
+        this.reservaService.GuardarReserva(objCliente).subscribe();
+
+      /*} else if (this.operacion == "Modificar") {
+        let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
+        this.clienteService.putCliente(objCliente).subscribe();
+      }*/
+      this.TraerReservas();
+      this.CancelarReserva();
+    }
+
+  }  
 
 }
