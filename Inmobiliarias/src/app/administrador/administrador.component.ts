@@ -17,35 +17,35 @@ const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent implements OnInit {
-  private contImagen;    
+  public contImagen;    
 
-  private usuarios;
-  private nombreUsuarioAdministrador: string;
-  private usuarioUsuarioAdministrador: string;
-  private passwordUsuarioAdministrador: string;
-  private tipoUsuarioAdministrador: any;
-  private idUsuarioAdministrador: any;
-  private estadoUsuarioAdministrador: any;
+  public usuarios;
+  public nombreUsuarioAdministrador: string;
+  public usuarioUsuarioAdministrador: string;
+  public passwordUsuarioAdministrador: string;
+  public tipoUsuarioAdministrador: any;
+  public idUsuarioAdministrador: any;
+  public estadoUsuarioAdministrador: any;
 
-  private locales;
-  private idLocalAdministrador: any;
-  private nombreLocalAdministrador: any;
-  private direccionLocalAdministrador: any;
-  private usuariosEncargados: any;
-  private encargadoLocalAdministrador: any;
-  private foto1LocalAdministrador: any;
-  private foto2LocalAdministrador: any;
-  private foto3LocalAdministrador: any;
-  private empleadosLocales;
-  private localEmpleado;
-  private idLocalEmpleado;
-  private EmpleadoLocalAdministrador;
-  private empleados;
+  public locales;
+  public idLocalAdministrador: any;
+  public nombreLocalAdministrador: any;
+  public direccionLocalAdministrador: any;
+  public usuariosEncargados: any;
+  public encargadoLocalAdministrador: any;
+  public foto1LocalAdministrador: any;
+  public foto2LocalAdministrador: any;
+  public foto3LocalAdministrador: any;
+  public empleadosLocales;
+  public localEmpleado;
+  public idLocalEmpleado;
+  public EmpleadoLocalAdministrador;
+  public empleados;
 
-  private mensaje: string;
-  private success: boolean = false;
-  private error: boolean = false;
-  private operacion: string;
+  public mensaje: string;
+  public success: boolean = false;
+  public error: boolean = false;
+  public operacion: string;
 
   public uploaderLocal:FileUploader = new FileUploader({url: URL});
   public hasBaseDropZoneOver:boolean = false;
@@ -59,9 +59,9 @@ export class AdministradorComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  constructor(private usuarioService: ServicioUsuariosService, 
-              private localService: ServicioLocalesService,
-              private empleadoService: ServicioEmpleadosService) {
+  constructor(public usuarioService: ServicioUsuariosService, 
+              public localService: ServicioLocalesService,
+              public empleadoService: ServicioEmpleadosService) {
     this.TraerUsuarios();
     this.TraerLocales();
     this.TraerUsuariosLocales();

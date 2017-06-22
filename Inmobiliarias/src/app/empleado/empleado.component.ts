@@ -34,46 +34,46 @@ export class EmpleadoComponent implements OnInit {
   //public searchElementRef: ElementRef;
   public searchElementRef;
 
-  private clientes;
-  private usuariosClientes;
-  private idClienteEmpleado: string;
-  private nombreClienteEmpleado: string;
-  private mailClienteEmpleado: string;
-  private telefonoClienteEmpleado: string;
-  private direccionClienteEmpleado: string;
-  private usuarioLoginClienteEmpleado: string;
+  public clientes;
+  public usuariosClientes;
+  public idClienteEmpleado: string;
+  public nombreClienteEmpleado: string;
+  public mailClienteEmpleado: string;
+  public telefonoClienteEmpleado: string;
+  public direccionClienteEmpleado: string;
+  public usuarioLoginClienteEmpleado: string;
 
-  private localesProductos;
-  private LocalProductoEmpleado;
-  private productos;
-  private proxIdF1;
-  private proxIdF2;
-  private proxIdF3;
-  //private contImagen: number = 0;
-  private contImagen;  
-  private idProductoEmpleado: string;
-  private nombreProductoEmpleado: string;
-  private direccionProductoEmpleado: string;
-  private descripcionProductoEmpleado: string;
-  private tipoProductoEmpleado;
-  private vDesdeProductoEmpleado;
-  private vHastaProductoEmpleado;    
-  private foto1ProductoEmpleado: string;
-  private previsualizacionFoto1: string;
-  private foto2ProductoEmpleado: string;
-  private foto3ProductoEmpleado: string;
-  private monedaProductoEmpleado: string;
-  private precioProductoEmpleado: string;
-  private productoLocal: string;
-  private idProductoLocal: any;
+  public localesProductos;
+  public LocalProductoEmpleado;
+  public productos;
+  public proxIdF1;
+  public proxIdF2;
+  public proxIdF3;
+  //public contImagen: number = 0;
+  public contImagen;  
+  public idProductoEmpleado: string;
+  public nombreProductoEmpleado: string;
+  public direccionProductoEmpleado: string;
+  public descripcionProductoEmpleado: string;
+  public tipoProductoEmpleado;
+  public vDesdeProductoEmpleado;
+  public vHastaProductoEmpleado;    
+  public foto1ProductoEmpleado: string;
+  public previsualizacionFoto1: string;
+  public foto2ProductoEmpleado: string;
+  public foto3ProductoEmpleado: string;
+  public monedaProductoEmpleado: string;
+  public precioProductoEmpleado: string;
+  public productoLocal: string;
+  public idProductoLocal: any;
 
-  private reservas;
+  public reservas;
 
-  private locales: any;
-  private mensaje: string;
-  private success: boolean = false;
-  private error: boolean = false;
-  private operacion: string;
+  public locales: any;
+  public mensaje: string;
+  public success: boolean = false;
+  public error: boolean = false;
+  public operacion: string;
 
 
 
@@ -165,6 +165,8 @@ console.info(this.usuariosClientes);
       //console.info("response", response);
       console.info("este es el status", status);
     }
+
+    this.ngOnInit();
   }
 
   TomarProximoIdF1()
@@ -205,7 +207,7 @@ console.info(this.usuariosClientes);
     this.searchControl = new FormControl();
 
     //set current position
-    this.setCurrentPosition();
+    //this.setCurrentPosition();
 
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -243,6 +245,7 @@ console.info(this.usuariosClientes);
       });
     }
   }
+
 
   MostrarClientes()
   {

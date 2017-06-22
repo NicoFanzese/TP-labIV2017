@@ -42,19 +42,19 @@
     <form>
       <h1 style="text-align: center;"> Locales </h1><br>
       <div class="form-group" style="text-align: center;">
-        <label for="idLocalAdministrador" style="text-align: center;">ID:</label>
+        <label style="text-align: center;">ID:</label>
         <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idLocalAdministrador" [(ngModel)]="idLocalAdministrador" id="idLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="nombreLocalAdministrador" style="text-align: center;">Nombre:</label>
+        <label style="text-align: center;">Nombre:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="nombreLocalAdministrador" [(ngModel)]="nombreLocalAdministrador" id="nombreLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="direccionLocalAdministrador" style="text-align: center;">Dirección:</label>
+        <label style="text-align: center;">Dirección:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalAdministrador" [(ngModel)]="direccionLocalAdministrador" id="direccionLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="encargadoLocalAdministrador" style="text-align: center;">Encargado:</label><br>
+        <label style="text-align: center;">Encargado:</label><br>
         <select name="encargadoLocalAdministrador" [(ngModel)]="encargadoLocalAdministrador" id="encargadoLocalAdministrador">
           <option *ngFor="let u of usuariosEncargados" [value]="u.usuario">{{u.nombre}}</option>         
         </select>
@@ -114,7 +114,7 @@
         <div id="formularioAltaEmpleadoLocal">
           <form align="center">          
             <div class="form-group" style="text-align: center;">
-              <label for="EmpleadoLocalAdministrador" style="text-align: center;">Elija Empleado a agregar:</label><br>
+              <label style="text-align: center;">Elija Empleado a agregar:</label><br>
               <select name="EmpleadoLocalAdministrador" [(ngModel)]="EmpleadoLocalAdministrador" id="EmpleadoLocalAdministrador">
                 <option *ngFor="let e of empleados" [value]="e.ID">{{e.nombre}}</option>         
               </select>
@@ -220,23 +220,23 @@
     <form>
       <h1 style="text-align: center;"> Usuarios </h1><br>
       <div class="form-group" style="text-align: center;">
-        <label for="idUsuarioAdministrador" style="text-align: center;">ID:</label>
+        <label style="text-align: center;">ID:</label>
         <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idUsuarioAdministrador" [(ngModel)]="idUsuarioAdministrador" id="idUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="nombreUsuarioAdministrador" style="text-align: center;">Nombre y apellido:</label>
+        <label style="text-align: center;">Nombre y apellido:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="nombreUsuarioAdministrador" [(ngModel)]="nombreUsuarioAdministrador" id="nombreUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="usuarioUsuarioAdministrador" style="text-align: center;">Usuario Login:</label>
+        <label style="text-align: center;">Usuario Login:</label>
         <input required type="text" style="text-align: center;" class="form-control" name="usuarioUsuarioAdministrador" [(ngModel)]="usuarioUsuarioAdministrador" id="usuarioUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="passwordUsuarioAdministrador" style="text-align: center;" >Password:</label>
+        <label style="text-align: center;" >Password:</label>
         <input type="password" style="text-align: center;" class="form-control" name="passwordUsuarioAdministrador" [(ngModel)]="passwordUsuarioAdministrador" id="passwordUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="tipoUsuarioAdministrador" style="text-align: center;">Tipo usuario:</label>
+        <label style="text-align: center;">Tipo usuario:</label>
         <select required name="tipoUsuarioAdministrador" [(ngModel)]="tipoUsuarioAdministrador" id="tipoUsuarioAdministrador">
           <option [value]="''" selected>Elija un tipo de Usuario</option>
           <!--<option [value]="'Administrador'">Administrador</option>-->
@@ -248,7 +248,7 @@
        <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="estadoUsuarioAdministrador" style="text-align: center;" >Estado:</label>
+        <label style="text-align: center;" >Estado:</label>
         <input type="checkbox" style="text-align: center;" class="form-control" name="estadoUsuarioAdministrador" [(ngModel)]="estadoUsuarioAdministrador" id="estadoUsuarioAdministrador">
       </div>
       <div style="text-align: center;">

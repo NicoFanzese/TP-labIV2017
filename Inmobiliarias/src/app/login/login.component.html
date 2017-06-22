@@ -29,9 +29,8 @@
 				<p><input type="password" required value="Password" onBlur="if(this.value=='')this.value='Password'" onFocus="if(this.value=='Password')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Password" -->
 
 				<div class="form-group" style="text-align: center;">
-					<label for="tipoUsuarioLogin" style="text-align: center;">Tipo usuario a loguearse:</label>
-					<select required name="tipoUsuarioLogin" [(ngModel)]="tipoUsuarioLogin" id="tipoUsuarioLogin">
-					<option [value]="''" selected>Elija un tipo de Usuario</option>
+					<label style="text-align: center;">Tipo usuario a loguearse:</label>
+					<select name="tipoUsuarioLogin" [(ngModel)]="tipoUsuarioLogin" id="tipoUsuarioLogin">
 					<option [value]="'administrador'">Administrador</option>
 					<option [value]="'encargado'">Encargado</option>
 					<option [value]="'cliente'">Cliente</option>

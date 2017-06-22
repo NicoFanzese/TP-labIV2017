@@ -11,26 +11,26 @@ import { ServicioReservasService } from '../servicio-reservas.service';
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-  private productos;
-  private locales;
-  private idProductoSeleccionado;
-  private productoSeleccionado;
-  private tipoProducto;
-  private nombreProducto;
-  private direccionProducto;
-  private clienteProducto;
-  private fechaDesdeProducto;
-  private fechaHastaProducto;
-  private fecha;
+  public productos;
+  public locales;
+  public idProductoSeleccionado;
+  public productoSeleccionado;
+  public tipoProducto;
+  public nombreProducto;
+  public direccionProducto;
+  public clienteProducto;
+  public fechaDesdeProducto;
+  public fechaHastaProducto;
+  public fecha;
 
-  private reservas;
+  public reservas;
 
-  private mensaje: string;
-  private success: boolean = false;
-  private error: boolean = false;
-  private operacion: string;
+  public mensaje: string;
+  public success: boolean = false;
+  public error: boolean = false;
+  public operacion: string;
 
-  private filtroLocal:string;
+  public filtroLocal:string;
 
   constructor(private productoService: ServicioProductosService,
               private localService: ServicioLocalesService,
