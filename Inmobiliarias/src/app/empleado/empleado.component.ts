@@ -15,6 +15,8 @@ import { NgModule, NgZone, ViewChild } from '@angular/core';
 
 import { ServicioReservasService } from '../servicio-reservas.service';
 
+import { Router } from '@angular/router';
+
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -94,7 +96,8 @@ export class EmpleadoComponent implements OnInit {
               private localService: ServicioLocalesService,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
-              private reservaService: ServicioReservasService) 
+              private reservaService: ServicioReservasService,
+              public router: Router) 
   { 
     
   /*  $('#myCarousel').carousel({
@@ -517,4 +520,9 @@ console.info(this.usuariosClientes);
       () => console.log("Reservas traidos con éxito")
     );
   }  
+  desloguearse()
+  {
+    this.router.navigate(['/login']);
+  }
+
 }

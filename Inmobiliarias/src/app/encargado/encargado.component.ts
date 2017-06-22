@@ -31,6 +31,8 @@ import { NgModule, NgZone, ViewChild } from '@angular/core';
 import { ServicioReservasService } from '../servicio-reservas.service';
 import { Reserva } from '../../clases/reserva.class';
 
+import { Router } from '@angular/router';
+
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -156,7 +158,8 @@ export class EncargadoComponent implements OnInit {
               private ofertaService: ServicioOfertaService,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
-              private reservaService: ServicioReservasService) { 
+              private reservaService: ServicioReservasService,
+              public router: Router) { 
 
     this.TraerClientes();
     this.TraerProductos();
@@ -1078,4 +1081,8 @@ CancelarReserva() {
     );
   }
 
+  desloguearse()
+  {
+    this.router.navigate(['/login']);
+  }
 }

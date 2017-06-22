@@ -5,6 +5,7 @@ import { ServicioLocalesService } from '../servicio-locales.service';
 import { Local } from '../../clases/local.class';
 import { EmpleadoLocal } from '../../clases/empleadoLocal.class';
 import { ServicioEmpleadosService } from '../servicio-empleados.service';
+import { Router } from '@angular/router';
 
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
@@ -61,7 +62,8 @@ export class AdministradorComponent implements OnInit {
 
   constructor(public usuarioService: ServicioUsuariosService, 
               public localService: ServicioLocalesService,
-              public empleadoService: ServicioEmpleadosService) {
+              public empleadoService: ServicioEmpleadosService,
+              public router: Router) {
     this.TraerUsuarios();
     this.TraerLocales();
     this.TraerUsuariosLocales();
@@ -379,6 +381,11 @@ agregarEmpleadosLocal(id, nom){
 
   CerrarEmpleadoLocal(){
      document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";
+  }
+
+  desloguearse()
+  {
+    this.router.navigate(['/login']);
   }
 
 }

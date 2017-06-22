@@ -57,6 +57,7 @@ const appRoutes: Routes = [
   { path: 'mapa', component: MapaProductoComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: LoginComponent }
+  
 ];
 
 @NgModule({

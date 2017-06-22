@@ -4,6 +4,7 @@ import { Producto } from '../../clases/producto.class';
 import { Reserva } from '../../clases/reserva.class';
 import { ServicioLocalesService } from '../servicio-locales.service';
 import { ServicioReservasService } from '../servicio-reservas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cliente',
@@ -34,7 +35,8 @@ export class ClienteComponent implements OnInit {
 
   constructor(private productoService: ServicioProductosService,
               private localService: ServicioLocalesService,
-              private reservaService: ServicioReservasService) { 
+              private reservaService: ServicioReservasService,
+              public router: Router) { 
 
         this.TraerProductos();
         this.TraerLocales();
@@ -220,4 +222,10 @@ cambiarFiltro(){
       this.CancelarReserva();
     }
   }  
+
+  desloguearse()
+  {
+    this.router.navigate(['/login']);
+  }
+
 }

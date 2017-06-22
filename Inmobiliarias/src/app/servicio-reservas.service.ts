@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Reserva } from '../clases/reserva.class';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 
 

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Oferta } from '../clases/oferta.class';
 import { ProductoOferta } from '../clases/productoOferta.class';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class ServicioOfertaService {
