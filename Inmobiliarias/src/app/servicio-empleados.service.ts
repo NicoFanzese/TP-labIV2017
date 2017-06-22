@@ -8,12 +8,14 @@ export class ServicioEmpleadosService {
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/empleados/"
   private rutaEmpleado: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/empleado/"
   private rutaUsuariosEmpleados: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/empleadosUsuarios/"
+ 
   constructor(private http: Http) { }
 
   getEmpleados() {
     return this.http.get(this.ruta).map(
       data => data.json());
   }
+
 
   getUsuariosEmpleados() {
     return this.http.get(this.rutaUsuariosEmpleados).map(

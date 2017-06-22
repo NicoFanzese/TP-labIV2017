@@ -28,6 +28,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import { NgModule, NgZone, ViewChild } from '@angular/core';
 
+import { ServicioReservasService } from '../servicio-reservas.service';
+import { Reserva } from '../../clases/reserva.class';
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -116,6 +118,18 @@ export class EncargadoComponent implements OnInit {
   private ProductoOfertaEncargado: string; 
   private ofertasServiceAux:any;
 
+  private reservas;
+  private idProductoSeleccionado;
+  private productoSeleccionado;
+  private nombreProducto;
+  private direccionProducto;
+  private tipoProducto;
+  private fechaDesdeProducto;
+  private fechaHastaProducto;
+  private fecha;
+  private clienteProducto;
+
+
   private mensaje: string;
   private success: boolean = false;
   private error: boolean = false;
@@ -141,7 +155,8 @@ export class EncargadoComponent implements OnInit {
               private empleadoService: ServicioEmpleadosService,
               private ofertaService: ServicioOfertaService,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) { 
+              private ngZone: NgZone,
+              private reservaService: ServicioReservasService) { 
 
     this.TraerClientes();
     this.TraerProductos();
@@ -151,6 +166,7 @@ export class EncargadoComponent implements OnInit {
     this.TraerOfertas();
     this.TraerUsuariosClientes();
     this.TraerUsuariosEmpleados();
+    this.TraerReservas();
     this.contImagen = 1;
     //************************************************
    //***************FILE UPLOAD**********************
@@ -260,7 +276,8 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("ProductosEncargado").style.display = "none";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
     document.getElementById("OfertasEncargado").style.display = "none";      
-    //document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";      
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -273,7 +290,8 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("ProductosEncargado").style.display = "inline";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";         
     document.getElementById("OfertasEncargado").style.display = "none";   
-    //document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";      
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -285,19 +303,22 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("ProductosEncargado").style.display = "none";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";        
     document.getElementById("OfertasEncargado").style.display = "inline";    
-    //document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";      
     document.getElementById("UsuariosEncargado").style.display = "none";
     document.getElementById("EmpleadosEncargado").style.display = "none";
   }
+
     MostrarReservas()
   {
     document.getElementById("ClientesEncargado").style.display = "none";
     document.getElementById("ProductosEncargado").style.display = "none";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
     document.getElementById("OfertasEncargado").style.display = "none";     
-    //document.getElementById("ReservasEncargado").style.display = "inline";
+    document.getElementById("ReservasEncargado").style.display = "inline";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -309,7 +330,8 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("ProductosEncargado").style.display = "none";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
     document.getElementById("OfertasEncargado").style.display = "none";     
-    //document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "inline";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -321,7 +343,8 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("ProductosEncargado").style.display = "none";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";   
     document.getElementById("OfertasEncargado").style.display = "none";     
-    //document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "inline";
@@ -333,7 +356,8 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("ProductosEncargado").style.display = "none";
     document.getElementById("altaLocalesProductosEncargado").style.display = "none";  
     document.getElementById("OfertasEncargado").style.display = "none";     
-    //document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("ReservasEncargado").style.display = "none";
+    document.getElementById("altaReservas").style.display = "none";    
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
@@ -732,6 +756,7 @@ agregarEmpleadosLocal(id, nom){
       () => console.info('éxito')
     );
     this.TraerEmpleados();
+    this.TraerEmpleados();    
   }
 
   mostrarEmpleado(id, nom, dir, idUsu) {
@@ -765,6 +790,7 @@ agregarEmpleadosLocal(id, nom){
         let objEmpleado: Empleado = new Empleado(this.idEmpleadoEncargado, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.usuarioLoginEmpleadoEncargado);
         this.empleadoService.putEmpleado(objEmpleado).subscribe();
       }
+      this.TraerEmpleados();
       this.TraerEmpleados();
       this.CancelarEmpleado();
     }
@@ -960,6 +986,96 @@ agregarEmpleadosLocal(id, nom){
 
   CerrarProductoOferta(){
      document.getElementById("altaProductosOfertasEncargado").style.display = "none";
-  }    
+  }
+
+  //RESERVAS   
+
+  verMapa(p: Producto){
+    //window.open(fileURL, "_self");
+    window.open(p.dirURL, '_blank');
+
+    console.log(p);
+    localStorage.setItem("Direccion",p.direccion);
+    localStorage.setItem("Lat",p.lat);
+    localStorage.setItem("Lng",p.lng);
+
+  }
+
+
+  addCarrito(p: Producto, id){
+    this.MostrarReservas();
+    document.getElementById("altaReservas").style.display = "inline";
+    //this.clienteProducto = "Generico";
+    this.productoSeleccionado = p;
+    this.idProductoSeleccionado = id;    
+    this.nombreProducto = p.nombre;
+    this.direccionProducto = p.direccion;
+    this.tipoProducto = p.tipo;
+  }
+
+CancelarReserva() {
+    document.getElementById("altaReservas").style.display = "none";
+    this.idProductoSeleccionado = "";
+    this.productoSeleccionado = "";
+    this.nombreProducto = "";
+    this.direccionProducto = "";
+    this.tipoProducto = "";
+    this.fechaDesdeProducto = "";
+    this.fechaHastaProducto = "";
+    this.fecha = "";
+    this.clienteProducto = "";
+  }
+
+  GuardarReserva() {
+    let band;
+    band = 0;
+    if (((this.idProductoSeleccionado == "") || (this.idProductoSeleccionado == undefined) || (this.idProductoSeleccionado == null)) ||        
+        ((this.clienteProducto == "") || (this.clienteProducto == undefined) || (this.clienteProducto == null))) {
+        alert("Debe existir un cliente para la reserva y seleccionar un producto en la seccion de productos y ofertas");
+        band=1;
+    }
+
+    if((((this.fechaDesdeProducto == "") || (this.fechaDesdeProducto == undefined) || (this.fechaDesdeProducto == null)) ||
+        ((this.fechaHastaProducto == "") || (this.fechaHastaProducto == undefined) || (this.fechaHastaProducto == null)))
+        && (this.tipoProducto == "Alquiler")){
+          alert("Si el producto es un alquiler, debe ingresar la fecha desde y hasta");
+          band=1;
+        }
+    
+    if (this.tipoProducto == "Venta"){
+      this.fechaDesdeProducto = "";
+      this.fechaHastaProducto = "";      
+    }
+
+    if (((this.fechaDesdeProducto < Date.now() + 30) || (this.fechaDesdeProducto > Date.now() + 60)) 
+        && (this.tipoProducto == "Alquiler")){      
+        alert("No puede hacer una reserva de alquiler con fecha de inicio menor a 30 dias o mayor a 60 días a partir de hoy");
+        band=1;
+    }
+
+    if(band==0){
+      //if (this.operacion == "Insertar") {
+      let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
+      this.reservaService.GuardarReserva(objCliente).subscribe();
+
+      /*} else if (this.operacion == "Modificar") {
+        let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
+        this.clienteService.putCliente(objCliente).subscribe();
+      }*/
+      this.TraerReservas();
+      this.CancelarReserva();
+    }
+  }
+
+  TraerReservas() {
+    this.reservaService.getReservas().subscribe(
+      data => this.reservas = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Reservas traidos con éxito")
+    );
+  }
 
 }

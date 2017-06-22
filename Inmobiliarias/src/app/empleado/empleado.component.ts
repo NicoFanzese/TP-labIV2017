@@ -13,6 +13,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import { NgModule, NgZone, ViewChild } from '@angular/core';
 
+import { ServicioReservasService } from '../servicio-reservas.service';
+
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -65,6 +67,8 @@ export class EmpleadoComponent implements OnInit {
   private productoLocal: string;
   private idProductoLocal: any;
 
+  private reservas;
+
   private locales: any;
   private mensaje: string;
   private success: boolean = false;
@@ -89,7 +93,8 @@ export class EmpleadoComponent implements OnInit {
               private productoService: ServicioProductosService,
               private localService: ServicioLocalesService,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) 
+              private ngZone: NgZone,
+              private reservaService: ServicioReservasService) 
   { 
     
   /*  $('#myCarousel').carousel({
@@ -105,6 +110,7 @@ export class EmpleadoComponent implements OnInit {
     this.TomarProximoIdF3();
     this.TraerUsuariosClientes();
     this.TraerLocales();
+    this.TraerReservas();
 
 
 console.info(this.usuariosClientes);
@@ -495,5 +501,17 @@ console.info(this.usuariosClientes);
 
   CerrarLocalProducto(){
      document.getElementById("altaLocalesProductosEmpleado").style.display = "none";
+  }
+
+    //RESERVAS   
+  TraerReservas() {
+    this.reservaService.getReservas().subscribe(
+      data => this.reservas = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Reservas traidos con éxito")
+    );
   }  
 }

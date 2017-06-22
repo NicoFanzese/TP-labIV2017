@@ -191,20 +191,26 @@ cambiarFiltro(){
 
     if((((this.fechaDesdeProducto == "") || (this.fechaDesdeProducto == undefined) || (this.fechaDesdeProducto == null)) ||
         ((this.fechaHastaProducto == "") || (this.fechaHastaProducto == undefined) || (this.fechaHastaProducto == null)))
-        && (this.tipoProducto == "Alquiler")        ){
+        && (this.tipoProducto == "Alquiler")){
           alert("Si el producto es un alquiler, debe ingresar la fecha desde y hasta");
           band=1;
         }
-    if ((this.fechaDesdeProducto < Date.now() + 30) || (this.fechaDesdeProducto > Date.now() + 60)){      
+    
+    if (this.tipoProducto == "Venta"){
+      this.fechaDesdeProducto = "";
+      this.fechaHastaProducto = "";      
+    }
+
+    if (((this.fechaDesdeProducto < Date.now() + 30) || (this.fechaDesdeProducto > Date.now() + 60)) 
+        && (this.tipoProducto == "Alquiler")){      
         alert("No puede hacer una reserva de alquiler con fecha de inicio menor a 30 dias o mayor a 60 días a partir de hoy");
         band=1;
     }
 
     if(band==0){
       //if (this.operacion == "Insertar") {
-        let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
-
-        this.reservaService.GuardarReserva(objCliente).subscribe();
+      let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
+      this.reservaService.GuardarReserva(objCliente).subscribe();
 
       /*} else if (this.operacion == "Modificar") {
         let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
@@ -213,7 +219,5 @@ cambiarFiltro(){
       this.TraerReservas();
       this.CancelarReserva();
     }
-
   }  
-
 }

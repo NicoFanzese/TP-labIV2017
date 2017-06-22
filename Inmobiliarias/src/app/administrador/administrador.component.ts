@@ -103,6 +103,8 @@ export class AdministradorComponent implements OnInit {
     document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";      
     document.getElementById("UsuariosAdministrador").style.display = "none";
     document.getElementById("EstadisticasAdministrador").style.display = "none";
+    this.TraerUsuariosLocales();
+    this.TraerEmpleados();
   }
   MostrarUsuarios() {
     document.getElementById("LocalesAdministrador").style.display = "none";
@@ -147,6 +149,7 @@ export class AdministradorComponent implements OnInit {
       () => console.info('éxito')
     );
     this.TraerUsuarios();
+    this.TraerUsuarios();    
   }
 
   mostrarUsuario(id, nom, usu, pass, tipo,est) {
@@ -223,6 +226,7 @@ export class AdministradorComponent implements OnInit {
         this.usuarioService.putUsuario(objUsuario).subscribe();
       }
       this.TraerUsuarios();
+      this.TraerUsuarios();      
       this.CancelarUsuario();
     }
 
@@ -309,6 +313,7 @@ export class AdministradorComponent implements OnInit {
         this.localService.putLocal(objLocal).subscribe();
       }
       this.TraerLocales();
+      this.TraerLocales();
       this.CancelarLocal();
       this.uploaderLocal.clearQueue();
     }
@@ -358,7 +363,8 @@ agregarEmpleadosLocal(id, nom){
         console.log(this.localService);
         this.localService.GuardarEmpleadoLocal(objEmpleadoLocal).subscribe();  
     }    
-    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);        
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);   
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);         
   }
   
   deleteEmpleadoLocal(id: number) {
@@ -372,7 +378,7 @@ agregarEmpleadosLocal(id, nom){
   }
 
   CerrarEmpleadoLocal(){
-     document.getElementById("altaEmpleadoLocalAdministrador").style.display = "none";
+     document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";
   }
 
 }

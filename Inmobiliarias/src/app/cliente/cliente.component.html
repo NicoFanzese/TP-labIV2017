@@ -3,8 +3,8 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <a class="navbar-brand" (click)="MostrarOfertas()">Ver Productos y Ofertas</a>
-      <li><a class="navbar-brand" (click)="MostrarOperacionesAnteriores()">Operacion anteriores</a></li>
-      <li><a class="navbar-brand" (click)="MostrarReservar()">Reservar</a></li>
+      <!--<li><a class="navbar-brand" (click)="MostrarOperacionesAnteriores()">Operacion anteriores</a></li>-->
+      <li><a class="navbar-brand" (click)="MostrarReservar()">Reservas</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#">Desloguearme</a></li>
@@ -99,11 +99,6 @@
     </div>
   </div>
 
-
-
-
-
-
   <!--BARRA DE PEDIDO-->
   <!--
     <div class="bloque-pedido" *ngIf="carrito.length != 0">
@@ -154,7 +149,6 @@
       </div>  
       
       <table class="table table-hover" *ngIf="!error">
-        <br>
         <thead class="thead-inverse">
           <tr>
             <th>Nombre</th>
@@ -196,8 +190,6 @@
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CancelarReserva()">Cancelar</button>
       </div>
     </form>
-
-
   </div>
 
 
@@ -220,11 +212,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let hr of reservas" class="table-info animated fadeIn">
-            <th scope="row"><span class="badge badge-default badge-pill">{{hr.nombre}}</span></th>
-            <td>{{hr.direccion}}</td>
-            <td>{{hr.tipo}}</td>
-            <td>{{hr.fechaDesde}}</td>
-            <td>{{hr.fechaHasta}}</td>
+              <th *ngIf="hr.Cliente=='Generico'"  scope="row"><span class="badge badge-default badge-pill">{{hr.nombre}}</span></th>
+              <td *ngIf="hr.Cliente=='Generico'" >{{hr.direccion}}</td>
+              <td *ngIf="hr.Cliente=='Generico'" >{{hr.tipo}}</td>
+              <td *ngIf="hr.Cliente=='Generico'" >{{hr.fechaDesde}}</td>
+              <td *ngIf="hr.Cliente=='Generico'" >{{hr.fechaHasta}}</td>
           </tr>
         </tbody>
       </table>
