@@ -141,17 +141,20 @@
 
 <div id="ReservarCliente" style="display: none">
   <br>
-  <h1 style="text-align: center;">RESERVAS</h1>
-  <br>
   <div id="altaReservas" style="text-align: center;"  style="display: none">  
     <div class="jumbotron margin-top-10 margin-bot-10">
-      <h1 class="display-3 animated bounceInRight">Reserva Pendiente</h1>
+      <h1 class="display-3 animated bounceInRight" style="text-align: center;">Reserva Pendiente</h1>
       <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
       <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
       <br>
       <hr class="my-4">
-
+      <div class="form-group" style="text-align: center;">
+        <label for="clienteProducto" style="text-align: center;">Cliente:</label>
+        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="clienteProducto" [(ngModel)]="clienteProducto" id="clienteProducto">
+      </div>  
+      
       <table class="table table-hover" *ngIf="!error">
+        <br>
         <thead class="thead-inverse">
           <tr>
             <th>Nombre</th>
@@ -178,11 +181,7 @@
       </div>
     </div>
 
-    <form>      
-      <div class="form-group" style="text-align: center;">
-        <label for="clienteProducto" style="text-align: center;">Cliente:</label>
-        <input required type="text" style="text-align: center;" class="form-control" name="clienteProducto" [(ngModel)]="clienteProducto" id="clienteProducto">
-      </div>  
+    <form>
       <div class="form-group" style="text-align: center;" *ngIf="tipoProducto=='Alquiler'">
         <label for="fechaDesdeProducto" style="text-align: center;">Fecha Desde:</label>
         <input required type="date" style="text-align: center;" class="form-control" name="fechaDesdeProducto" [(ngModel)]="fechaDesdeProducto" id="fechaDesdeProducto">
