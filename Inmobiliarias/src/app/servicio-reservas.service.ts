@@ -12,6 +12,7 @@ export class ServicioReservasService {
 
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reservas/"
   private rutaReserva: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reserva/"
+  private rutaReservaCliente: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reservaCliente/"
   
   constructor(public http: Http) { 
   }
@@ -44,7 +45,19 @@ export class ServicioReservasService {
       ).map(response =>response.json());
 
   }
+  public GuardarReservaCliente(reserva: Reserva) 
+  {
+    //console.log(reserva);
+    //Configuro headers
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
+    //Llamo al método POST y le paso los datos   
+    return this.http.post(`${this.rutaReservaCliente}?idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde}&fechaHasta=${reserva.fechaHasta}`,
+      { headers: headers}
+      ).map(response =>response.json());
+
+  }
   public putReserva(reserva: Reserva) 
   {    
     //Configuro headers
@@ -52,7 +65,7 @@ export class ServicioReservasService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.rutaReserva}?id=${reserva.id}&idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde},&fechaHasta=${reserva.fechaHasta}`,
+    return this.http.put(`${this.rutaReservaCliente}?id=${reserva.id}&idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde},&fechaHasta=${reserva.fechaHasta}`,
 
       { headers: headers }
       ).map(response => response.json());

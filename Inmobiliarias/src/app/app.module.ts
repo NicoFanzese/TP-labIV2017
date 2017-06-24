@@ -10,6 +10,7 @@ import { AdministradorComponent } from './administrador/administrador.component'
 import { EncargadoComponent } from './encargado/encargado.component';
 import { EmpleadoComponent } from './empleado/empleado.component';
 import { ClienteComponent } from './cliente/cliente.component';
+import { RegistracionComponent } from './registracion/registracion.component';
 
 import { AlertModule } from 'ngx-bootstrap';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
@@ -29,6 +30,7 @@ import { ServicioEmpleadosService } from './servicio-empleados.service';
 import { Empleado } from '../clases/empleado.class';
 
 import { ServicioReservasService } from './servicio-reservas.service';
+import { ServicioLoginService } from './servicio-login.service';
 
 import { ServicioOfertaService } from './servicio-oferta.service';
 import { ServicioOfertasService } from './servicio-ofertas.service';
@@ -55,6 +57,7 @@ const appRoutes: Routes = [
   { path: 'empleado', component: EmpleadoComponent },
   { path: 'cliente', component: ClienteComponent },
   { path: 'mapa', component: MapaProductoComponent },
+  { path: 'registracion', component: RegistracionComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: LoginComponent }
   
@@ -68,7 +71,8 @@ const appRoutes: Routes = [
     EncargadoComponent,
     EmpleadoComponent,
     ClienteComponent,
-    MapaProductoComponent
+    MapaProductoComponent,
+    RegistracionComponent
     
   ],
   imports: [
@@ -98,7 +102,8 @@ const appRoutes: Routes = [
               ServicioEmpleadosService,
               ServicioOfertasService,
               ServicioOfertaService,
-              ServicioReservasService],
+              ServicioReservasService,
+              ServicioLoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

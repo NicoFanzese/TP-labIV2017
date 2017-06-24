@@ -1,0 +1,42 @@
+ <div id="altaClientes" style="display: inline">
+    <div class="jumbotron margin-top-10 margin-bot-10">
+    <h1 class="display-3 animated bounceInRight" style="text-align: center;">Registrese!</h1>
+    <form>    
+      <br>
+      <br>
+      <div class="form-group" style="text-align: center;">
+        <label for="idCliente" style="text-align: center;">ID:</label>
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idCliente" [(ngModel)]="idCliente" id="idCliente">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="nombreCliente" style="text-align: center;">Nombre:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreCliente" [(ngModel)]="nombreCliente" id="nombreCliente">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="mailCliente" style="text-align: center;">Mail:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="mailCliente" [(ngModel)]="mailCliente" id="mailCliente">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="telefonoCliente" style="text-align: center;">Teléfono:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="telefonoCliente" [(ngModel)]="telefonoCliente" id="telefonoCliente">
+      </div>      
+      <div class="form-group" style="text-align: center;">
+        <label for="direccionCliente" style="text-align: center;">Dirección:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionCliente" [(ngModel)]="direccionCliente" id="direccionCliente">
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="usuarioLogueoCliente" style="text-align: center;">Usuario Logueo:</label>
+        <input required type="text" style="text-align: center;" class="form-control" name="usuarioLogueoCliente" [(ngModel)]="usuarioLogueoCliente" id="usuarioLogueoCliente">
+      </div>          
+      <div class="form-group" style="text-align: center;">
+        <label for="passwordCliente" style="text-align: center;">Password:</label>
+        <input required type="password" style="text-align: center;" class="form-control" name="passwordCliente" [(ngModel)]="passwordCliente" id="passwordCliente">
+      </div>      
+
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarCliente()">Guardar</button>
+        <button type="submit" class="btn btn-default" style="text-align: center;" (click)="cancelarRegistracion()">Cancelar</button>
+      </div>
+    </form>
+    </div>
+  </div>

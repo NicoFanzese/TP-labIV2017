@@ -35,7 +35,6 @@ export class ServicioLocalesService {
 
   deleteLocal(id: number) {
       return this.http.delete(this.rutaLocal + id).map(
-      //return this.http.get(rutaDeleteUsuario + id).map(
       data => data.json());
   }
 

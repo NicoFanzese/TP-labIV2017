@@ -24,32 +24,30 @@
 
 			<fieldset>
 
-				<p><input type="text" required value="Username" onBlur="if(this.value=='')this.value='Username'" onFocus="if(this.value=='Username')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Username" -->
+				<p><input name="username" [(ngModel)]="username" id="username" type="text" required value="Username" onBlur="if(this.value=='')this.value='Username'" onFocus="if(this.value=='Username')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Username" -->
 
-				<p><input type="password" required value="Password" onBlur="if(this.value=='')this.value='Password'" onFocus="if(this.value=='Password')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Password" -->
+				<p><input name="password" [(ngModel)]="password" id="password" type="password" required value="Password" onBlur="if(this.value=='')this.value='Password'" onFocus="if(this.value=='Password')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Password" -->
 
+				<p><input type="submit" value="Login" (click)="login()"></p>	
+				<p><input type="submit" value="Registrarse" routerLink="/registracion"></p>
+				<p><span class="btn-round">or</span></p>
 				<div class="form-group" style="text-align: center;">
-					<label style="text-align: center;">Tipo usuario a loguearse:</label>
+					<label style="text-align: center;">Tipo usuario Testeo:</label>
 					<select name="tipoUsuarioLogin" [(ngModel)]="tipoUsuarioLogin" id="tipoUsuarioLogin">
 					<option [value]="'administrador'">Administrador</option>
 					<option [value]="'encargado'">Encargado</option>
 					<option [value]="'cliente'">Cliente</option>
 					<option [value]="'empleado'">Empleado</option>
 					</select>
-				
-				<!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
 				</div>
 				
-				<!--<p><a href="#">Forgot Password?</a></p>-->
-				
-				<p><input type="submit" value="Login" routerLink="/{{tipoUsuarioLogin}}"></p>
+				<p><input type="submit" value="Login Test" (click)="loginTesteo()"></p>				
 
 			</fieldset>
-
 		</form>
 
-		<p><span class="btn-round">or</span></p>
-
+		
+<!--
 		<p>
 
 			<a class="facebook-before"><span class="fontawesome-facebook"></span></a>
@@ -62,7 +60,7 @@
 			<a class="twitter-before"><span class="fontawesome-twitter"></span></a>
 			<button class="twitter">Login Using Twitter</button>
 
-		</p>
+		</p>-->
 
 	</div> <!-- end login -->
 

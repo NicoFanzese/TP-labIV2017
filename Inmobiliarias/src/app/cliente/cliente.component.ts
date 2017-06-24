@@ -40,7 +40,9 @@ export class ClienteComponent implements OnInit {
 
         this.TraerProductos();
         this.TraerLocales();
-        this.TraerReservas()        
+        this.TraerReservas()      
+
+        this.clienteProducto = localStorage.getItem("usuarioLogueado");  
   }
 
   ngOnInit() {
@@ -124,7 +126,7 @@ cambiarFiltro(){
   addCarrito(p: Producto, id){
     this.MostrarReservar();
     document.getElementById("altaReservas").style.display = "inline";
-    this.clienteProducto = "Generico";
+    //this.clienteProducto = localStorage.getItem("usuarioLogueado");
     this.productoSeleccionado = p;
     this.idProductoSeleccionado = id;    
     console.log(p.id +id);
@@ -179,10 +181,11 @@ cambiarFiltro(){
     this.fechaDesdeProducto = "";
     this.fechaHastaProducto = "";
     this.fecha = "";
-    this.clienteProducto = "";
+    //this.clienteProducto = "";
   }
 
   GuardarReserva() {
+    console.log(this.clienteProducto);
     let band;
     band = 0;
     if (((this.idProductoSeleccionado == "") || (this.idProductoSeleccionado == undefined) || (this.idProductoSeleccionado == null)) ||        
@@ -212,7 +215,7 @@ cambiarFiltro(){
     if(band==0){
       //if (this.operacion == "Insertar") {
       let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
-      this.reservaService.GuardarReserva(objCliente).subscribe();
+      this.reservaService.GuardarReservaCliente(objCliente).subscribe();
 
       /*} else if (this.operacion == "Modificar") {
         let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
