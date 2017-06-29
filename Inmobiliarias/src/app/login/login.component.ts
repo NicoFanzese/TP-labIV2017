@@ -26,7 +26,20 @@ export class LoginComponent implements OnInit {
   login(){
     console.log(this.username, this.password);
     this.loginService.getLogin(this.username, this.password).subscribe(
-      data => this.existeUsuario = data,
+      // data => this.existeUsuario = data,
+      data => {
+                if(data != false)
+                {
+                    console.log(data.token);
+                    localStorage.setItem('token', data.token);
+
+                }
+                else{
+                  console.log(data);
+                  localStorage.setItem('token', "false");
+                  alert("Usuario inexistente");
+                }
+              },
       err => {
         console.error(err);
         this.error = true;
@@ -34,13 +47,13 @@ export class LoginComponent implements OnInit {
       () => console.log("")
     );
     //console.log(this.existeUsuario);
-    if (this.existeUsuario == true){
-      localStorage.setItem("usuarioLogueado",this.username);      
+    if (localStorage.getItem('token') != "false") {
+      // localStorage.setItem("usuarioLogueado",this.username);      
       this.router.navigate(['/cliente']);
     }
   }
 
-  loginTesteo(){
+  loginTesteo(){  
     localStorage.setItem("usuarioLogueado","Generico");
     this.router.navigate(['/'+this.tipoUsuarioLogin]);
   } 

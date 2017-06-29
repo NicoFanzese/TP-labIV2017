@@ -23,6 +23,7 @@
     "@types/google-maps": "^3.2.0",
     "angular2-google-map": "^0.1.8",
     "angular2-google-maps": "^0.17.0",
+    "angular2-jwt": "^0.2.3",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "google-maps-ng2": "^1.0.4",

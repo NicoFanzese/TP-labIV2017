@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { JwtModule } from './jwt/jwt.module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -31,6 +32,7 @@ import { Empleado } from '../clases/empleado.class';
 
 import { ServicioReservasService } from './servicio-reservas.service';
 import { ServicioLoginService } from './servicio-login.service';
+import { AuthService } from './auth.service';
 
 import { ServicioOfertaService } from './servicio-oferta.service';
 import { ServicioOfertasService } from './servicio-ofertas.service';
@@ -80,6 +82,7 @@ const appRoutes: Routes = [
     FormsModule, 
     ReactiveFormsModule,
     AlertModule.forRoot(),
+    JwtModule,
     //AlertModule,
     HttpModule,
     FileUploadModule,
@@ -103,6 +106,7 @@ const appRoutes: Routes = [
               ServicioOfertasService,
               ServicioOfertaService,
               ServicioReservasService,
+              AuthService,
               ServicioLoginService],
   bootstrap: [AppComponent]
 })

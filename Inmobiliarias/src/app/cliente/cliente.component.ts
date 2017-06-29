@@ -5,6 +5,7 @@ import { Reserva } from '../../clases/reserva.class';
 import { ServicioLocalesService } from '../servicio-locales.service';
 import { ServicioReservasService } from '../servicio-reservas.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-cliente',
@@ -36,13 +37,14 @@ export class ClienteComponent implements OnInit {
   constructor(private productoService: ServicioProductosService,
               private localService: ServicioLocalesService,
               private reservaService: ServicioReservasService,
-              public router: Router) { 
+              public router: Router,
+              private authService: AuthService) { 
 
         this.TraerProductos();
         this.TraerLocales();
         this.TraerReservas()      
 
-        this.clienteProducto = localStorage.getItem("usuarioLogueado");  
+        this.clienteProducto = this.authService.getToken().data['nombre'];
   }
 
   ngOnInit() {
