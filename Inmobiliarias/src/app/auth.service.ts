@@ -48,6 +48,7 @@ export class AuthService {
     try {
       localStorage.setItem('token', null);
       this.router.navigate(['/login']);
+      location.reload();
     } catch (error) {
       return false;
     }

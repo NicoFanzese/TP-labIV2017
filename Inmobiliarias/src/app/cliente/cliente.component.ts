@@ -230,7 +230,8 @@ cambiarFiltro(){
 
   desloguearse()
   {
-    this.router.navigate(['/login']);
+    this.authService.logOut();
+    // this.router.navigate(['/login']);
   }
 
 }

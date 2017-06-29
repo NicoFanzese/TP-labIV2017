@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServicioLoginService } from '../servicio-login.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
                 else{
                   console.log(data);
                   localStorage.setItem('token', "false");
+                  console.log(localStorage.getItem('token'));
                   alert("Usuario inexistente");
                 }
               },
