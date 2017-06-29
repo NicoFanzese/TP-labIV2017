@@ -46,9 +46,11 @@ export class AuthService {
   public logOut()
   {
     try {
-      localStorage.setItem('token', null);
-      this.router.navigate(['/login']);
-      location.reload();
+      localStorage.setItem('token', null);         
+      this.GuardarToken();  
+      this.router.navigate(['/login']); 
+      //location.reload();
+      //this.router.navigate(['/login']);
     } catch (error) {
       return false;
     }

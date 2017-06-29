@@ -44,7 +44,11 @@ export class ClienteComponent implements OnInit {
         this.TraerLocales();
         this.TraerReservas()      
 
-        this.clienteProducto = this.authService.getToken().data['nombre'];
+        try {
+          this.clienteProducto = this.authService.getToken().data['nombre'];  
+        } catch (error) {
+          this.clienteProducto = "Testeo";
+        }        
   }
 
   ngOnInit() {
@@ -94,7 +98,7 @@ export class ClienteComponent implements OnInit {
       () => console.log("Productos traidos con éxito")
     );
 
-      console.info(this.productos);
+      //console.info(this.productos);
   }
 
 cambiarFiltro(){

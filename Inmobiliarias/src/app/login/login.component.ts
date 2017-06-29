@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ServicioLoginService } from '../servicio-login.service';
 import { Router } from '@angular/router';
-
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-login',
@@ -19,40 +19,59 @@ export class LoginComponent implements OnInit {
   public operacion: string;
 
   constructor(public loginService: ServicioLoginService,
-              public router: Router) { }
+              public router: Router,
+              public authService: AuthService) {
+
+                try {
+                  console.log(localStorage.getItem('token'));
+                  console.log(this.authService.getToken().data['tipo']);
+                  console.log(this.authService.getToken().data['nombre']);                  
+                  if (this.authService.getToken().data['nombre']){
+                    this.router.navigate(['/'+(this.authService.getToken().data['tipo'])]);
+                  }
+                } catch (error) {
+                
+               }
+  }
 
   ngOnInit() {
   }
 
   login(){
     console.log(this.username, this.password);
-    this.loginService.getLogin(this.username, this.password).subscribe(
-      // data => this.existeUsuario = data,
-      data => {
-                if(data != false)
-                {
-                    console.log(data.token);
-                    localStorage.setItem('token', data.token);
 
-                }
-                else{
-                  console.log(data);
-                  localStorage.setItem('token', "false");
-                  console.log(localStorage.getItem('token'));
-                  alert("Usuario inexistente");
-                }
-              },
-      err => {
-        console.error(err);
-        this.error = true;
-      },
-      () => console.log("")
-    );
-    //console.log(this.existeUsuario);
-    if (localStorage.getItem('token') != "false") {
-      // localStorage.setItem("usuarioLogueado",this.username);      
-      this.router.navigate(['/cliente']);
-    }
+        this.loginService.getLogin(this.username, this.password).subscribe(
+        data => {
+                  if(data != false)
+                  {
+                      console.log(data.token);
+                      localStorage.setItem('token', data.token);
+                      this.authService.GuardarToken();
+                      //this.router.navigate(['/'+(this.authService.getToken().data['tipo'])]);
+                  }
+                  else{
+                    console.log(data);
+                    localStorage.setItem('token', "false");
+                    console.log(localStorage.getItem('token'));
+                    //alert("Usuario inexistente");
+                  }
+                },
+        err => {
+          console.error(err);
+          this.error = true;
+        },
+        () => this.ruteo()
+      );
+      
+  }
+
+  ruteo(){        
+       if (localStorage.getItem('token') != "false") {
+         //alert("existe usuario");
+         this.router.navigate(['/'+(this.authService.getToken().data['tipo'])]);
+       }else{
+         alert("no existe usuario");
+       }
   }
 
   loginTesteo(){  

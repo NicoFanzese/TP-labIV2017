@@ -53,7 +53,7 @@ export class RegistracionComponent implements OnInit {
       ((this.passwordCliente == "") || (this.passwordCliente == undefined) || (this.passwordCliente == null))) {
         alert("Los Datos en pantalla son obligatorios");
     } else {
-        let objUsuario: Usuario = new Usuario(0, this.nombreCliente, this.usuarioLogueoCliente, this.passwordCliente, 'Cliente', 1);       
+        let objUsuario: Usuario = new Usuario(0, this.nombreCliente, this.usuarioLogueoCliente, this.passwordCliente, 'cliente', 1);       
         this.usuarioService.GuardarUsuario(objUsuario).subscribe();
 
         let objCliente: Cliente = new Cliente(0, this.nombreCliente, this.mailCliente, this.telefonoCliente, this.direccionCliente, this.usuarioLogueoCliente);
