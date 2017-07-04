@@ -38,10 +38,10 @@ import { ServicioOfertaService } from './servicio-oferta.service';
 import { ServicioOfertasService } from './servicio-ofertas.service';
 import { Oferta } from '../clases/oferta.class';
 import { ProductoOferta } from '../clases/productoOferta.class';
-import { MapaProductoComponent } from './mapa-producto/mapa-producto.component';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
-//import { AgmCoreModule } from '@agm/core';
+// import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
+import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 //import { Ng2MapModule} from 'ng2-map';
 //en imports:
 //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),
@@ -58,7 +58,6 @@ const appRoutes: Routes = [
   { path: 'encargado', component: EncargadoComponent },
   { path: 'empleado', component: EmpleadoComponent },
   { path: 'cliente', component: ClienteComponent },
-  { path: 'mapa', component: MapaProductoComponent },
   { path: 'registracion', component: RegistracionComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: LoginComponent }
@@ -73,7 +72,6 @@ const appRoutes: Routes = [
     EncargadoComponent,
     EmpleadoComponent,
     ClienteComponent,
-    MapaProductoComponent,
     RegistracionComponent
     
   ],
@@ -87,11 +85,12 @@ const appRoutes: Routes = [
     HttpModule,
     FileUploadModule,
     CarouselModule,    
+    GooglePlaceModule,
     RouterModule.forRoot(appRoutes),    
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24',
-      libraries: ['places']
+      apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o',
+      //apiKey: 'AIzaSyC-n6aE38pH9UlyKVrSqxywS9xqfYOxQm0'
     })/*,
      GoogleMapsNg2Module.forRoot({
       apiKey: "AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24",

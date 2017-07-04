@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
 
@@ -25,7 +25,9 @@ import { ProductoOferta } from '../../clases/productoOferta.class';
 
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
-import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+import { AgmCoreModule} from 'angular2-google-maps/core';
+// import { MapsAPILoader } from 'angular2-google-maps/core';
+import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import { NgModule, NgZone, ViewChild } from '@angular/core';
 
 import { ServicioReservasService } from '../servicio-reservas.service';
@@ -131,7 +133,8 @@ export class EncargadoComponent implements OnInit {
   public fechaHastaProducto;
   public fecha;
   public clienteProducto;
-
+  public options;
+  public address;
 
   public mensaje: string;
   public success: boolean = false;
@@ -157,7 +160,7 @@ export class EncargadoComponent implements OnInit {
               private usuarioService: ServicioUsuariosService,
               private empleadoService: ServicioEmpleadosService,
               private ofertaService: ServicioOfertaService,
-              private mapsAPILoader: MapsAPILoader,
+              //private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
               private reservaService: ServicioReservasService,
               public router: Router,
@@ -222,11 +225,12 @@ export class EncargadoComponent implements OnInit {
     
     }
 
-    this.ngOnInit();
-
+//    this.ngOnInit();
+    this.options = {types: [], componentRestrictions: { country: 'AR' }};
+    this.zoom = 12;
   }
 
-  ngOnInit() {
+  ngOnInit() {/*
     //set google maps defaults
     this.zoom = 4;
     this.latitude = 39.8282;
@@ -262,9 +266,9 @@ export class EncargadoComponent implements OnInit {
           this.zoom = 12;
         });
       });
-    });
+    });*/
   }
-
+/*
   setCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -273,7 +277,7 @@ export class EncargadoComponent implements OnInit {
         this.zoom = 12;
       });
     }
-  }
+  }*/
 
   MostrarClientes()
   {
@@ -448,6 +452,15 @@ export class EncargadoComponent implements OnInit {
   }
 
 //PRODUCTOS
+  getAddress(place:Object) 
+  { 
+    console.log(place['geometry']['location']);
+    this.latitude= place['geometry']['location'].lat(); 
+    this.longitude= place['geometry']['location'].lng();
+    // this.latPedido = place['geometry']['location'].lat(); 
+    // this.lngPedido = place['geometry']['location'].lng(); 
+  }
+
   TraerProductos() {
     this.productoService.getProductos().subscribe(
       data => this.productos = data,

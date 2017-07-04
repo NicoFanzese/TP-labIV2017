@@ -106,7 +106,7 @@
   <p class="lead animated bounceInRight" style="text-align: center;">Mapa del Producto {{mapaProd}}</p>
   <hr class="my-4">
   <!--<div id="mapaProducto">-->
-    <div class="container">
+    <!--<div class="container">-->
       <!--<sebm-google-map [latitude]=p.lat [longitude]=p.lng [scrollwheel]="false" [zoom]=4>
         <sebm-google-map-marker [latitude]=p.lat [longitude]=p.lng></sebm-google-map-marker>
       </sebm-google-map>
@@ -117,14 +117,22 @@
         </sebm-google-map>
       </div>-->
 
-      <sebm-google-map [latitude]=-34.829074 [longitude]=-58.4043129>
+      <!--<sebm-google-map [latitude]=-34.829074 [longitude]=-58.4043129>
           <sebm-google-map-marker [latitude]=-34.829074 [longitude]=-58.4043129></sebm-google-map-marker>
-      </sebm-google-map>
+      </sebm-google-map>-->
+      <!--<sebm-google-map [latitude]="latMap" [longitude]="lngMap">
+        <sebm-google-map-marker [latitude]="latMap" [longitude]="lngMap"></sebm-google-map-marker>
+      </sebm-google-map>-->
+
+      <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom">
+        <agm-marker [latitude]="latMap" [longitude]="lngMap"></agm-marker>
+      </agm-map>
+
 
       <div style="text-align:center">
         <button class="btn btn-primary" (click)="volverAProductos()"><i class="material-icons">Volver a Productos</i></button>
       </div>        
-    </div>
+    <!--</div>-->
   </div>
 </div>
 

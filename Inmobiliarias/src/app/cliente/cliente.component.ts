@@ -6,6 +6,7 @@ import { ServicioLocalesService } from '../servicio-locales.service';
 import { ServicioReservasService } from '../servicio-reservas.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
+import { AgmCoreModule } from '@agm/core';
 
 @Component({
   selector: 'app-cliente',
@@ -24,8 +25,14 @@ export class ClienteComponent implements OnInit {
   public fechaDesdeProducto;
   public fechaHastaProducto;
   public fecha;
-  public lngMap;
-  public latMap;
+  // public lngMap;
+  // public latMap;
+
+  public latMap: number = 51.678418;
+  public lngMap: number = 7.809007;
+  public zoom: number = 4;
+
+
   public mapaProd;
   public reservas;
 
@@ -51,8 +58,8 @@ export class ClienteComponent implements OnInit {
         } catch (error) {
           this.clienteProducto = "Testeo";
         }        
-        this.latMap=0;
-        this.lngMap = 0;
+        /*this.latMap=0;
+        this.lngMap = 0;*/
   }
 
   ngOnInit() {
@@ -129,8 +136,13 @@ cambiarFiltro(){
     localStorage.setItem("Lng",p.lng);
 
     // this.router.navigate(['/mapa']); 
-    this.latMap = p.lat;
-    this.lngMap=p.lng;
+
+
+    this.latMap = parseFloat(p.lat);
+    this.lngMap = parseFloat(p.lng);
+    console.log (this.latMap);
+    console.log (this.lngMap);    
+
     this.mapaProd = p.nombre;
     document.getElementById("divProductos").style.display = "none";      
     document.getElementById("mapaProducto").style.display = "inline";      

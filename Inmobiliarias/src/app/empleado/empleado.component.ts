@@ -10,7 +10,9 @@ import { ServicioLocalesService } from '../servicio-locales.service';
 
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
-import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+import { AgmCoreModule} from 'angular2-google-maps/core';
+// import { MapsAPILoader } from 'angular2-google-maps/core';
+import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import { NgModule, NgZone, ViewChild } from '@angular/core';
 
 import { ServicioReservasService } from '../servicio-reservas.service';
@@ -95,7 +97,7 @@ export class EmpleadoComponent implements OnInit {
   constructor(private clienteService: ServicioClientesService, 
               private productoService: ServicioProductosService,
               private localService: ServicioLocalesService,
-              private mapsAPILoader: MapsAPILoader,
+              //private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
               private reservaService: ServicioReservasService,
               public router: Router,
@@ -171,7 +173,7 @@ console.info(this.usuariosClientes);
       console.info("este es el status", status);
     }
 
-    this.ngOnInit();
+    //this.ngOnInit();
   }
 
   TomarProximoIdF1()
@@ -202,7 +204,7 @@ console.info(this.usuariosClientes);
   }
 
 
-  ngOnInit() {
+  ngOnInit() {/*
     //set google maps defaults
     this.zoom = 4;
     this.latitude = 39.8282;
@@ -238,9 +240,9 @@ console.info(this.usuariosClientes);
           this.zoom = 12;
         });
       });
-    });
+    });*/
   }
-
+/*
   setCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -249,7 +251,7 @@ console.info(this.usuariosClientes);
         this.zoom = 12;
       });
     }
-  }
+  }*/
 
 
   MostrarClientes()
