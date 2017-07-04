@@ -24,7 +24,9 @@ export class ClienteComponent implements OnInit {
   public fechaDesdeProducto;
   public fechaHastaProducto;
   public fecha;
-
+  public lngMap;
+  public latMap;
+  public mapaProd;
   public reservas;
 
   public mensaje: string;
@@ -49,6 +51,8 @@ export class ClienteComponent implements OnInit {
         } catch (error) {
           this.clienteProducto = "Testeo";
         }        
+        this.latMap=0;
+        this.lngMap = 0;
   }
 
   ngOnInit() {
@@ -117,17 +121,26 @@ cambiarFiltro(){
   }      
 }
 
-  verMapa(p: Producto){
-    //window.open(fileURL, "_self");
-    window.open(p.dirURL, '_blank');
-
-    console.log(p);
+  verMapa(p: Producto){    
+    /*window.open(p.dirURL, '_blank');
+    console.log(p);*/
     localStorage.setItem("Direccion",p.direccion);
     localStorage.setItem("Lat",p.lat);
     localStorage.setItem("Lng",p.lng);
 
+    // this.router.navigate(['/mapa']); 
+    this.latMap = p.lat;
+    this.lngMap=p.lng;
+    this.mapaProd = p.nombre;
+    document.getElementById("divProductos").style.display = "none";      
+    document.getElementById("mapaProducto").style.display = "inline";      
+
   }
 
+  volverAProductos(){
+      document.getElementById("divProductos").style.display = "inline";      
+      document.getElementById("mapaProducto").style.display = "none";      
+  }
 
   addCarrito(p: Producto, id){
     this.MostrarReservar();
