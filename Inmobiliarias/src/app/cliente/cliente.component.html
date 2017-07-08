@@ -99,7 +99,7 @@
   </div>
 
 </div>
-
+</div>
 <div id="mapaProducto" style="display: none" >
   <div class="jumbotron margin-top-10 margin-bot-10">
   <h1 class="display-3 animated bounceInRight" style="text-align: center;">Mapa</h1>
@@ -124,10 +124,13 @@
         <sebm-google-map-marker [latitude]="latMap" [longitude]="lngMap"></sebm-google-map-marker>
       </sebm-google-map>-->
 
-      <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom">
+      <!--<agm-map [latitude]="latMap" [longitude]="lngMap">
         <agm-marker [latitude]="latMap" [longitude]="lngMap"></agm-marker>
-      </agm-map>
-
+      </agm-map>-->
+      
+      <div class='agm-map-content'>
+        <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom"></agm-map>
+      </div>
 
       <div style="text-align:center">
         <button class="btn btn-primary" (click)="volverAProductos()"><i class="material-icons">Volver a Productos</i></button>
@@ -219,11 +222,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let hr of reservas" class="table-info animated fadeIn">
-              <th *ngIf="hr.Cliente=='Generico'"  scope="row"><span class="badge badge-default badge-pill">{{hr.nombre}}</span></th>
-              <td *ngIf="hr.Cliente=='Generico'" >{{hr.direccion}}</td>
-              <td *ngIf="hr.Cliente=='Generico'" >{{hr.tipo}}</td>
-              <td *ngIf="hr.Cliente=='Generico'" >{{hr.fechaDesde}}</td>
-              <td *ngIf="hr.Cliente=='Generico'" >{{hr.fechaHasta}}</td>
+              <th scope="row"><span class="badge badge-default badge-pill">{{hr.nombre}}</span></th>
+              <td >{{hr.direccion}}</td>
+              <td >{{hr.tipoProducto}}</td>
+              <td >{{hr.fechaDesde}}</td>
+              <td >{{hr.fechaHasta}}</td>
           </tr>
         </tbody>
       </table>

@@ -11,6 +11,7 @@ export class ServicioReservasService {
 
 
   private ruta: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reservas/"
+  private rutaResUsu: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reservasUsuario/"
   private rutaReserva: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reserva/"
   private rutaReservaCliente: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/reservaCliente/"
   
@@ -26,6 +27,10 @@ export class ServicioReservasService {
     return this.http.get(this.ruta + id).map(
       data => data.json());
   }
+  getReservasUsuario(usu: string) {
+    return this.http.get(this.rutaResUsu + "?usuarioLogueado="+ usu).map(
+      data => data.json());
+  }  
 
   deleteReserva(id: number) {
       return this.http.delete(this.rutaReserva + id).map(
@@ -40,7 +45,7 @@ export class ServicioReservasService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos   
-    return this.http.post(`${this.rutaReserva}?idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde}&fechaHasta=${reserva.fechaHasta}`,
+    return this.http.post(`${this.rutaReserva}?idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde}&fechaHasta=${reserva.fechaHasta}&usuarioLogueado=${reserva.usuarioLogueado}`,
       { headers: headers}
       ).map(response =>response.json());
 
@@ -53,7 +58,7 @@ export class ServicioReservasService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos   
-    return this.http.post(`${this.rutaReservaCliente}?idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde}&fechaHasta=${reserva.fechaHasta}`,
+    return this.http.post(`${this.rutaReservaCliente}?idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde}&fechaHasta=${reserva.fechaHasta}&usuarioLogueado=${reserva.usuarioLogueado}`,
       { headers: headers}
       ).map(response =>response.json());
 
@@ -65,7 +70,7 @@ export class ServicioReservasService {
     headers.append('Content-Type', 'application/json');
 
     //Llamo al método POST y le paso los datos
-    return this.http.put(`${this.rutaReservaCliente}?id=${reserva.id}&idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde},&fechaHasta=${reserva.fechaHasta}`,
+    return this.http.put(`${this.rutaReservaCliente}?id=${reserva.id}&idCliente=${reserva.idCliente}&fecha=${reserva.fecha}&idProducto=${reserva.idProducto}&tipoProducto=${reserva.tipoProducto}&fechaDesde=${reserva.fechaDesde},&fechaHasta=${reserva.fechaHasta}&usuarioLogueado=${reserva.usuarioLogueado}`,
 
       { headers: headers }
       ).map(response => response.json());

@@ -457,6 +457,7 @@ export class EncargadoComponent implements OnInit {
     console.log(place['geometry']['location']);
     this.latitude= place['geometry']['location'].lat(); 
     this.longitude= place['geometry']['location'].lng();
+    this.address = place['formatted_address'];
     // this.latPedido = place['geometry']['location'].lat(); 
     // this.lngPedido = place['geometry']['location'].lng(); 
   }
@@ -491,7 +492,8 @@ export class EncargadoComponent implements OnInit {
     this.idProductoEncargado = id;
     this.nombreProductoEncargado = nom;
     this.descripcionProductoEncargado = des;
-    this.direccionProductoEncargado = dir;    
+    // this.direccionProductoEncargado = dir;    
+    this.address = dir;
     this.tipoProductoEncargado = tip;
     this.vDesdeProductoEncargado = vd;
     this.vHastaProductoEncargado = vh;
@@ -508,7 +510,8 @@ export class EncargadoComponent implements OnInit {
     this.idProductoEncargado = "";
     this.nombreProductoEncargado = "";
     this.descripcionProductoEncargado = "";
-    this.direccionProductoEncargado = "";
+    // this.direccionProductoEncargado = "";
+    this.address ="";
     this.tipoProductoEncargado = "";
     this.vDesdeProductoEncargado = "";
     this.vHastaProductoEncargado = "";    
@@ -529,17 +532,17 @@ export class EncargadoComponent implements OnInit {
   }
 
   GuardarProducto() {
-    console.log(this.direccionProductoEncargado);
+    console.log(this.address);
     if (((this.nombreProductoEncargado == "") || (this.nombreProductoEncargado == undefined) || (this.nombreProductoEncargado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.direccionProductoEncargado, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
+        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.address, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
 
         this.productoService.GuardarProducto(objProducto).subscribe();
 
       } else if (this.operacion == "Modificar") {
-        let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado,this.descripcionProductoEncargado, this.direccionProductoEncargado, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
+        let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado,this.descripcionProductoEncargado, this.address, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
       }
       this.uploader.clearQueue();
@@ -1072,8 +1075,9 @@ CancelarReserva() {
     }
 
     if(band==0){
+      console.log(localStorage.getItem("usuarioLogueado"));
       //if (this.operacion == "Insertar") {
-      let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
+      let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto, localStorage.getItem("usuarioLogueado"));
       this.reservaService.GuardarReserva(objCliente).subscribe();
 
       /*} else if (this.operacion == "Modificar") {

@@ -14,6 +14,9 @@ import { AgmCoreModule } from '@agm/core';
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
+  lat: number = 51.678418;
+  lng: number = 7.809007;
+
   public productos;
   public locales;
   public idProductoSeleccionado;
@@ -28,9 +31,12 @@ export class ClienteComponent implements OnInit {
   // public lngMap;
   // public latMap;
 
-  public latMap: number = 51.678418;
-  public lngMap: number = 7.809007;
-  public zoom: number = 4;
+  
+  // public latMap: number = -34.7562049;
+  // public lngMap: number = -58.20878540000001;
+  public latMap: number;
+  public lngMap: number;
+  public zoom: number = 12;
 
 
   public mapaProd;
@@ -53,7 +59,7 @@ export class ClienteComponent implements OnInit {
         this.TraerLocales();
         this.TraerReservas()      
 
-        try {
+        try {         
           this.clienteProducto = this.authService.getToken().data['nombre'];  
         } catch (error) {
           this.clienteProducto = "Testeo";
@@ -140,6 +146,8 @@ cambiarFiltro(){
 
     this.latMap = parseFloat(p.lat);
     this.lngMap = parseFloat(p.lng);
+    // this.latMap= -34.7562049;
+    // this.lngMap = -58.20878540000001;    
     console.log (this.latMap);
     console.log (this.lngMap);    
 
@@ -168,7 +176,8 @@ cambiarFiltro(){
   }
 
   TraerReservas() {
-    this.reservaService.getReservas().subscribe(
+    console.log(localStorage.getItem("usuarioLogueado"));
+    this.reservaService.getReservasUsuario(localStorage.getItem("usuarioLogueado")).subscribe(
       data => this.reservas = data,
       err => {
         console.error(err);
@@ -245,7 +254,7 @@ cambiarFiltro(){
 
     if(band==0){
       //if (this.operacion == "Insertar") {
-      let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto);
+      let objCliente: Reserva = new Reserva(0, this.clienteProducto, Date.now(), this.idProductoSeleccionado, this.tipoProducto, this.fechaDesdeProducto, this.fechaHastaProducto, localStorage.getItem("usuarioLogueado"));
       this.reservaService.GuardarReservaCliente(objCliente).subscribe();
 
       /*} else if (this.operacion == "Modificar") {

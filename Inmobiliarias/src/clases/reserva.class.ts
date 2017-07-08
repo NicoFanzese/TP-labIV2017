@@ -5,9 +5,10 @@ export class Reserva{
     public idProducto;    
     public tipoProducto;
     public fechaDesde;
-    public fechaHasta;    
+    public fechaHasta;  
+    public usuarioLogueado;  
 
-    constructor(id,idCli, fec, idPro, tipoPro, fecDes, fecHas)
+    constructor(id,idCli, fec, idPro, tipoPro, fecDes, fecHas, usu)
     {   
         this.id = id;
         this.idCliente = idCli;
@@ -15,7 +16,8 @@ export class Reserva{
         this.idProducto = idPro;    
         this.tipoProducto = tipoPro;
         this.fechaDesde = fecDes;
-        this.fechaHasta = fecHas;                  
+        this.fechaHasta = fecHas;      
+        this.usuarioLogueado = usu;            
     }
 
 }

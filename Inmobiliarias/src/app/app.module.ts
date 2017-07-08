@@ -49,7 +49,7 @@ import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import { ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { MapsAPILoader } from 'angular2-google-maps/core';
-import {GoogleMapsNg2Module} from 'google-maps-ng2';
+// import {GoogleMapsNg2Module} from 'google-maps-ng2';
 //import {GoogleMapComponent, MapsManager} from "google-maps-ng2";
 
 const appRoutes: Routes = [
@@ -89,7 +89,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),    
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o',
+      apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'
+      //,libraries: ["places", "geometry"]
       //apiKey: 'AIzaSyC-n6aE38pH9UlyKVrSqxywS9xqfYOxQm0'
     })/*,
      GoogleMapsNg2Module.forRoot({

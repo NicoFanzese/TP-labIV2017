@@ -67,6 +67,8 @@ export class LoginComponent implements OnInit {
 
   ruteo(){        
        if (localStorage.getItem('token') != "false") {
+         console.log(this.authService.getToken().data['usuario']);
+         localStorage.setItem("usuarioLogueado",this.authService.getToken().data['usuario']);
          //alert("existe usuario");
          this.router.navigate(['/'+(this.authService.getToken().data['tipo'])]);
        }else{
@@ -75,7 +77,9 @@ export class LoginComponent implements OnInit {
   }
 
   loginTesteo(){  
-    localStorage.setItem("usuarioLogueado","Generico");
+    localStorage.setItem("usuarioLogueado",this.tipoUsuarioLogin + "- Testeo");
+    console.log(localStorage.getItem("usuarioLogueado"));
+    //localStorage.setItem("usuarioLogueado","Generico");
     this.router.navigate(['/'+this.tipoUsuarioLogin]);
   } 
 

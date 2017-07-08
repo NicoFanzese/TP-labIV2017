@@ -71,6 +71,8 @@ export class EmpleadoComponent implements OnInit {
   public precioProductoEmpleado: string;
   public productoLocal: string;
   public idProductoLocal: any;
+  public options;
+  public address;
 
   public reservas;
 
@@ -364,6 +366,18 @@ console.info(this.usuariosClientes);
   }
 
 //PRODUCTOS
+  getAddress(place:Object) 
+  { 
+    console.log(place['geometry']['location']);
+    console.log(this.address);
+    this.latitude= place['geometry']['location'].lat(); 
+    this.longitude= place['geometry']['location'].lng();
+    this.address = place['formatted_address'];
+    // this.latPedido = place['geometry']['location'].lat(); 
+    // this.lngPedido = place['geometry']['location'].lng(); 
+  }
+
+
   TraerLocales() {
     this.localService.getLocales().subscribe(
       data => this.locales = data,
@@ -405,7 +419,8 @@ console.info(this.usuariosClientes);
     this.idProductoEmpleado = id;
     this.nombreProductoEmpleado = nom;
     this.descripcionProductoEmpleado = des;
-    this.direccionProductoEmpleado = dir;
+    // this.direccionProductoEmpleado = dir;
+    this.address = dir;
     this.tipoProductoEmpleado = tip;
     this.vDesdeProductoEmpleado = vd;
     this.vHastaProductoEmpleado = vh;    
@@ -424,7 +439,8 @@ console.info(this.usuariosClientes);
     this.idProductoEmpleado = "";
     this.nombreProductoEmpleado = "";
     this.descripcionProductoEmpleado = "";
-    this.direccionProductoEmpleado = "";
+    // this.direccionProductoEmpleado = "";
+    this.address = "";
     this.tipoProductoEmpleado = "";
     this.vDesdeProductoEmpleado = "";
     this.vHastaProductoEmpleado = "";       
@@ -453,15 +469,16 @@ console.info(this.usuariosClientes);
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.direccionProductoEmpleado, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
+        let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.address, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.GuardarProducto(objProducto).subscribe();        
       } else if (this.operacion == "Modificar") {
-        let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.direccionProductoEmpleado, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
+        let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.address, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
       }
     }
     this.uploader.clearQueue();
     this.TraerProductos();
+    this.TraerProductos();        
     this.CancelarProducto();
     //this.contImagen = 1;
   }
