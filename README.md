@@ -111,6 +111,15 @@
  http://nfranzeseutn.hol.es/miAPIRest/index.php/usuario/?nombre=xx&usuario=xx&password=xx&tipo=xx&estado=xx
  Put:
  http://nfranzeseutn.hol.es/miAPIRest/index.php/usuario/?id=nn&nombre=xx&usuario=xx&password=xx&tipo=xx&estado=xx
- 
-
- 
+ <br>
+ <br>
+ ------------------------------------------------------------------
+ <br>
+MI PÁGINA
+<br>
+<img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/imagen1 - reservar.JPG"><br>
+<img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/imagen2 - reservar.JPG"><br>
+<img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/imagen3 - reservar.JPG"><br>
+<br>
+Ingresá desde acá: <br>
+http://nfranzeseutn.hol.es/Inmobiliaria/ 

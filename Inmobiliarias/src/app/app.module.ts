@@ -49,17 +49,19 @@ import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import { ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { MapsAPILoader } from 'angular2-google-maps/core';
+import { PaginaInicioComponent } from './pagina-inicio/pagina-inicio.component';
 // import {GoogleMapsNg2Module} from 'google-maps-ng2';
 //import {GoogleMapComponent, MapsManager} from "google-maps-ng2";
 
 const appRoutes: Routes = [
+  { path: 'inicio', component: PaginaInicioComponent },  
   { path: 'login', component: LoginComponent },
   { path: 'administrador', component: AdministradorComponent },
   { path: 'encargado', component: EncargadoComponent },
   { path: 'empleado', component: EmpleadoComponent },
   { path: 'cliente', component: ClienteComponent },
   { path: 'registracion', component: RegistracionComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
   { path: '**', component: LoginComponent }
   
 ];
@@ -72,7 +74,8 @@ const appRoutes: Routes = [
     EncargadoComponent,
     EmpleadoComponent,
     ClienteComponent,
-    RegistracionComponent
+    RegistracionComponent,
+    PaginaInicioComponent
     
   ],
   imports: [
