@@ -23,9 +23,8 @@
 
  --------------------------------------------------------------------------
  
- Agregado por NSF
  <br>
- APIS que utiliza el sistema:<br>
+ <h1>APIS que utiliza el sistema:</h1><br>
  nn = valor del parámetro<br>
  xx = varchar<br>
  <br>
@@ -116,11 +115,11 @@
  <br>
  <br>
  --------------------------------------------------------------
-MI PÁGINA
+<h1>MI PÁGINA</h1>
 <br>
 <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/imagen1 - reservar.JPG"><br>
 <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/imagen2 - reservar.JPG"><br>
 <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/imagen3 - reservar.JPG"><br>
 <br>
-Ingresá desde acá: <br>
+<h1>Ingresá desde acá:</h1> <br>
 http://nfranzeseutn.hol.es/Inmobiliaria/ 
