@@ -6,12 +6,12 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ServicioEstadisticasService {
 
-  private rutaG1: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/grafico1/"
+  private rutaG1: string = "http://nfranzeseutn.hol.es/miAPIRest/index.php/grafico1"
 
   constructor(private http: Http) { }
 
-  getGrafico1(local) {
-    return this.http.get(this.rutaG1 + local).map(
+  getGrafico1() {
+    return this.http.get(this.rutaG1).map(
       data => data.json());
   }
 

@@ -52,7 +52,7 @@ export class ServicioLocalesService {
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers}
-      ).map(response =>response.json());
+      ).map(response =>this.getLocales());
 
   }
 
@@ -68,7 +68,7 @@ export class ServicioLocalesService {
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers }
-      ).map(response => response.json());
+      ).map(response => this.getLocales());
 
   }
 
@@ -93,7 +93,7 @@ export class ServicioLocalesService {
     //Llamo al método POST y le paso los datos   
     return this.http.post(`${this.rutaLocalEmpleado}?idLocal=${empleadoLocal.idLocal}&idEmpleado=${empleadoLocal.idEmpleado}`,
       { headers: headers}
-      ).map(response =>response.json());
+      ).map(response =>this.getDetalleEmpleadosLocales(empleadoLocal.idLocal));
 
   }
 

@@ -474,14 +474,15 @@ console.info(this.usuariosClientes);
       if (this.operacion == "Insertar") {
         let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.address, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.GuardarProducto(objProducto).subscribe();        
+        this.TraerProductos();  
       } else if (this.operacion == "Modificar") {
         let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.address, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
+        this.TraerProductos();  
       }
     }
     this.uploader.clearQueue();
-    this.TraerProductos();
-    this.TraerProductos();        
+    this.TraerProductos();      
     this.CancelarProducto();
     //this.contImagen = 1;
   }

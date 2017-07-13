@@ -42,7 +42,7 @@ export class ServicioClientesService {
     //Llamo al método POST y le paso los datos   
     return this.http.post(`${this.rutaCliente}?nombre=${cliente.nombre}&mail=${cliente.mail}&telefono=${cliente.telefono}&direccion=${cliente.direccion}&idUsuario=${cliente.idUsuario}`,
       { headers: headers}
-      ).map(response =>response.json());
+      ).map(response =>this.getClientes());
 
   }
 
@@ -56,7 +56,7 @@ export class ServicioClientesService {
     return this.http.put(`${this.rutaCliente}?id=${cliente.id}&nombre=${cliente.nombre}&mail=${cliente.mail}&telefono=${cliente.telefono}&direccion=${cliente.direccion}&idUsuario=${cliente.idUsuario}`,
 
       { headers: headers }
-      ).map(response => response.json());
+      ).map(response => this.getClientes());
 
   }
 }

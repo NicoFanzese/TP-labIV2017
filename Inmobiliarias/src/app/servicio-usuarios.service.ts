@@ -42,7 +42,7 @@ export class ServicioUsuariosService {
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers}
-      ).map(response =>response.json());
+      ).map(response => this.getUsuarios());
 
   }
 
@@ -58,7 +58,7 @@ export class ServicioUsuariosService {
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers }
-      ).map(response => response.json());
+      ).map(response => this.getUsuarios());
 
   }
 

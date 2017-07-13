@@ -78,7 +78,8 @@ export class AdministradorComponent implements OnInit {
     this.TraerLocales();
     this.TraerUsuariosLocales();
     this.TraerEmpleados();    
-    this.TraerLocalesG1();
+    //this.TraerLocalesG1();
+    this.getGrafico1();
 
     this.uploaderLocal.onBeforeUploadItem=(item)=>
     {
@@ -476,12 +477,12 @@ agregarEmpleadosLocal(id, nom){
  MostrarG1(local){
    console.log(local);
    this.lineChartLabels = [local];
-   this.getGrafico1(local);
+   this.getGrafico1();
  }
 
-  getGrafico1(local) {
-    this.estadisticasService.getGrafico1(local).subscribe(
-      data => this.empleadosLocales = data,
+  getGrafico1() {
+    this.estadisticasService.getGrafico1().subscribe(
+      data => this.lineChartData = data,
       err => {
         console.error(err);
         this.error = true;

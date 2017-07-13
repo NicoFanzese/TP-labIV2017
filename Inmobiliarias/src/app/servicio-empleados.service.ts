@@ -49,7 +49,7 @@ export class ServicioEmpleadosService {
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers}
-      ).map(response =>response.json());
+      ).map(response =>this.getEmpleados());
 
   }
 
@@ -65,7 +65,7 @@ export class ServicioEmpleadosService {
     //  return this.http.post(this.ruta,
     //   JSON.stringify(usuario),
       { headers: headers }
-      ).map(response => response.json());
+      ).map(response => this.getEmpleados());
 
   }
 }
