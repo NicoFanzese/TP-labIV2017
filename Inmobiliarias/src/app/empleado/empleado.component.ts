@@ -71,8 +71,27 @@ export class EmpleadoComponent implements OnInit {
   public precioProductoEmpleado: string;
   public productoLocal: string;
   public idProductoLocal: any;
+
   public options;
   public address;
+  public street_number;
+  public street;
+  public city;
+  public state;
+  public district;
+  public country;
+  public postal_code;
+  public lat;
+  public lng;
+  public adr_address;
+  public place_id;
+  public types;
+  public url;
+  public utc_offset;
+  public vicinity;
+  public photos;
+  public airport;
+  public CountryCodes;
 
   public reservas;
 

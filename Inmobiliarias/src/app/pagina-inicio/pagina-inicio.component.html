@@ -1,119 +1,99 @@
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Inicio</a>
-                <a class="navbar-brand" href="/login">Login</a>
-				        <!--<a class="navbar-brand" href="/login">Acerca de...</a>-->
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <a class="navbar-brand" (click)="irBienvenida()">Inicio</a>
+            <a class="navbar-brand" (click)="irLogin()">Login</a>
+            <!--<a class="navbar-brand" href="/login">Acerca de...</a>-->
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="/login">Login</a>
                     </li>             
                 </ul>
             </div>-->
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Full Page Image Background Carousel Header -->
-    <header id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for Slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <!-- Set the first background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
-                <div class="carousel-caption">
-                    <h2>Caption 1</h2>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the second background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
-                <div class="carousel-caption">
-                    <h2>Caption 2</h2>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the third background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
-                <div class="carousel-caption">
-                    <h2>Caption 3</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-
-    </header>
-
-    <!-- Page Content -->
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Inmobiliaria El Campito</h1>
-                <br>
-                Bienvenidos a nuestro sitio web
-                <br>
-                Si estás en busca de casas, departamentos, quintas y PHs donde hospedarte, casas de fin de semana, te ofrecemos las mejores y al mejor precio.
-                <br>    
-                También podes encontrar casas en ventas, aceptamos bienes en partes de pago.
-                <br>
-                <br>
-                No dudes en registrarte y ver nuestros productos. Si necesitas contactarnos, lo podes hacer al número (011) 4xxx-xxxx
-
-            </div>
-        </div>
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Nicolás Franzese 2017</p>
-                </div>
-            </div>
-            <!-- /.row -->
-        </footer>
-
+        <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
+</nav>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+<!-- Page Content -->
+<!--<div class="container">-->
+<!--<div class="row">-->
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<br>
+<table>
+    <!--<tr style="width: 0px">
 
-    <!-- Script to Activate the Carousel -->
-    <script>
+                  </tr>-->
+    <tr style="width: 100%;  height:100%;">
+        <!--<div style="width: 50%" align="center">-->
+        <div align="center">
+            <carousel>
+                <slide>
+                    <img style="width:100%;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/banner1.jpg">
+                </slide>
+                <slide>
+                    <img style="width:100%;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/banner2.jpg">
+                </slide>
+                <!--<slide>
+                    <img style="width:100%;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/sistema/banner3.jpg">
+                </slide>-->
+            </carousel>
+        </div>
+    </tr>
+    <!--<tr style="width:30px;  height:200px;">
+
+                  </tr>-->
+</table>
+<br>
+<br>
+<div style="text-align: center;">
+    <div class="jumbotron margin-top-10 margin-bot-10">
+        <h1 class="display-3 animated bounceInRight">Inmobiliaria El Campito</h1>
+        <br> Bienvenidos a nuestro sitio web
+        <br> Si estás en busca de casas, departamentos, quintas y PHs donde hospedarte, casas de fin de semana, te ofrecemos
+        las mejores y al mejor precio.
+        <br> También podes encontrar casas en ventas, aceptamos bienes en partes de pago.
+        <br>
+        <br> No dudes en registrarte y ver nuestros productos. Si necesitas contactarnos, lo podes hacer al número (011)
+        4xxx-xxxx
+    </div>
+</div>
+<!--</div>-->
+
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Copyright &copy; Nicolás Franzese 2017</p>
+        </div>
+    </div>
+    <!-- /.row -->
+</footer>
+
+<!--</div>-->
+<!-- /.container -->
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Script to Activate the Carousel -->
+<script>
     $('.carousel').carousel({
         interval: 5000 //changes the speed
     })
-    </script>
-
+</script>

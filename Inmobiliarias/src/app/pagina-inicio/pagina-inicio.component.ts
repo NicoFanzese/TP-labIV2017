@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-pagina-inicio',
   templateUrl: './pagina-inicio.component.html',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaginaInicioComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit() {
   }
+
+  irBienvenida(){  
+    this.router.navigate(['/bienvenida']);
+  } 
+  irLogin(){      
+    this.router.navigate(['/login']);
+  }     
 
 }

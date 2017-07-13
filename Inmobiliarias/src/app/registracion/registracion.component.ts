@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./registracion.component.css']
 })
 export class RegistracionComponent implements OnInit {
+  // public idCliente;
   public nombreCliente;
   public mailCliente;
   public telefonoCliente;
@@ -28,6 +29,7 @@ export class RegistracionComponent implements OnInit {
 
   CancelarRegistracion() {
     document.getElementById("altaUsuariosAdministrador").style.display = "none";
+    // this.idCliente= "";
     this.nombreCliente = "";
     this.mailCliente = "";
     this.telefonoCliente = "";

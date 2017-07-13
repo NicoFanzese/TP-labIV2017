@@ -133,8 +133,31 @@ export class EncargadoComponent implements OnInit {
   public fechaHastaProducto;
   public fecha;
   public clienteProducto;
+
   public options;
   public address;
+  public street_number;
+  public street;
+  public city;
+  public state;
+  public district;
+  public country;
+  public postal_code;
+  public lat;
+  public lng;
+  public adr_address;
+  public place_id;
+  public types;
+  public url;
+  public utc_offset;
+  public vicinity;
+  public photos;
+  public airport;
+  public CountryCodes;
+  //public usuarioLoginClienteEncargado;
+
+
+
 
   public mensaje: string;
   public success: boolean = false;
@@ -154,15 +177,15 @@ export class EncargadoComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  constructor(private clienteService: ServicioClientesService, 
-              private productoService: ServicioProductosService, 
-              private localService: ServicioLocalesService,
-              private usuarioService: ServicioUsuariosService,
-              private empleadoService: ServicioEmpleadosService,
-              private ofertaService: ServicioOfertaService,
+  constructor(public clienteService: ServicioClientesService, 
+              public productoService: ServicioProductosService, 
+              public localService: ServicioLocalesService,
+              public usuarioService: ServicioUsuariosService,
+              public empleadoService: ServicioEmpleadosService,
+              public ofertaService: ServicioOfertaService,
               //private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone,
-              private reservaService: ServicioReservasService,
+              public ngZone: NgZone,
+              public reservaService: ServicioReservasService,
               public router: Router,
               public authService: AuthService) { 
 

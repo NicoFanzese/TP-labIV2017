@@ -57,15 +57,17 @@ import { ServicioEstadisticasService } from './servicio-estadisticas.service';
 import { ChartsModule } from 'ng2-charts';
 
 const appRoutes: Routes = [
-  { path: 'inicio', component: PaginaInicioComponent },  
+  { path: 'bienvenida', component: PaginaInicioComponent },  
   { path: 'login', component: LoginComponent },
   { path: 'administrador', component: AdministradorComponent },
   { path: 'encargado', component: EncargadoComponent },
   { path: 'empleado', component: EmpleadoComponent },
   { path: 'cliente', component: ClienteComponent },
   { path: 'registracion', component: RegistracionComponent },
-  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
-  { path: '**', component: LoginComponent }
+  // { path: '', redirectTo: 'bienvenida', pathMatch: 'full' },
+  // { path: '#', redirectTo: 'bienvenida', pathMatch: 'full' },
+  { path: '', redirectTo: 'bienvenida', pathMatch: 'full' },
+  { path: '**', component: PaginaInicioComponent }
   
 ];
 

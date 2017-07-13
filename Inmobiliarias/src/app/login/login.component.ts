@@ -82,5 +82,12 @@ export class LoginComponent implements OnInit {
     //localStorage.setItem("usuarioLogueado","Generico");
     this.router.navigate(['/'+this.tipoUsuarioLogin]);
   } 
+  
+  idBienvenida(){  
+    this.router.navigate(['/bienvenida']);
+  } 
+  irLogin(){      
+    this.router.navigate(['/login']);
+  }     
 
 }
