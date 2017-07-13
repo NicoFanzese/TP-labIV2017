@@ -368,8 +368,9 @@ console.info(this.usuariosClientes);
 //PRODUCTOS
   getAddress(place:Object) 
   { 
-    console.log(place['geometry']['location']);
-    console.log(this.address);
+    // console.log(place['geometry']['location']);
+    // console.log(this.address);
+    this.dirURL = place['url'];
     this.latitude= place['geometry']['location'].lat(); 
     this.longitude= place['geometry']['location'].lng();
     this.address = place['formatted_address'];
@@ -414,12 +415,13 @@ console.info(this.usuariosClientes);
     this.TraerProductos();
   }
 
-  mostrarProducto(id, nom, des, dir, tip, vd, vh,  f1, f2, f3, mon, pre) {
+  mostrarProducto(id, nom, des, dir, tip, vd, vh,  f1, f2, f3, mon, pre, URL) {
     this.operacion = "Modificar";
     this.idProductoEmpleado = id;
     this.nombreProductoEmpleado = nom;
     this.descripcionProductoEmpleado = des;
     // this.direccionProductoEmpleado = dir;
+    this.dirURL = URL;
     this.address = dir;
     this.tipoProductoEmpleado = tip;
     this.vDesdeProductoEmpleado = vd;
@@ -441,6 +443,7 @@ console.info(this.usuariosClientes);
     this.descripcionProductoEmpleado = "";
     // this.direccionProductoEmpleado = "";
     this.address = "";
+    this.dirURL = "";
     this.tipoProductoEmpleado = "";
     this.vDesdeProductoEmpleado = "";
     this.vHastaProductoEmpleado = "";       

@@ -135,25 +135,21 @@ cambiarFiltro(){
 }
 
   verMapa(p: Producto){    
-    /*window.open(p.dirURL, '_blank');
-    console.log(p);*/
-    localStorage.setItem("Direccion",p.direccion);
+    window.open(p.dirURL, '_blank');
+
+
+/*    localStorage.setItem("Direccion",p.direccion);
     localStorage.setItem("Lat",p.lat);
     localStorage.setItem("Lng",p.lng);
 
     // this.router.navigate(['/mapa']); 
-
-
     this.latMap = parseFloat(p.lat);
     this.lngMap = parseFloat(p.lng);
     // this.latMap= -34.7562049;
     // this.lngMap = -58.20878540000001;    
-    console.log (this.latMap);
-    console.log (this.lngMap);    
-
     this.mapaProd = p.nombre;
     document.getElementById("divProductos").style.display = "none";      
-    document.getElementById("mapaProducto").style.display = "inline";      
+    document.getElementById("mapaProducto").style.display = "inline";      */
 
   }
 

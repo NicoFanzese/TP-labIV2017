@@ -454,7 +454,9 @@ export class EncargadoComponent implements OnInit {
 //PRODUCTOS
   getAddress(place:Object) 
   { 
-    console.log(place['geometry']['location']);
+    // console.log(place['geometry']['location']);
+    // console.log(place['url']);
+    this.dirURL = place['url'];
     this.latitude= place['geometry']['location'].lat(); 
     this.longitude= place['geometry']['location'].lng();
     this.address = place['formatted_address'];
@@ -487,13 +489,14 @@ export class EncargadoComponent implements OnInit {
     this.TraerProductos();
   }
 
-  mostrarProducto(id, nom,des, dir, tip, vd, vh, f1, f2, f3, mon, pre) {
+  mostrarProducto(id, nom,des, dir, tip, vd, vh, f1, f2, f3, mon, pre, URL) {
     this.operacion = "Modificar";
     this.idProductoEncargado = id;
     this.nombreProductoEncargado = nom;
     this.descripcionProductoEncargado = des;
     // this.direccionProductoEncargado = dir;    
     this.address = dir;
+    this.dirURL = URL;
     this.tipoProductoEncargado = tip;
     this.vDesdeProductoEncargado = vd;
     this.vHastaProductoEncargado = vh;
@@ -512,6 +515,7 @@ export class EncargadoComponent implements OnInit {
     this.descripcionProductoEncargado = "";
     // this.direccionProductoEncargado = "";
     this.address ="";
+    this.dirURL = "";
     this.tipoProductoEncargado = "";
     this.vDesdeProductoEncargado = "";
     this.vHastaProductoEncargado = "";    

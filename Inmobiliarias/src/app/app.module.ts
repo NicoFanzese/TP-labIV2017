@@ -52,6 +52,9 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 import { PaginaInicioComponent } from './pagina-inicio/pagina-inicio.component';
 // import {GoogleMapsNg2Module} from 'google-maps-ng2';
 //import {GoogleMapComponent, MapsManager} from "google-maps-ng2";
+import { ServicioEstadisticasService } from './servicio-estadisticas.service';
+
+import { ChartsModule } from 'ng2-charts';
 
 const appRoutes: Routes = [
   { path: 'inicio', component: PaginaInicioComponent },  
@@ -89,7 +92,8 @@ const appRoutes: Routes = [
     FileUploadModule,
     CarouselModule,    
     GooglePlaceModule,
-    RouterModule.forRoot(appRoutes),    
+    RouterModule.forRoot(appRoutes),  
+    ChartsModule,  
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'
@@ -110,7 +114,8 @@ const appRoutes: Routes = [
               ServicioOfertaService,
               ServicioReservasService,
               AuthService,
-              ServicioLoginService],
+              ServicioLoginService,
+              ServicioEstadisticasService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

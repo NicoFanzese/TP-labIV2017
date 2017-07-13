@@ -180,8 +180,8 @@
         <select required name="monedaProductoEncargado" [(ngModel)]="monedaProductoEncargado" id="monedaProductoEncargado">
         <option [value]="''" selected>Elija moneda</option>
         <option [value]="'Pesos'">Pesos</option>
-        <option [value]="'Dolares'">Dolares</option>
-        <option [value]="'Euros'">Euros</option>
+        <!--<option [value]="'Dolares'">Dolares</option>
+        <option [value]="'Euros'">Euros</option>-->
         </select>      
       <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioEncargado">-->
       </div>
@@ -334,7 +334,7 @@
               <button class="btn btn-warning" (click)="agregarLocales(p.ID, p.nombre)"><i class="material-icons">Locales</i></button>                                    
             </td>                 
             <td>              
-              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion,p.direccion, p.tipo,p.vDesde, p.vHasta, p.foto1, p.foto2, p.foto3, p.moneda, p.precio)"><i class="material-icons">Modificar</i></button>
+              <button class="btn btn-primary" (click)="mostrarProducto(p.ID, p.nombre, p.descripcion,p.direccion, p.tipo,p.vDesde, p.vHasta, p.foto1, p.foto2, p.foto3, p.moneda, p.precio, p.dirURL)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteProducto(p.ID)"><i class="material-icons">Borrar</i></button>
             </td>
           </tr>

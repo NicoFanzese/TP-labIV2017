@@ -7,9 +7,11 @@ import { EmpleadoLocal } from '../../clases/empleadoLocal.class';
 import { ServicioEmpleadosService } from '../servicio-empleados.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { ServicioEstadisticasService } from '../servicio-estadisticas.service';
 
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
+
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -53,6 +55,11 @@ export class AdministradorComponent implements OnInit {
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
  
+ //graficos
+  public graficoUno;
+  public localesG1;
+
+  //Fileupload
   public fileOverBase(e:any):void {
     this.hasBaseDropZoneOver = e;
   }
@@ -65,11 +72,13 @@ export class AdministradorComponent implements OnInit {
               public localService: ServicioLocalesService,
               public empleadoService: ServicioEmpleadosService,
               public router: Router,
-              public authService: AuthService) {
+              public authService: AuthService,
+              public estadisticasService: ServicioEstadisticasService) {
     this.TraerUsuarios();
     this.TraerLocales();
     this.TraerUsuariosLocales();
     this.TraerEmpleados();    
+    this.TraerLocalesG1();
 
     this.uploaderLocal.onBeforeUploadItem=(item)=>
     {
@@ -303,6 +312,9 @@ export class AdministradorComponent implements OnInit {
     }
 
   GuardarLocal() {
+    // document.getElementById("GuardarLocal").disabled = true;
+    // document.getElementById("CancelarLocal").disabled = true;
+
     if (((this.nombreLocalAdministrador == "") || (this.nombreLocalAdministrador == undefined) || (this.nombreLocalAdministrador == null)) ||
       ((this.direccionLocalAdministrador == "") || (this.direccionLocalAdministrador == undefined) || (this.direccionLocalAdministrador == null))) {
         alert("Los Datos en pantalla son obligatorios");
@@ -320,6 +332,8 @@ export class AdministradorComponent implements OnInit {
       this.TraerLocales();
       this.CancelarLocal();
       this.uploaderLocal.clearQueue();
+      // document.getElementById("GuardarLocal").disabled = false;
+      // document.getElementById("CancelarLocal").disabled = false;
     }
 
   }
@@ -391,4 +405,94 @@ agregarEmpleadosLocal(id, nom){
     // this.router.navigate(['/login']);
   }
 
+
+//Gráficos
+  TraerLocalesG1() {
+    this.localService.getLocales().subscribe(
+      data => this.localesG1 = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("Locales traidos con éxito")
+    );
+  }
+// lineChart
+  public lineChartLabels;
+  public lineChartData:Array<any>;
+  // public lineChartData:Array<any> = [
+  //   {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
+  //   {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
+  //   {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
+  // ];
+  // public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartOptions:any = {
+    responsive: true
+  };
+  public lineChartColors:Array<any> = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
+    { // dark grey
+      backgroundColor: 'rgba(77,83,96,0.2)',
+      borderColor: 'rgba(77,83,96,1)',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    },
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = 'line';
+ 
+  public randomize():void {
+    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
+    for (let i = 0; i < this.lineChartData.length; i++) {
+      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
+      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
+        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+      }
+    }
+    this.lineChartData = _lineChartData;
+  }
+ 
+  // events
+  // public chartClicked(e:any):void {
+  //   console.log(e);
+  // }
+ MostrarG1(local){
+   console.log(local);
+   this.lineChartLabels = [local];
+   this.getGrafico1(local);
+ }
+
+  getGrafico1(local) {
+    this.estadisticasService.getGrafico1(local).subscribe(
+      data => this.empleadosLocales = data,
+      err => {
+        console.error(err);
+        this.error = true;
+      },
+      () => console.log("empleados de Local traidos con éxito")
+    );
+    console.log("Empleados:" +this.empleadosLocales);
+  }
+
+
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
 }
