@@ -131,7 +131,7 @@ Contraseña de administrador: admin
 <br>
 Con este usuario podràn crear cualquier usuario menos màs administradores
 <br>
-ucliente - 123
+pepusa - 123
 <br>
 uempleado - 123
 <br>
