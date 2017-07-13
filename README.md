@@ -123,3 +123,10 @@
 <br>
 <h1>Ingresá desde acá:</h1> <br>
 http://nfranzeseutn.hol.es/Inmobiliaria/ 
+
+<br>
+Usuario administrador: admin
+<br>
+Contraseña de administrador: admin
+<br>
+Con este usuario podràn crear cualquier usuario menos màs administradores
