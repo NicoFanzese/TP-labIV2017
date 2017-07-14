@@ -19,6 +19,7 @@ import { ServicioReservasService } from '../servicio-reservas.service';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -569,5 +570,18 @@ console.info(this.usuariosClientes);
     this.authService.logOut();
     // this.router.navigate(['/login']);
   }
+  exportarAExcelClientes(){    
+    this.TraerClientes();
+    console.log(this.clientes);
+    var options = { 
+      fieldSeparator: ';',
+      quoteStrings: '',
+      decimalseparator: '.',
+      showLabels: true, 
+      showTitle: false,
+      useBom: true
+    };
 
+    new Angular2Csv(this.clientes, 'clientes', options);
+  }
 }

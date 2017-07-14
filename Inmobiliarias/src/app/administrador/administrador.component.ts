@@ -11,7 +11,7 @@ import { ServicioEstadisticasService } from '../servicio-estadisticas.service';
 
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
-
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -245,6 +245,22 @@ export class AdministradorComponent implements OnInit {
     }
 
   }
+
+    exportarAExcelUsuarios(){    
+    this.TraerUsuarios();
+    console.log(this.usuarios);
+    var options = { 
+      fieldSeparator: ';',
+      quoteStrings: '',
+      decimalseparator: '.',
+      showLabels: true, 
+      showTitle: false,
+      useBom: true
+    };
+
+    new Angular2Csv(this.usuarios, 'usuarios', options);
+  }  
+
     //LOCALES
   TraerLocales() {
     this.localService.getLocales().subscribe(
@@ -338,7 +354,20 @@ export class AdministradorComponent implements OnInit {
     }
 
   }
+  exportarAExcelLocales(){    
+    this.TraerLocales();
+    console.log(this.locales);
+    var options = { 
+      fieldSeparator: ';',
+      quoteStrings: '',
+      decimalseparator: '.',
+      showLabels: true, 
+      showTitle: false,
+      useBom: true
+    };
 
+    new Angular2Csv(this.locales, 'locales', options);
+  }  
 
 //DETALLE EMPLEADO
   TraerEmpleados() {
