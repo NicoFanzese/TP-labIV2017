@@ -90,4 +90,19 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/login']);
   }     
 
+  completarUsuario(){
+    if (this.tipoUsuarioLogin == 'administrador'){
+      this.username = 'admin'; 
+      this.password = 'admin';
+    }else if (this.tipoUsuarioLogin == 'encargado'){
+      this.username = 'uencargado'; 
+      this.password = '123';
+    }else if (this.tipoUsuarioLogin == 'cliente'){
+      this.username = 'ucliente'; 
+      this.password = '123';
+    }else if (this.tipoUsuarioLogin == 'empleado'){
+      this.username = 'uempleado'; 
+      this.password = '123';
+    }
+  }
 }

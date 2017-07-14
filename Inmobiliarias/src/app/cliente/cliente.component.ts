@@ -135,10 +135,10 @@ cambiarFiltro(){
 }
 
   verMapa(p: Producto){    
-    window.open(p.dirURL, '_blank');
+    //window.open(p.dirURL, '_blank');
 
 
-/*    localStorage.setItem("Direccion",p.direccion);
+   localStorage.setItem("Direccion",p.direccion);
     localStorage.setItem("Lat",p.lat);
     localStorage.setItem("Lng",p.lng);
 
@@ -149,7 +149,7 @@ cambiarFiltro(){
     // this.lngMap = -58.20878540000001;    
     this.mapaProd = p.nombre;
     document.getElementById("divProductos").style.display = "none";      
-    document.getElementById("mapaProducto").style.display = "inline";      */
+    document.getElementById("mapaProducto").style.display = "inline";    
 
   }
 

@@ -98,9 +98,7 @@ const appRoutes: Routes = [
     ChartsModule,  
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'
-      //,libraries: ["places", "geometry"]
-      //apiKey: 'AIzaSyC-n6aE38pH9UlyKVrSqxywS9xqfYOxQm0'
+      apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'     
     })/*,
      GoogleMapsNg2Module.forRoot({
       apiKey: "AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24",
