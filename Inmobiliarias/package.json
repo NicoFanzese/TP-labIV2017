@@ -33,6 +33,7 @@
     "core-js": "^2.4.1",
     "google-maps-ng2": "^1.0.4",
     "jquery": "^3.2.1",
+    "ng-recaptcha": "^2.1.1",
     "ng2-charts": "^1.6.0",
     "ng2-component-spinner": "^0.2.1",
     "ng2-file-upload": "^1.2.1",

@@ -13,7 +13,7 @@ import { EmpleadoComponent } from './empleado/empleado.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { RegistracionComponent } from './registracion/registracion.component';
 
-import { AlertModule } from 'ngx-bootstrap';
+// import { AlertModule } from 'ngx-bootstrap';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
@@ -58,7 +58,9 @@ import { ServicioEstadisticasService } from './servicio-estadisticas.service';
 import { SpinnerComponentModule } from 'ng2-component-spinner';
 import * as spinner from 'ng2-spin-kit/app/spinners';
 // import { RotatingPlaneComponent } from 'ng2-spin-kit/app/spinner/rotating-plane.component'
-import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle'
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle';
+import { MapaComponent } from './mapa/mapa.component'
+import { RecaptchaModule } from 'ng-recaptcha';
 
 const appRoutes: Routes = [
   { path: 'bienvenida', component: PaginaInicioComponent },  
@@ -68,10 +70,12 @@ const appRoutes: Routes = [
   { path: 'empleado', component: EmpleadoComponent },
   { path: 'cliente', component: ClienteComponent },
   { path: 'registracion', component: RegistracionComponent },
+  { path: 'mapa', component: MapaComponent },
   // { path: '', redirectTo: 'bienvenida', pathMatch: 'full' },
   // { path: '#', redirectTo: 'bienvenida', pathMatch: 'full' },
   { path: '', redirectTo: 'bienvenida', pathMatch: 'full' },
   { path: '**', component: PaginaInicioComponent }
+  
   
 ];
 
@@ -85,13 +89,14 @@ const appRoutes: Routes = [
     ClienteComponent,
     RegistracionComponent,
     PaginaInicioComponent,
-    spinner.FadingCircleComponent    
+    spinner.FadingCircleComponent,
+    MapaComponent    
   ],
   imports: [
     BrowserModule,
     FormsModule, 
     ReactiveFormsModule,
-    AlertModule.forRoot(),
+    // AlertModule.forRoot(),
     JwtModule,
     //AlertModule,
     HttpModule,
@@ -101,6 +106,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),  
     // ChartsModule,  
     SpinnerComponentModule,
+    RecaptchaModule.forRoot(),  
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'     

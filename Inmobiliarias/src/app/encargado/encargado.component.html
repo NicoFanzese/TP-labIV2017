@@ -1,21 +1,22 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-fixed-top navbar-toggleable-sm navbar-inverse bg-primary flex-nowrap">
+
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <a class="navbar-brand" (click)="MostrarEmpleados()">Empleados</a>
-      <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
+      <li><a class="navbar-brand" (click)="MostrarEmpleados()">Empleados</a></li>
+      <li><a class="navbar-brand" (click)="MostrarClientes()">Clientes</a></li>
       <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
-      <!--<li><a class="navbar-brand" (click)="MostrarOfertas()">Ofertas</a></li>-->
-      <!--<li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>-->
       <li><a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a></li>
       <li><a class="navbar-brand" (click)="MostrarLocales()">Locales</a></li>
       <li><a class="navbar-brand" (click)="MostrarOfertas()">Ver Productos y Ofertas</a></li>
       <li><a class="navbar-brand" (click)="MostrarReservas()">Reservas</a></li>
-    </ul>
 
-    <ul class="nav navbar-nav navbar-right">
-      <li><a (click)="desloguearse()">Desloguearme</a></li>
     </ul>
-  </div>
+  </div>    
+   <div class="navbar-collapse collapse dual-nav">
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item"><a class="navbar-brand mr-0" (click)="desloguearse()">Desloguearme</a></li>
+        </ul>
+    </div>
 </nav>
 
 
@@ -96,7 +97,7 @@
             <th>Teléfono</th>
             <th>Dirección</th>
             <!--<th>Usuario Login</th>-->
-            <!--<th>Acciones</th>-->
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -629,7 +630,7 @@
             <th>Password</th>
             <th>Tipo</th>
             <th>Estado</th>
-            <!--<th>Acciones</th>-->
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -728,7 +729,7 @@
             <th>Nombre</th>
             <th>Dirección</th>
             <th>Usuario Login</th>
-            <!--<th>Acciones</th>-->
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -771,16 +772,13 @@
     <hr class="my-4">
 
     <div class="row">
-      <div class="col col-md-3 animated fadeIn" *ngFor="let p of productos">
+      <div class="col col-md-4 animated fadeIn" *ngFor="let p of productos">
         <div class="card margin-top-10">
           <div class="card-block">
             <h2 align="center"><b>{{p.nombre}}</b></h2>
             <!--<img class="card-img-top img-fluid" src="http://localhost:8080/ApiRestPizzeria/assets/img/producto/{{p.imagen}}" alt="Card image cap">-->
-            <table>
-              <!--<tr style="width: 0px">
-
-                </tr>-->
-              <tr style="width: 100%;  height:100%;">
+            <!--<table>
+              <tr style="width: 100%;  height:100%;">-->
                 <!--<div style="width: 50%" align="center">-->
                 <div align="center">
                   <carousel>
@@ -795,11 +793,8 @@
                     </slide>
                   </carousel>
                 </div>
-              </tr>
-              <!--<tr style="width:30px;  height:200px;">
-
-                </tr>-->
-            </table>
+              <!--</tr>
+            </table>-->
             <h3 align="center"><b>{{p.tipo}}</b></h3>
             <h4 align="center"><b>Vigencia Desde:</b> {{p.vDesde}}</h4>
             <h4 align="center"><b>Vigencia Hasta:</b> {{p.vHasta}}</h4>

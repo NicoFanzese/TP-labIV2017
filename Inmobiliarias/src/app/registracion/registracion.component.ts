@@ -22,6 +22,9 @@ export class RegistracionComponent implements OnInit {
   public passwordCliente;
   public show;
   public delay;
+
+  public recaptchaSiteKey = '6LcS2SgUAAAAAESNBtPooj2t32y1RS3-2Mxh_eko';
+
   constructor(public usuarioService: ServicioUsuariosService,
               private clienteService: ServicioClientesService,
               public router: Router) { 
@@ -59,7 +62,9 @@ export class RegistracionComponent implements OnInit {
       ((this.telefonoCliente == "") || (this.telefonoCliente == undefined) || (this.telefonoCliente == null)) ||
       ((this.direccionCliente == "") || (this.direccionCliente == undefined) || (this.direccionCliente == null)) ||
       ((this.usuarioLogueoCliente == "") || (this.usuarioLogueoCliente == undefined) || (this.usuarioLogueoCliente == null)) ||
-      ((this.passwordCliente == "") || (this.passwordCliente == undefined) || (this.passwordCliente == null))) {
+      ((this.passwordCliente == "") || (this.passwordCliente == undefined) || (this.passwordCliente == null)) ||
+      ((localStorage.getItem("captcha") == "null") || (localStorage.getItem("captcha") == null) || (localStorage.getItem("captcha") == "") || (localStorage.getItem("captcha") == undefined))
+      ) {
         alert("Los Datos en pantalla son obligatorios");
       this.show = false;                
     } else {
@@ -70,6 +75,7 @@ export class RegistracionComponent implements OnInit {
         this.clienteService.GuardarCliente(objCliente).subscribe();
       
         alert("Registración efectuada con éxito");
+        localStorage.setItem("captcha",null);             
         this.show = false;
         this.router.navigate(['/login']);
     }
@@ -78,8 +84,14 @@ export class RegistracionComponent implements OnInit {
 
   cancelarRegistracion()
   {
+    localStorage.setItem("captcha",null);      
     this.show = false;            
     this.router.navigate(['/login']);
   }
-
+ resolved(captchaResponse: string) {
+        if(captchaResponse)
+        {
+          localStorage.setItem("captcha",captchaResponse);  
+        }
+    }
 }

@@ -32,6 +32,9 @@
         <label for="passwordCliente" style="text-align: center;">Password:</label>
         <input required type="password" style="text-align: center;" class="form-control" name="passwordCliente" [(ngModel)]="passwordCliente" id="passwordCliente">
       </div>      
+      <div style="text-align: center;">
+        <re-captcha (resolved)="resolved($event)" siteKey="6LcS2SgUAAAAAESNBtPooj2t32y1RS3-2Mxh_eko"></re-captcha>
+      </div>  
 
 	    <spinner-component [spinnerShow]="show">
 					<div class="spinner-2">

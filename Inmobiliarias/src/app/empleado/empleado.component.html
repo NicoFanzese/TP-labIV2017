@@ -1,15 +1,20 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-fixed-top navbar-toggleable-sm navbar-inverse bg-primary flex-nowrap">
+
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <a class="navbar-brand" (click)="MostrarClientes()">Clientes</a>
-      <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
-      <li><a class="navbar-brand" (click)="MostrarReservas()">Reservas</a></li>
-    </ul>
+      <li><a class="navbar-brand" (click)="MostrarClientes()">Clientes</a></li>
 
-    <ul class="nav navbar-nav navbar-right">
-      <li><a (click)="desloguearse()">Desloguearme</a></li>        
+      <li><a class="navbar-brand" (click)="MostrarProductos()">Productos</a></li>
+
+      <li><a class="navbar-brand" (click)="MostrarReservas()">Reservas</a></li>
+
     </ul>
-  </div>
+  </div>    
+   <div class="navbar-collapse collapse dual-nav">
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item"><a class="navbar-brand mr-0" (click)="desloguearse()">Desloguearme</a></li>
+        </ul>
+    </div>
 </nav>
 
 <p>
@@ -89,7 +94,7 @@
             <th>Teléfono</th>
             <th>Dirección</th>
             <!--<th>Usuario Login</th>-->
-            <!--<th>Acciones</th>-->
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -328,7 +333,6 @@
             <th>Precio</th>
             <th>Detalles</th>
             <th>Acciones</th>   
-            <!--<th>Acciones</th>-->
           </tr>
         </thead>
         <tbody>

@@ -1,57 +1,50 @@
-
-<nav class="navbar navbar-inverse">
+<!--<nav class="navbar navbar-inverse">-->
+<nav class="navbar navbar-fixed-top navbar-toggleable-sm navbar-inverse bg-primary flex-nowrap">
 
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-    <!--<div class="navbar-header">-->
-      <a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a>
-    <!--</div>-->
-    
-      <!--<li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown">Locales<span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a>Ver Locales</a></li>
-          <li><a>Cargar Local</a></li>  
-        </ul>
-      </li>-->
+      <li><a class="navbar-brand" (click)="MostrarUsuarios()">Usuarios</a></li>
 
       <li><a class="navbar-brand" (click)="MostrarLocales()">Locales</a></li>
 
       <li><a class="navbar-brand" (click)="MostrarEstadisticas()">Estadisticas corporativas</a></li>
+ 
     </ul>
-
-    <ul class="nav navbar-nav navbar-right">
-      <li><a (click)="desloguearse()">Desloguearme</a></li>        
-    </ul>
-  </div>
+  </div>    
+   <div class="navbar-collapse collapse dual-nav">
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item"><a class="navbar-brand mr-0" (click)="desloguearse()">Desloguearme</a></li>
+        </ul>
+    </div>
 </nav>
 
 
 <p>
   administradores!
-<br>
-  1- Se encarga de crear locales y usuario de todo tipo. <br>
-  2- Ve las estadísticas comparativas entre los locales. 
+  <br> 1- Se encarga de crear locales y usuario de todo tipo. <br> 2- Ve las estadísticas comparativas entre los locales.
 </p>
 <br>
 
 <div id="LocalesAdministrador" style="display: none">
   <br>
- <div id="altaLocalesAdministrador" style="display: none">
+  <div id="altaLocalesAdministrador" style="display: none">
     <br>
     <form>
       <h1 style="text-align: center;"> Locales </h1><br>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">ID:</label>
-        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idLocalAdministrador" [(ngModel)]="idLocalAdministrador" id="idLocalAdministrador">
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idLocalAdministrador" [(ngModel)]="idLocalAdministrador"
+          id="idLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">Nombre:</label>
-        <input required type="text" style="text-align: center;" class="form-control" name="nombreLocalAdministrador" [(ngModel)]="nombreLocalAdministrador" id="nombreLocalAdministrador">
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreLocalAdministrador" [(ngModel)]="nombreLocalAdministrador"
+          id="nombreLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">Dirección:</label>
-        <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalAdministrador" [(ngModel)]="direccionLocalAdministrador" id="direccionLocalAdministrador">
+        <input required type="text" style="text-align: center;" class="form-control" name="direccionLocalAdministrador" [(ngModel)]="direccionLocalAdministrador"
+          id="direccionLocalAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">Encargado:</label><br>
@@ -60,50 +53,47 @@
         </select>
       </div>
 
-    <div class="form-group">
-      <label class="control-label col-sm-2"><b>Imagen:</b></label>
-        <div ng2FileDrop
-              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-              (fileOver)="fileOverBase($event)"
-              [uploader]="uploaderLocal"
-              class="well my-drop-zone">
-            Arroja aquì tu imagen
-            <div *ngFor="let item of uploaderLocal.queue">
+      <div class="form-group">
+        <label class="control-label col-sm-2"><b>Imagen:</b></label>
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploaderLocal"
+          class="well my-drop-zone">
+          Arroja aquì tu imagen
+          <div *ngFor="let item of uploaderLocal.queue">
             {{ item?.file?.name }}
-            </div>
+          </div>
         </div>
-    </div>
-    <div align="center" *ngIf="!error" >
-      <a class="btn btn-success"><i class="material-icons" (click)="subirImagenesLocal()">Subir Imagenes</i></a>
-     
-    </div>      
-    
-    <br>
-    <br>
-    <table style="width:100%">
-      <tr style="width: 30%">
+      </div>
+      <div align="center" *ngIf="!error">
+        <a class="btn btn-success"><i class="material-icons" (click)="subirImagenesLocal()">Subir Imagenes</i></a>
 
-      </tr>
-      <tr style="width: 30%">
-        <!--<div style="width: 50%" align="center">-->
+      </div>
+
+      <br>
+      <br>
+      <table style="width:100%">
+        <tr style="width: 30%">
+
+        </tr>
+        <tr style="width: 30%">
+          <!--<div style="width: 50%" align="center">-->
           <div align="center">
-          <carousel>
-            <slide>
-              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto1LocalAdministrador}}">
-            </slide>
-            <slide>
-              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2LocalAdministrador}}">
-            </slide>
-            <slide>
-              <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto3LocalAdministrador}}">
-            </slide>
-          </carousel>
-        </div>
-      </tr> 
-      <tr style="width: 30%">
+            <carousel>
+              <slide>
+                <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto1LocalAdministrador}}">
+              </slide>
+              <slide>
+                <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto2LocalAdministrador}}">
+              </slide>
+              <slide>
+                <img class="itemCarousel" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{foto3LocalAdministrador}}">
+              </slide>
+            </carousel>
+          </div>
+        </tr>
+        <tr style="width: 30%">
 
-      </tr>
-    </table>
+        </tr>
+      </table>
 
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocal()">Guardar</button>
@@ -113,79 +103,79 @@
   </div>
 
   <div id="altaEmpleadosLocalesAdministrador" style="display: none">
-        <br>
-        <div id="formularioAltaEmpleadoLocal">
-          <form align="center">          
-            <div class="form-group" style="text-align: center;">
-              <label style="text-align: center;">Elija Empleado a agregar:</label><br>
-              <select name="EmpleadoLocalAdministrador" [(ngModel)]="EmpleadoLocalAdministrador" id="EmpleadoLocalAdministrador">
+    <br>
+    <div id="formularioAltaEmpleadoLocal">
+      <form align="center">
+        <div class="form-group" style="text-align: center;">
+          <label style="text-align: center;">Elija Empleado a agregar:</label><br>
+          <select name="EmpleadoLocalAdministrador" [(ngModel)]="EmpleadoLocalAdministrador" id="EmpleadoLocalAdministrador">
                 <option *ngFor="let e of empleados" [value]="e.ID">{{e.nombre}}</option>         
               </select>
-            </div>
-     
-            <br>
-            <div style="text-align: center;">
-              <!--<button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocalProducto(idProductoLocal, LocalProductoEncargado)" >Guardar</button>-->
-              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="AddEmpleadoLocal()" >Guardar</button>
-              <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CerrarEmpleadoLocal()">Cerrar</button>        
-            </div>
-          </form>
-        </div>  
+        </div>
 
-        <div style="text-align: center;">  
-          <div class="jumbotron margin-top-10 margin-bot-10">
-            <h2 class="display-3 animated bounceInRight">Listado de empleados asociados al local {{localEmpleado}}</h2>
-            <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
-            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
-            <!--<div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocalProducto()">Agregar Local</i></a></div>-->
-            <hr class="my-4">
+        <br>
+        <div style="text-align: center;">
+          <!--<button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarLocalProducto(idProductoLocal, LocalProductoEncargado)" >Guardar</button>-->
+          <button type="submit" class="btn btn-default" style="text-align: center;" (click)="AddEmpleadoLocal()">Guardar</button>
+          <button type="submit" class="btn btn-default" style="text-align: center;" (click)="CerrarEmpleadoLocal()">Cerrar</button>
+        </div>
+      </form>
+    </div>
 
-            <table class="table table-hover" *ngIf="!error">
-              <thead class="thead-inverse">
-                <tr>
-                  <th>Nombre</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let el of empleadosLocales" class="table-info animated fadeIn">
-                  <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->            
-                  <td>{{el.nombre}}</td>
-                  <td>              
-                    <button class="btn btn-danger" (click)="deleteEmpleadoLocal(el.ID)"><i class="material-icons">Borrar</i></button>                  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+    <div style="text-align: center;">
+      <div class="jumbotron margin-top-10 margin-bot-10">
+        <h2 class="display-3 animated bounceInRight">Listado de empleados asociados al local {{localEmpleado}}</h2>
+        <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
+        <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
+        <!--<div align="right" *ngIf="!error" ><a class="btn btn-success"><i class="material-icons" (click)="altaLocalProducto()">Agregar Local</i></a></div>-->
+        <hr class="my-4">
 
-            <!--Si no hay datos-->
-            <div *ngIf="error">
-              <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
-              <div class="alert alert-danger" role="alert">
-                <strong>404</strong> Error de servidor.
-              </div>
-            </div>
+        <table class="table table-hover" *ngIf="!error">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Nombre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let el of empleadosLocales" class="table-info animated fadeIn">
+              <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
+              <td>{{el.nombre}}</td>
+              <td>
+                <button class="btn btn-danger" (click)="deleteEmpleadoLocal(el.ID)"><i class="material-icons">Borrar</i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!--Si no hay datos-->
+        <div *ngIf="error">
+          <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+          <div class="alert alert-danger" role="alert">
+            <strong>404</strong> Error de servidor.
           </div>
         </div>
-                
-      </div>  
+      </div>
+    </div>
+
+  </div>
 
 
-  <div style="text-align: center;">  
+  <div style="text-align: center;">
     <spinner-component [spinnerShow]="show">
       <div class="spinner-2">
-      <div class="double-bounce1"></div>
-      <div class="double-bounce2"></div>
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
       </div>
-    </spinner-component> 				
+    </spinner-component>
     <sk-fading-circle *ngIf="show"></sk-fading-circle>
 
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight">Listado de Locales</h1>
       <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
       <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
-      <div align="right" *ngIf="!error" >
+      <div align="right" *ngIf="!error">
         <a class="btn btn-success"><i class="material-icons" (click)="altaLocal()">Agregar Local</i></a>
-        <a class="btn btn-primary"><i class="material-icons" (click)="exportarAExcelLocales()">Exportar a Excel</i></a>        
+        <a class="btn btn-primary"><i class="material-icons" (click)="exportarAExcelLocales()">Exportar a Excel</i></a>
       </div>
       <hr class="my-4">
 
@@ -206,9 +196,9 @@
             <td>{{l.direccion}}</td>
             <td>{{l.idEncargado}}</td>
             <td>
-              <button class="btn btn-warning" (click)="agregarEmpleadosLocal(l.ID, l.nombre)"><i class="material-icons">Empleados</i></button>                                    
+              <button class="btn btn-warning" (click)="agregarEmpleadosLocal(l.ID, l.nombre)"><i class="material-icons">Empleados</i></button>
             </td>
-            <td>              
+            <td>
               <button class="btn btn-primary" (click)="mostrarLocal(l.ID, l.nombre, l.direccion, l.idEncargado, l.foto1, l.foto2, l.foto3)"><i class="material-icons">Modificar</i></button>
               <button class="btn btn-danger" (click)="deleteLocal(l.ID)"><i class="material-icons">Borrar</i></button>
             </td>
@@ -235,19 +225,23 @@
       <h1 style="text-align: center;"> Usuarios </h1><br>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">ID:</label>
-        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idUsuarioAdministrador" [(ngModel)]="idUsuarioAdministrador" id="idUsuarioAdministrador">
+        <input readonly="true" type="text" style="text-align: center;" class="form-control" name="idUsuarioAdministrador" [(ngModel)]="idUsuarioAdministrador"
+          id="idUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">Nombre y apellido:</label>
-        <input required type="text" style="text-align: center;" class="form-control" name="nombreUsuarioAdministrador" [(ngModel)]="nombreUsuarioAdministrador" id="nombreUsuarioAdministrador">
+        <input required type="text" style="text-align: center;" class="form-control" name="nombreUsuarioAdministrador" [(ngModel)]="nombreUsuarioAdministrador"
+          id="nombreUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">Usuario Login:</label>
-        <input required type="text" style="text-align: center;" class="form-control" name="usuarioUsuarioAdministrador" [(ngModel)]="usuarioUsuarioAdministrador" id="usuarioUsuarioAdministrador">
+        <input required type="text" style="text-align: center;" class="form-control" name="usuarioUsuarioAdministrador" [(ngModel)]="usuarioUsuarioAdministrador"
+          id="usuarioUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
-        <label style="text-align: center;" >Password:</label>
-        <input type="password" style="text-align: center;" class="form-control" name="passwordUsuarioAdministrador" [(ngModel)]="passwordUsuarioAdministrador" id="passwordUsuarioAdministrador">
+        <label style="text-align: center;">Password:</label>
+        <input type="password" style="text-align: center;" class="form-control" name="passwordUsuarioAdministrador" [(ngModel)]="passwordUsuarioAdministrador"
+          id="passwordUsuarioAdministrador">
       </div>
       <div class="form-group" style="text-align: center;">
         <label style="text-align: center;">Tipo usuario:</label>
@@ -258,12 +252,13 @@
           <option [value]="'cliente'">Cliente</option>
           <option [value]="'empleado'">Empleado</option>
         </select>
-       
-       <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
+
+        <!-- <input type="text" style="text-align: center;" class="form-control" id="tipoUsuarioAdministrador">-->
       </div>
       <div class="form-group" style="text-align: center;">
-        <label style="text-align: center;" >Estado:</label>
-        <input type="checkbox" style="text-align: center;" class="form-control" name="estadoUsuarioAdministrador" [(ngModel)]="estadoUsuarioAdministrador" id="estadoUsuarioAdministrador">
+        <label style="text-align: center;">Estado:</label>
+        <input type="checkbox" style="text-align: center;" class="form-control" name="estadoUsuarioAdministrador" [(ngModel)]="estadoUsuarioAdministrador"
+          id="estadoUsuarioAdministrador">
       </div>
       <div style="text-align: center;">
         <button type="submit" class="btn btn-default" style="text-align: center;" (click)="GuardarUsuario()">Guardar</button>
@@ -272,22 +267,22 @@
     </form>
   </div>
 
-  <div style="text-align: center;">  
+  <div style="text-align: center;">
     <spinner-component [spinnerShow]="show">
       <div class="spinner-2">
-      <div class="double-bounce1"></div>
-      <div class="double-bounce2"></div>
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
       </div>
-    </spinner-component> 				
+    </spinner-component>
     <sk-fading-circle *ngIf="show"></sk-fading-circle>
 
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight">Listado de usuarios</h1>
       <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
       <!--<div align="right" *ngIf="!error" ><a class="btn btn-success" [routerLink]="['/datosusuario','alta']"><i class="material-icons">person_add</i></a></div>-->
-      <div align="right" *ngIf="!error" >
+      <div align="right" *ngIf="!error">
         <a class="btn btn-success"><i class="material-icons" (click)="altaUsuario()">Agregar Usuario</i></a>
-        <a class="btn btn-primary"><i class="material-icons" (click)="exportarAExcelUsuarios()">Exportar a Excel</i></a>        
+        <a class="btn btn-primary"><i class="material-icons" (click)="exportarAExcelUsuarios()">Exportar a Excel</i></a>
       </div>
       <hr class="my-4">
 
@@ -299,7 +294,7 @@
             <th>Password</th>
             <th>Tipo</th>
             <th>Estado</th>
-            <!--<th>Acciones</th>-->
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -346,15 +341,15 @@
   <h1 class="display-1 animated bounceInRight" style="text-align: center;">Estadisticas coorporativas</h1>
   <!--<br>  
   <div class="form-group" style="text-align: center;">-->
-    <!--<h1 class="display-3 animated bounceInRight">Ventas por Locales (G1)</h1>-->
-    <!--<br>
+  <!--<h1 class="display-3 animated bounceInRight">Ventas por Locales (G1)</h1>-->
+  <!--<br>
     <label for="LocalG1" style="text-align: center;">Elija Local:</label><br>
     <select name="LocalG1" [(ngModel)]="LocalG1" id="LocalG1">
       <option *ngFor="let l of localesG1" [value]="l.nombre">{{l.nombre}}</option>         
     </select>
     <button type="submit" class="btn btn-default" style="text-align: center;" (click)="MostrarG1(LocalG1)">Mostrar</button>-->
   <!--</div>  -->
-  
+
   <br>
   <!--
   <div class="row">
