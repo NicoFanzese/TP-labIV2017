@@ -34,7 +34,8 @@ export class ServicioReservasService {
 
   deleteReserva(id: number) {
       return this.http.delete(this.rutaReserva + id).map(
-      data => data.json());
+      // data => data.json());
+      data => console.log("exitos"));            
   }
 
   public GuardarReserva(reserva: Reserva) 

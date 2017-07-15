@@ -20,6 +20,9 @@ import { ServicioReservasService } from '../servicio-reservas.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { SpinnerComponentModule } from 'ng2-component-spinner';
+// import { RotatingPlaneComponent } from 'ng2-spin-kit/app/spinner/rotating-plane.component'
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle';
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -102,7 +105,7 @@ export class EmpleadoComponent implements OnInit {
   public error: boolean = false;
   public operacion: string;
 
-
+  public show;
 
   public uploader:FileUploader = new FileUploader({url: URL});
   public hasBaseDropZoneOver:boolean = false;
@@ -141,6 +144,7 @@ export class EmpleadoComponent implements OnInit {
     this.TraerLocales();
     this.TraerReservas();
 
+this.show = false;  
 
 console.info(this.usuariosClientes);
    //************************************************
@@ -313,8 +317,9 @@ console.info(this.usuariosClientes);
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Clientes traidos con éxito")
+      () => {console.log("Clientes traidos con éxito");this.show = false; }
     );
   }
 
@@ -335,12 +340,13 @@ console.info(this.usuariosClientes);
   }
 
   deleteCliente(id: number) {
+    this.show = true;  
     this.clienteService.deleteCliente(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
-    );
-    this.TraerClientes();
+      err => {console.error(err);this.show = false;},
+      () => {console.info('éxito'); this.show = false; this.TraerClientes(); }
+    );    
+    this.TraerClientes();    
   }
 
   mostrarCliente(id, nom, mail, tel, dir, usuLog) {
@@ -366,25 +372,45 @@ console.info(this.usuariosClientes);
   }
 
   GuardarCliente() {
+    this.show = true;  
     if (((this.nombreClienteEmpleado == "") || (this.nombreClienteEmpleado == undefined) || (this.nombreClienteEmpleado == null)) ||
         ((this.mailClienteEmpleado == "") || (this.mailClienteEmpleado == undefined) || (this.mailClienteEmpleado == null))) {
         alert("El nombre del cliente y Mail son obligatorios");
+        this.show=false;  
     } else {
       if (this.operacion == "Insertar") {
         let objCliente: Cliente = new Cliente(0, this.nombreClienteEmpleado, this.mailClienteEmpleado, this.telefonoClienteEmpleado, this.direccionClienteEmpleado, this.usuarioLoginClienteEmpleado);
 
         this.clienteService.GuardarCliente(objCliente).subscribe();
-
+        this.TraerClientes();
+        this.TraerClientes();        
+        this.CancelarCliente();
       } else if (this.operacion == "Modificar") {
         let objCliente: Cliente = new Cliente(this.idClienteEmpleado, this.nombreClienteEmpleado, this.mailClienteEmpleado, this.telefonoClienteEmpleado, this.direccionClienteEmpleado, this.usuarioLoginClienteEmpleado);
         this.clienteService.putCliente(objCliente).subscribe();
+        this.TraerClientes();
+        this.TraerClientes();
+        this.CancelarCliente();
       }
       this.TraerClientes();
       this.CancelarCliente();
     }
 
   }
+ exportarAExcelClientes(){  
+    this.show=true;  
+    var options = { 
+      fieldSeparator: ';',
+      quoteStrings: '',
+      decimalseparator: '.',
+      showLabels: true, 
+      showTitle: false,
+      useBom: true
+    };
 
+    new Angular2Csv(this.clientes, 'clientes', options);
+    this.TraerClientes();    
+  }
 //PRODUCTOS
   getAddress(place:Object) 
   { 
@@ -405,10 +431,12 @@ console.info(this.usuariosClientes);
       err => {
         console.error(err);
         this.error = true;
+        this.show=false;
       },
-      () => console.log("Locales traidos con éxito")
+      () => {console.log("Locales traidos con éxito"); this.show=false;}
     );
   }
+
 
   TraerProductos() {
     this.productoService.getProductos().subscribe(
@@ -416,8 +444,9 @@ console.info(this.usuariosClientes);
       err => {
         console.error(err);
         this.error = true;
+        this.show=false;
       },
-      () => console.log("Productos traidos con éxito")
+      () => {console.log("Productos traidos con éxito"); this.show=false;}
     );
   }
 
@@ -427,10 +456,11 @@ console.info(this.usuariosClientes);
   }
   
   deleteProducto(id: number) {
+    this.show=true;
     this.productoService.deleteProducto(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
       err => console.error(err),
-      () => console.info('éxito')
+      () => {console.info('éxito'); this.TraerProductos()}
     );
     this.TraerProductos();
   }
@@ -485,24 +515,25 @@ console.info(this.usuariosClientes);
   }
 
   GuardarProducto() {
-    console.log(this.tipoProductoEmpleado);
-    console.log(this.vDesdeProductoEmpleado);
-    console.log(this.vHastaProductoEmpleado);
+    this.show=true;
     if (((this.nombreProductoEmpleado == "") || (this.nombreProductoEmpleado == undefined) || (this.nombreProductoEmpleado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
+        this.show=false;
     } else {
       if (this.operacion == "Insertar") {
         let objProducto: Producto = new Producto(0, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.address, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.GuardarProducto(objProducto).subscribe();        
         this.TraerProductos();  
+        this.TraerProductos();          
       } else if (this.operacion == "Modificar") {
         let objProducto: Producto = new Producto(this.idProductoEmpleado, this.nombreProductoEmpleado, this.descripcionProductoEmpleado, this.address, this.tipoProductoEmpleado,this.vDesdeProductoEmpleado, this.vHastaProductoEmpleado, this.foto1ProductoEmpleado, this.foto2ProductoEmpleado, this.foto3ProductoEmpleado, this.monedaProductoEmpleado, this.precioProductoEmpleado, this.latitude, this.longitude, this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
         this.TraerProductos();  
+        this.TraerProductos();          
       }
     }
+    this.TraerProductos();  
     this.uploader.clearQueue();
-    this.TraerProductos();      
     this.CancelarProducto();
     //this.contImagen = 1;
   }
@@ -514,13 +545,15 @@ console.info(this.usuariosClientes);
       err => {
         console.error(err);
         this.error = true;
+        this.show=false;
       },
-      () => console.log("Locales de Producto traidos con éxito")
+      () => {console.log("Locales de Producto traidos con éxito"); this.show=false;}
     );
     console.log("Locales:" +this.localesProductos);
   }
 
   agregarLocales(id, nombre){
+    this.show=true;
     console.log(id);
     document.getElementById("altaLocalesProductosEmpleado").style.display = "inline";
     document.getElementById("altaProductosEmpleado").style.display = "none";    
@@ -530,8 +563,10 @@ console.info(this.usuariosClientes);
   }
 
   GuardarLocalProducto() {
+    this.show=true;
     if ((this.LocalProductoEmpleado == "") || (this.LocalProductoEmpleado == undefined) || (this.LocalProductoEmpleado == null)) {
         alert("Debe elegir un local en el Combo de locales");
+        this.show=false;
     } else {      
         let objLocalProducto: LocalProducto = new LocalProducto(0, this.idProductoLocal, this.LocalProductoEmpleado);
         this.productoService.GuardarLocalProducto(objLocalProducto).subscribe();               
@@ -540,13 +575,12 @@ console.info(this.usuariosClientes);
   }
   
   deleteLocalProducto(id: number) {
+    this.show=true;
     this.productoService.deleteLocalProducto(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
       err => console.error(err),
       () => console.info('éxito')
     )
-    console.log(this.idProductoLocal);
-    this.TraerDetalleLocales(this.idProductoLocal);
     this.TraerDetalleLocales(this.idProductoLocal);
   }
 
@@ -561,8 +595,9 @@ console.info(this.usuariosClientes);
       err => {
         console.error(err);
         this.error = true;
+        this.show=false;
       },
-      () => console.log("Reservas traidos con éxito")
+      () => {console.log("Reservas traidos con éxito"); this.show=false;}
     );
   }  
   desloguearse()
@@ -570,18 +605,5 @@ console.info(this.usuariosClientes);
     this.authService.logOut();
     // this.router.navigate(['/login']);
   }
-  exportarAExcelClientes(){    
-    this.TraerClientes();
-    console.log(this.clientes);
-    var options = { 
-      fieldSeparator: ';',
-      quoteStrings: '',
-      decimalseparator: '.',
-      showLabels: true, 
-      showTitle: false,
-      useBom: true
-    };
-
-    new Angular2Csv(this.clientes, 'clientes', options);
-  }
+ 
 }

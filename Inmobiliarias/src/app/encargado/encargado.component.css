@@ -49,7 +49,7 @@ strong {
 	width: 300px;
 }
 
-form fieldset input[type="text"], input[type="password"] {
+/*form fieldset input[type="text"], input[type="password"] {
 	background-color: #e5e5e5;
 	border: none;
 	border-radius: 3px;
@@ -63,7 +63,7 @@ form fieldset input[type="text"], input[type="password"] {
 	padding: 0px 10px;
 	width: 280px;
 	-webkit-appearance:none;
-}
+}*/
 
 form fieldset input[type="submit"] {
 	background-color: #008dde;

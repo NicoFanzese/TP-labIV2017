@@ -29,7 +29,8 @@ export class ServicioClientesService {
 
   deleteCliente(id: number) {
       return this.http.delete(this.rutaCliente + id).map(
-      data => data.json());
+      // data => data.json());
+      data => console.log("exitos"));      
   }
 
   public GuardarCliente(cliente: Cliente) 

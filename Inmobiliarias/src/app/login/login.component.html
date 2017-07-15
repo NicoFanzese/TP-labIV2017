@@ -36,8 +36,20 @@
 
 				<p><input name="password" [(ngModel)]="password" id="password" type="password" required value="Password" onBlur="if(this.value=='')this.value='Password'" onFocus="if(this.value=='Password')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Password" -->
 
+				<spinner-component [spinnerShow]="show">
+					<div class="spinner-2">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+					</div>
+				</spinner-component> 				
+
+
+    			<!--<sk-rotating-plane *ngIf="show"></sk-rotating-plane>-->
+				<!--<sk-rotating-plane></sk-rotating-plane>-->
+				<sk-fading-circle *ngIf="show"></sk-fading-circle>
+
 				<p><input type="submit" value="Login" (click)="login()"></p>	
-				<p><input type="submit" value="Registrarse" routerLink="/registracion"></p>
+				<p><input type="submit" value="Registrarse" (click)="registrarse()"></p>
 				<p><span class="btn-round">or</span></p>
 				<div class="form-group" style="text-align: center;">
 					<label style="text-align: center;">Tipo usuario Testeo:</label>

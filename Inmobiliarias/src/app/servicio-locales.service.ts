@@ -35,7 +35,8 @@ export class ServicioLocalesService {
 
   deleteLocal(id: number) {
       return this.http.delete(this.rutaLocal + id).map(
-      data => data.json());
+      // data => data.json());
+      data => console.log("exitos"));            
   }
 
   public GuardarLocal(local: Local) 

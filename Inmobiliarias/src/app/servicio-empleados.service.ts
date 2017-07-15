@@ -16,6 +16,7 @@ export class ServicioEmpleadosService {
   getEmpleados() {
     return this.http.get(this.ruta).map(
       data => data.json());
+      //data => console.log("exitos"));   
   }
 
 
@@ -30,9 +31,10 @@ export class ServicioEmpleadosService {
   }
 
   deleteEmpleado(id: number) {
-      return this.http.delete(this.rutaEmpleado + id).map(
-      //return this.http.get(rutaDeleteUsuario + id).map(
-      data => data.json());
+      // return this.http.delete(this.rutaEmpleado + id).map(
+      // data => data.json());
+       return this.http.delete(this.rutaEmpleado + id).map(
+      data => console.log("exitos"));      
   }
 
   public GuardarEmpleado(empleado: Empleado) 

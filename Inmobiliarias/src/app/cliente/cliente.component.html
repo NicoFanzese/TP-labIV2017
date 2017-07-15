@@ -20,7 +20,7 @@
 </p>
 
 <br>
-<div id="OfertasCliente" style="display: none">
+<div id="OfertasCliente">
   <br>
   <div class="form-group" style="text-align: center;">
     <label for="filtroLocal" style="text-align: center;">Elija Local:</label><br>
@@ -31,12 +31,20 @@
   </div>
 
   <div id="divProductos">
-  <div class="jumbotron margin-top-10 margin-bot-10">
-    <h1 class="display-3 animated bounceInRight" style="text-align: center;">Nuestros Productos</h1>
-    <!--<p class="lead animated bounceInRight">En esta sección podrás encontrar nuestros productos.</p>-->
-    <hr class="my-4">
+    <spinner-component [spinnerShow]="show">
+      <div class="spinner-2">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </spinner-component>
+    <sk-fading-circle *ngIf="show"></sk-fading-circle>
 
-    <div class="row">
+    <div class="jumbotron margin-top-10 margin-bot-10">
+      <h1 class="display-3 animated bounceInRight" style="text-align: center;">Nuestros Productos</h1>
+      <!--<p class="lead animated bounceInRight">En esta sección podrás encontrar nuestros productos.</p>-->
+      <hr class="my-4">
+
+      <div class="row">
         <div class="col col-md-3 animated fadeIn" *ngFor="let p of productos">
           <div class="card margin-top-10">
             <div class="card-block">
@@ -85,56 +93,56 @@
 
             </div>
 
-          </div>        
+          </div>
         </div>
       </div>
 
-    <!--Si no hay datos-->
-    <div *ngIf="error">
-      <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
-      <div class="alert alert-danger" role="alert">
-        <strong>404</strong> Error de servidor.
+      <!--Si no hay datos-->
+      <div *ngIf="error">
+        <img src="http://k33.kn3.net/taringa/0/0/E/9/3/F/Franck870/519.gif" class="error-dino">
+        <div class="alert alert-danger" role="alert">
+          <strong>404</strong> Error de servidor.
+        </div>
       </div>
     </div>
-  </div>
 
+  </div>
 </div>
-</div>
-<div id="mapaProducto" style="display: none" >
+<div id="mapaProducto" style="display: none">
   <div class="jumbotron margin-top-10 margin-bot-10">
-  <h1 class="display-3 animated bounceInRight" style="text-align: center;">Mapa</h1>
-  <p class="lead animated bounceInRight" style="text-align: center;">Mapa del Producto {{mapaProd}}</p>
-  <hr class="my-4">
-  <!--<div id="mapaProducto">-->
+    <h1 class="display-3 animated bounceInRight" style="text-align: center;">Mapa</h1>
+    <p class="lead animated bounceInRight" style="text-align: center;">Mapa del Producto {{mapaProd}}</p>
+    <hr class="my-4">
+    <!--<div id="mapaProducto">-->
     <!--<div class="container">-->
-      <!--<sebm-google-map [latitude]=p.lat [longitude]=p.lng [scrollwheel]="false" [zoom]=4>
+    <!--<sebm-google-map [latitude]=p.lat [longitude]=p.lng [scrollwheel]="false" [zoom]=4>
         <sebm-google-map-marker [latitude]=p.lat [longitude]=p.lng></sebm-google-map-marker>
       </sebm-google-map>
     </div>-->
-      <!--<div style="border:2px solid black">
+    <!--<div style="border:2px solid black">
         <sebm-google-map [latitude]=latMap [longitude]=lngMap [scrollwheel]="false">
           <sebm-google-map-marker [latitude]=latMap [longitude]=lngMap></sebm-google-map-marker>
         </sebm-google-map>
       </div>-->
 
-      <!--<sebm-google-map [latitude]=-34.829074 [longitude]=-58.4043129>
+    <!--<sebm-google-map [latitude]=-34.829074 [longitude]=-58.4043129>
           <sebm-google-map-marker [latitude]=-34.829074 [longitude]=-58.4043129></sebm-google-map-marker>
       </sebm-google-map>-->
-      <!--<sebm-google-map [latitude]="latMap" [longitude]="lngMap">
+    <!--<sebm-google-map [latitude]="latMap" [longitude]="lngMap">
         <sebm-google-map-marker [latitude]="latMap" [longitude]="lngMap"></sebm-google-map-marker>
       </sebm-google-map>-->
 
-      <!--<agm-map [latitude]="latMap" [longitude]="lngMap">
+    <!--<agm-map [latitude]="latMap" [longitude]="lngMap">
         <agm-marker [latitude]="latMap" [longitude]="lngMap"></agm-marker>
       </agm-map>-->
-      
-      <div class='agm-map-content'>
-        <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom"></agm-map>
-      </div>
 
-      <div style="text-align:center">
-        <button class="btn btn-primary" (click)="volverAProductos()"><i class="material-icons">Volver a Productos</i></button>
-      </div>        
+    <div class='agm-map-content'>
+      <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom"></agm-map>
+    </div>
+
+    <div style="text-align:center">
+      <button class="btn btn-primary" (click)="volverAProductos()"><i class="material-icons">Volver a Productos</i></button>
+    </div>
     <!--</div>-->
   </div>
 </div>
@@ -146,7 +154,7 @@
 
 <div id="ReservarCliente" style="display: none">
   <br>
-  <div id="altaReservas" style="text-align: center;"  style="display: none">  
+  <div id="altaReservas" style="text-align: center;" style="display: none">
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight" style="text-align: center;">Reserva Pendiente</h1>
       <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
@@ -155,9 +163,10 @@
       <hr class="my-4">
       <div class="form-group" style="text-align: center;">
         <label for="clienteProducto" style="text-align: center;">Cliente:</label>
-        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="clienteProducto" [(ngModel)]="clienteProducto" id="clienteProducto">
-      </div>  
-      
+        <input readonly="true" required type="text" style="text-align: center;" class="form-control" name="clienteProducto" [(ngModel)]="clienteProducto"
+          id="clienteProducto">
+      </div>
+
       <table class="table table-hover" *ngIf="!error">
         <thead class="thead-inverse">
           <tr>
@@ -171,7 +180,7 @@
             <th scope="row"><span class="badge badge-default badge-pill">{{nombreProducto}}</span></th>
             <!--<td><img src="./assets/img/usuarios/{{u.foto}}" style="width:100px"></td>-->
             <td>{{direccionProducto}}</td>
-            <td>{{tipoProducto}}</td>                  
+            <td>{{tipoProducto}}</td>
           </tr>
         </tbody>
       </table>
@@ -188,11 +197,13 @@
     <form>
       <div class="form-group" style="text-align: center;" *ngIf="tipoProducto=='Alquiler'">
         <label for="fechaDesdeProducto" style="text-align: center;">Fecha Desde:</label>
-        <input required type="date" style="text-align: center;" class="form-control" name="fechaDesdeProducto" [(ngModel)]="fechaDesdeProducto" id="fechaDesdeProducto">
-      </div>      
+        <input required type="date" style="text-align: center;" class="form-control" name="fechaDesdeProducto" [(ngModel)]="fechaDesdeProducto"
+          id="fechaDesdeProducto">
+      </div>
       <div class="form-group" style="text-align: center;" *ngIf="tipoProducto=='Alquiler'">
         <label for="fechaHastaProducto" style="text-align: center;">Fecha Hasta:</label>
-        <input required type="date" style="text-align: center;" class="form-control" name="fechaHastaProducto" [(ngModel)]="fechaHastaProducto" id="fechaHastaProducto">
+        <input required type="date" style="text-align: center;" class="form-control" name="fechaHastaProducto" [(ngModel)]="fechaHastaProducto"
+          id="fechaHastaProducto">
       </div>
 
       <div style="text-align: center;">
@@ -204,9 +215,16 @@
 
 
 
-  <div style="text-align: center;">  
+  <div style="text-align: center;">
+    <spinner-component [spinnerShow]="show">
+      <div class="spinner-2">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </spinner-component>
+    <sk-fading-circle *ngIf="show"></sk-fading-circle>
     <div class="jumbotron margin-top-10 margin-bot-10">
-      <h1 class="display-3 animated bounceInRight">Historial de sus reservas</h1>     
+      <h1 class="display-3 animated bounceInRight">Historial de sus reservas</h1>
       <hr class="my-4">
 
       <table class="table table-hover" *ngIf="!error">
@@ -222,11 +240,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let hr of reservas" class="table-info animated fadeIn">
-              <th scope="row"><span class="badge badge-default badge-pill">{{hr.nombre}}</span></th>
-              <td >{{hr.direccion}}</td>
-              <td >{{hr.tipoProducto}}</td>
-              <td >{{hr.fechaDesde}}</td>
-              <td >{{hr.fechaHasta}}</td>
+            <th scope="row"><span class="badge badge-default badge-pill">{{hr.nombre}}</span></th>
+            <td>{{hr.direccion}}</td>
+            <td>{{hr.tipoProducto}}</td>
+            <td>{{hr.fechaDesde}}</td>
+            <td>{{hr.fechaHasta}}</td>
           </tr>
         </tbody>
       </table>

@@ -4,6 +4,8 @@ import { Usuario } from '../../clases/usuario.class';
 import { ServicioClientesService } from '../servicio-clientes.service';
 import { Cliente } from '../../clases/cliente.class';
 import { Router } from '@angular/router';
+import { SpinnerComponentModule } from 'ng2-component-spinner';
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle'
 
 @Component({
   selector: 'app-registracion',
@@ -18,11 +20,15 @@ export class RegistracionComponent implements OnInit {
   public direccionCliente;
   public usuarioLogueoCliente;
   public passwordCliente;
-
-
+  public show;
+  public delay;
   constructor(public usuarioService: ServicioUsuariosService,
               private clienteService: ServicioClientesService,
-              public router: Router) { }
+              public router: Router) { 
+    this.show = false;      
+// [delay]: number - representing the milliseconds to wait, before showing the spinner, default: 0
+              
+              }
 
   ngOnInit() {
   }
@@ -40,6 +46,7 @@ export class RegistracionComponent implements OnInit {
 
 
   GuardarCliente() {
+    this.show = true;    
     /*console.log("nombre"+this.nombreCliente);
     console.log("mail"+this.mailCliente);
     console.log("tel"+this.telefonoCliente);
@@ -54,14 +61,16 @@ export class RegistracionComponent implements OnInit {
       ((this.usuarioLogueoCliente == "") || (this.usuarioLogueoCliente == undefined) || (this.usuarioLogueoCliente == null)) ||
       ((this.passwordCliente == "") || (this.passwordCliente == undefined) || (this.passwordCliente == null))) {
         alert("Los Datos en pantalla son obligatorios");
+      this.show = false;                
     } else {
         let objUsuario: Usuario = new Usuario(0, this.nombreCliente, this.usuarioLogueoCliente, this.passwordCliente, 'cliente', 1);       
         this.usuarioService.GuardarUsuario(objUsuario).subscribe();
 
         let objCliente: Cliente = new Cliente(0, this.nombreCliente, this.mailCliente, this.telefonoCliente, this.direccionCliente, this.usuarioLogueoCliente);
         this.clienteService.GuardarCliente(objCliente).subscribe();
-
+      
         alert("Registración efectuada con éxito");
+        this.show = false;
         this.router.navigate(['/login']);
     }
 
@@ -69,6 +78,7 @@ export class RegistracionComponent implements OnInit {
 
   cancelarRegistracion()
   {
+    this.show = false;            
     this.router.navigate(['/login']);
   }
 

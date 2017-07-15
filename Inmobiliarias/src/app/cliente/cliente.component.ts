@@ -7,6 +7,9 @@ import { ServicioReservasService } from '../servicio-reservas.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
 import { AgmCoreModule } from '@agm/core';
+import { SpinnerComponentModule } from 'ng2-component-spinner';
+// import { RotatingPlaneComponent } from 'ng2-spin-kit/app/spinner/rotating-plane.component'
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle';
 
 @Component({
   selector: 'app-cliente',
@@ -47,6 +50,8 @@ export class ClienteComponent implements OnInit {
   public error: boolean = false;
   public operacion: string;
 
+  public show;
+
   public filtroLocal:string;
 
   constructor(private productoService: ServicioProductosService,
@@ -57,7 +62,8 @@ export class ClienteComponent implements OnInit {
 
         this.TraerProductos();
         this.TraerLocales();
-        this.TraerReservas()      
+        this.TraerReservas();    
+        this.show = false;  
 
         try {         
           this.clienteProducto = this.authService.getToken().data['nombre'];  
@@ -92,6 +98,7 @@ export class ClienteComponent implements OnInit {
     document.getElementById("OperacionesAnterioresCliente").style.display = "none";
     document.getElementById("ReservarCliente").style.display = "inline";
     document.getElementById("altaReservas").style.display = "none";    
+    this.show = false;      
   }
 
   TraerLocales() {
@@ -111,15 +118,20 @@ export class ClienteComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false; 
       },
-      () => console.log("Productos traidos con éxito")
+      () => {console.log("Productos traidos con éxito");
+             this.show = false;     
+      }
     );
 
       //console.info(this.productos);
   }
 
 cambiarFiltro(){
-  console.log(this.filtroLocal);
+  this.show = true;  
+
+  // console.log(this.filtroLocal);
   if(this.filtroLocal == "todas"){
     this.TraerProductos();
   }else{
@@ -128,8 +140,9 @@ cambiarFiltro(){
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Productos traidos con éxito")
+      () => {console.log("Productos traidos con éxito"); this.show = false;}
     );
   }      
 }
@@ -159,16 +172,18 @@ cambiarFiltro(){
   }
 
   addCarrito(p: Producto, id){
+    this.show = true;  
+
     this.MostrarReservar();
     document.getElementById("altaReservas").style.display = "inline";
     //this.clienteProducto = localStorage.getItem("usuarioLogueado");
     this.productoSeleccionado = p;
     this.idProductoSeleccionado = id;    
-    console.log(p.id +id);
+    // console.log(p.id +id);
     this.nombreProducto = p.nombre;
     this.direccionProducto = p.direccion;
     this.tipoProducto = p.tipo;
-    console.log(this.productoSeleccionado);
+    // console.log(this.productoSeleccionado);
   }
 
   TraerReservas() {
@@ -178,34 +193,11 @@ cambiarFiltro(){
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Reservas traidos con éxito")
+      () => {console.log("Reservas traidos con éxito"); this.show = false;  }
     );
   }
-/*altaReserva() {
-    this.operacion = "Insertar";
-    document.getElementById("altaClientesEncargado").style.display = "inline";
-  }
-
-  deleteCliente(id: number) {
-    this.clienteService.deleteCliente(id).subscribe(
-      data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
-    );
-    this.TraerClientes();
-  }
-
-  mostrarCliente(id, nom, mail, tel, dir, usuLog) {
-    this.operacion = "Modificar";
-    this.idClienteEncargado = id;
-    this.nombreClienteEncargado = nom;
-    this.mailClienteEncargado = mail;
-    this.telefonoClienteEncargado = tel;
-    this.direccionClienteEncargado = dir;
-    this.usuarioLoginClienteEncargado = usuLog;
-    document.getElementById("altaClientesEncargado").style.display = "inline";
-  }*/
 
   CancelarReserva() {
     document.getElementById("altaReservas").style.display = "none";
@@ -221,6 +213,8 @@ cambiarFiltro(){
   }
 
   GuardarReserva() {
+    this.show = true;  
+    
     console.log(this.clienteProducto);
     let band;
     band = 0;
@@ -228,6 +222,7 @@ cambiarFiltro(){
         ((this.clienteProducto == "") || (this.clienteProducto == undefined) || (this.clienteProducto == null))) {
         alert("Debe existir un cliente para la reserva y seleccionar un producto en la seccion de productos y ofertas");
         band=1;
+        this.show = false;  
     }
 
     if((((this.fechaDesdeProducto == "") || (this.fechaDesdeProducto == undefined) || (this.fechaDesdeProducto == null)) ||
@@ -235,17 +230,20 @@ cambiarFiltro(){
         && (this.tipoProducto == "Alquiler")){
           alert("Si el producto es un alquiler, debe ingresar la fecha desde y hasta");
           band=1;
+          this.show = false;  
         }
     
     if (this.tipoProducto == "Venta"){
       this.fechaDesdeProducto = "";
-      this.fechaHastaProducto = "";      
+      this.fechaHastaProducto = "";   
+      this.show = false;    
     }
 
     if (((this.fechaDesdeProducto < Date.now() + 30) || (this.fechaDesdeProducto > Date.now() + 60)) 
         && (this.tipoProducto == "Alquiler")){      
         alert("No puede hacer una reserva de alquiler con fecha de inicio menor a 30 dias o mayor a 60 días a partir de hoy");
         band=1;
+        this.show = false;          
     }
 
     if(band==0){
@@ -258,6 +256,7 @@ cambiarFiltro(){
         this.clienteService.putCliente(objCliente).subscribe();
       }*/
       this.TraerReservas();
+      this.TraerReservas();      
       this.CancelarReserva();
     }
   }  

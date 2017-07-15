@@ -37,6 +37,10 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
+import { SpinnerComponentModule } from 'ng2-component-spinner';
+// import { RotatingPlaneComponent } from 'ng2-spin-kit/app/spinner/rotating-plane.component'
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle'
+
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
 @Component({
@@ -157,7 +161,7 @@ export class EncargadoComponent implements OnInit {
   public CountryCodes;
   //public usuarioLoginClienteEncargado;
 
-
+  public show;
 
 
   public mensaje: string;
@@ -190,6 +194,7 @@ export class EncargadoComponent implements OnInit {
               public router: Router,
               public authService: AuthService) { 
 
+this.show = false;  
     this.TraerClientes();
     this.TraerProductos();
     this.TraerLocales();
@@ -254,54 +259,8 @@ export class EncargadoComponent implements OnInit {
     this.zoom = 12;
   }
 
-  ngOnInit() {/*
-    //set google maps defaults
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
-
-    //create search FormControl
-    this.searchControl = new FormControl();
-
-    //set current position
-    this.setCurrentPosition();
-
-    //load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log(place);
-          this.direccionProductoEncargado = place.formatted_address;    
-          this.dirURL = place.url;    
-          console.log("al presionar en el combo: " + this.direccionProductoEncargado);  
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-
-          //set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 12;
-        });
-      });
-    });*/
+  ngOnInit() {
   }
-/*
-  setCurrentPosition() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 12;
-      });
-    }
-  }*/
 
   MostrarClientes()
   {
@@ -355,7 +314,7 @@ export class EncargadoComponent implements OnInit {
     document.getElementById("LocalesEncargado").style.display = "none";
     document.getElementById("altaEmpleadosLocalesEncargado").style.display = "none";          
     document.getElementById("UsuariosEncargado").style.display = "none";
-    document.getElementById("EmpleadosEncargado").style.display = "none";
+    document.getElementById("EmpleadosEncargado").style.display = "none";    
   }
 
   MostrarLocales() {
@@ -404,8 +363,9 @@ export class EncargadoComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Clientes traidos con éxito")
+      () => {console.log("Clientes traidos con éxito"); this.show = false; }
     );
   }
 
@@ -426,10 +386,11 @@ export class EncargadoComponent implements OnInit {
   }
 
   deleteCliente(id: number) {
+    this.show = true;  
     this.clienteService.deleteCliente(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
       err => console.error(err),
-      () => console.info('éxito')
+      () => {console.info('éxito'); this.TraerClientes();}
     );
     this.TraerClientes();
   }
@@ -456,18 +417,22 @@ export class EncargadoComponent implements OnInit {
   }
 
   GuardarCliente() {
+    this.show = true;  
     if (((this.nombreClienteEncargado == "") || (this.nombreClienteEncargado == undefined) || (this.nombreClienteEncargado == null)) ||
         ((this.mailClienteEncargado == "") || (this.mailClienteEncargado == undefined) || (this.mailClienteEncargado == null))) {
         alert("El nombre del cliente y Mail son obligatorios");
+        this.show = false; 
     } else {
       if (this.operacion == "Insertar") {
         let objCliente: Cliente = new Cliente(0, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
-
         this.clienteService.GuardarCliente(objCliente).subscribe();
-
+        this.TraerClientes();
+        this.CancelarCliente();        
       } else if (this.operacion == "Modificar") {
         let objCliente: Cliente = new Cliente(this.idClienteEncargado, this.nombreClienteEncargado, this.mailClienteEncargado, this.telefonoClienteEncargado, this.direccionClienteEncargado, this.usuarioLoginClienteEncargado);
         this.clienteService.putCliente(objCliente).subscribe();
+        this.TraerClientes();
+        this.CancelarCliente();        
       }
       this.TraerClientes();
       this.CancelarCliente();
@@ -494,8 +459,9 @@ export class EncargadoComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Productos traidos con éxito")
+      () => {console.log("Productos traidos con éxito"); this.show = false;  }
     );
   }
 
@@ -505,10 +471,11 @@ export class EncargadoComponent implements OnInit {
   }
   
   deleteProducto(id: number) {
+    this.show = true;  
     this.productoService.deleteProducto(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
       err => console.error(err),
-      () => console.info('éxito')
+      () => {console.info('éxito');this.TraerProductos();}
     );
     this.TraerProductos();
   }
@@ -560,18 +527,20 @@ export class EncargadoComponent implements OnInit {
   }
 
   GuardarProducto() {
+    this.show = true;  
     console.log(this.address);
     if (((this.nombreProductoEncargado == "") || (this.nombreProductoEncargado == undefined) || (this.nombreProductoEncargado == null))) {
         alert("El nombre del producto, direccion, localidad, provincia y país son obligatorios");
     } else {
       if (this.operacion == "Insertar") {
-        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.address, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
-
-        this.productoService.GuardarProducto(objProducto).subscribe();
-
+        let objProducto: Producto = new Producto(0, this.nombreProductoEncargado, this.descripcionProductoEncargado, this.address, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);        this.productoService.GuardarProducto(objProducto).subscribe();
+        this.TraerProductos();
+        this.CancelarProducto();
       } else if (this.operacion == "Modificar") {
         let objProducto: Producto = new Producto(this.idProductoEncargado, this.nombreProductoEncargado,this.descripcionProductoEncargado, this.address, this.tipoProductoEncargado,this.vDesdeProductoEncargado, this.vHastaProductoEncargado, this.foto1ProductoEncargado, this.foto2ProductoEncargado, this.foto3ProductoEncargado, this.monedaProductoEncargado, this.precioProductoEncargado, this.latitude, this.longitude,  this.dirURL);
         this.productoService.putProducto(objProducto).subscribe();
+        this.TraerProductos();
+        this.CancelarProducto();        
       }
       this.uploader.clearQueue();
       this.TraerProductos();
@@ -587,8 +556,9 @@ export class EncargadoComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Locales traidos con éxito")
+      () => {console.log("Locales traidos con éxito"); this.show = false;  }
     );
   }
 
@@ -627,15 +597,21 @@ export class EncargadoComponent implements OnInit {
     }
 
   GuardarLocal() {
+    this.show = true;  
     if (((this.nombreLocalEncargado == "") || (this.nombreLocalEncargado == undefined) || (this.nombreLocalEncargado == null)) ||
       ((this.direccionLocalEncargado == "") || (this.direccionLocalEncargado == undefined) || (this.direccionLocalEncargado == null))) {
         alert("Los Datos en pantalla son obligatorios");
+        this.show = false;  
     } else {
       if (this.operacion == "Insertar") {
         alert("Usted no tiene los permisos para poder insertar Locales")
+        this.TraerLocales();
+        this.CancelarLocal();        
       } else if (this.operacion == "Modificar") {
         let objLocal: Local = new Local(this.idLocalEncargado, this.nombreLocalEncargado, this.direccionLocalEncargado, this.encargadoLocalEncargado, this.foto1LocalEncargado, this.foto2LocalEncargado, this.foto3LocalEncargado);
         this.localService.putLocal(objLocal).subscribe();
+        this.TraerLocales();
+        this.CancelarLocal();        
       }
       this.uploaderLocal.clearQueue();
       this.TraerLocales();
@@ -651,8 +627,9 @@ export class EncargadoComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("empleados de Local traidos con éxito")
+      () => {console.log("empleados de Local traidos con éxito"); this.show = false;  }
     );
     console.log("Empleados:" +this.empleadosLocales);
   }
@@ -667,7 +644,7 @@ agregarEmpleadosLocal(id, nom){
   }
 
   AddEmpleadoLocal() {
-
+    this.show = true;  
     if ((this.EmpleadoLocalEncargado == "") || (this.EmpleadoLocalEncargado == undefined) || (this.EmpleadoLocalEncargado == null)) {
         alert("Debe elegir un empleado en el Combo de empleados");
     } else {   
@@ -680,13 +657,13 @@ agregarEmpleadosLocal(id, nom){
   
 
   deleteEmpleadoLocal(id: number) {
+    this.show = true;  
     this.localService.deleteEmpleadoLocal(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
+      err => {console.error(err); this.show = false;  },
+      () => {console.info('éxito');this.getDetalleEmpleadosLocales(this.idLocalEmpleado);this.show = false;  }
     )
-    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
-    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);    
   }
 
   CerrarEmpleadoLocal(){
@@ -700,16 +677,18 @@ agregarEmpleadosLocal(id, nom){
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Usuarios traidos con éxito")
+      () => {console.log("Usuarios traidos con éxito"); this.show = false;  }
     );
   }
 
   deleteUsuario(id: number) {
+    this.show = true;  
     this.usuarioService.deleteUsuario(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
+      err => {console.error(err); this.show = false;  },
+      () => {console.info('éxito'); this.TraerUsuarios();this.show = false;  }
     );
     this.TraerUsuarios();
   }
@@ -744,15 +723,19 @@ agregarEmpleadosLocal(id, nom){
   }
 
   GuardarUsuario() {
+    this.show = true;  
     console.log(this.estadoUsuarioEncargado);
     if (((this.nombreUsuarioEncargado == "") || (this.nombreUsuarioEncargado == undefined) || (this.nombreUsuarioEncargado == null)) ||
       ((this.usuarioUsuarioEncargado == "") || (this.usuarioUsuarioEncargado == undefined) || (this.usuarioUsuarioEncargado == null)) ||
       ((this.passwordUsuarioEncargado == "") || (this.passwordUsuarioEncargado == undefined) || (this.passwordUsuarioEncargado == null)) ||
       ((this.tipoUsuarioEncargado == "") || (this.tipoUsuarioEncargado == undefined) || (this.tipoUsuarioEncargado == null))) {
         alert("Los Datos en pantalla son obligatorios");
+        this.show = false;  
     } else {
       if (this.operacion == "Insertar") {
         alert("No posee los permisos para insertar un nuevo usuario")
+        this.TraerUsuarios();
+        this.CancelarUsuario();
       } else if (this.operacion == "Modificar") {
         if((this.estadoUsuarioEncargado == "true") || (this.estadoUsuarioEncargado == 1)){
           this.estadoUsuarioEncargado = 1;
@@ -762,6 +745,8 @@ agregarEmpleadosLocal(id, nom){
 
         let objUsuario: Usuario = new Usuario(this.idUsuarioEncargado, this.nombreUsuarioEncargado, this.usuarioUsuarioEncargado, this.passwordUsuarioEncargado, this.tipoUsuarioEncargado, this.estadoUsuarioEncargado);
         this.usuarioService.putUsuario(objUsuario).subscribe();
+        this.TraerUsuarios();
+        this.CancelarUsuario();        
       }
       this.TraerUsuarios();
       this.CancelarUsuario();
@@ -782,8 +767,9 @@ agregarEmpleadosLocal(id, nom){
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Empleados traidos con éxito")
+      () => {console.log("Empleados traidos con éxito"); this.show = false;  }
     );
   }
 
@@ -799,13 +785,13 @@ agregarEmpleadosLocal(id, nom){
   }  
 
   deleteEmpleado(id: number) {
+    this.show = true;  
     this.empleadoService.deleteEmpleado(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
+      err => {console.error(err); this.show = false;  },
+      () => {console.info('éxito'); this.TraerEmpleados();this.show = false;  }
     );
     this.TraerEmpleados();
-    this.TraerEmpleados();    
   }
 
   mostrarEmpleado(id, nom, dir, idUsu) {
@@ -827,19 +813,22 @@ agregarEmpleadosLocal(id, nom){
   }
 
   GuardarEmpleado() {
+    this.show = true;  
     if (((this.nombreEmpleadoEncargado == "") || (this.nombreEmpleadoEncargado == undefined) || (this.nombreEmpleadoEncargado == null))) {
         alert("El nombre es obligatorios");
+        this.show = false;  
     } else {
       if (this.operacion == "Insertar") {
         let objEmpleado: Empleado = new Empleado(0, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.usuarioLoginEmpleadoEncargado);
-
         this.empleadoService.GuardarEmpleado(objEmpleado).subscribe();
-
+        this.TraerEmpleados();
+        this.CancelarEmpleado();
       } else if (this.operacion == "Modificar") {
         let objEmpleado: Empleado = new Empleado(this.idEmpleadoEncargado, this.nombreEmpleadoEncargado, this.direccionEmpleadoEncargado, this.usuarioLoginEmpleadoEncargado);
         this.empleadoService.putEmpleado(objEmpleado).subscribe();
+        this.TraerEmpleados();
+        this.CancelarEmpleado();        
       }
-      this.TraerEmpleados();
       this.TraerEmpleados();
       this.CancelarEmpleado();
     }
@@ -853,8 +842,9 @@ agregarEmpleadosLocal(id, nom){
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Locales de Producto traidos con éxito")
+      () => {console.log("Locales de Producto traidos con éxito"); this.show = false;  }
     );
     console.log("Locales:" +this.localesProductos);
   }
@@ -869,23 +859,26 @@ agregarEmpleadosLocal(id, nom){
   }
 
   GuardarLocalProducto() {
+    this.show = true;  
     if ((this.LocalProductoEncargado == "") || (this.LocalProductoEncargado == undefined) || (this.LocalProductoEncargado == null)) {
         alert("Debe elegir un producto en el Combo de productos");
+        this.TraerDetalleLocales(this.idProductoLocal);        
+        this.show = false;      
     } else {      
         let objLocalProducto: LocalProducto = new LocalProducto(0, this.idProductoLocal, this.LocalProductoEncargado);
         this.productoService.GuardarLocalProducto(objLocalProducto).subscribe();               
-   }
-        this.TraerDetalleLocales(this.idProductoLocal);    
+        this.TraerDetalleLocales(this.idProductoLocal);            
+   }  
   }
   
   deleteLocalProducto(id: number) {
+    this.show = true;  
     this.productoService.deleteLocalProducto(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
+      err => {console.error(err);this.show = false;  },
+      () => {console.info('éxito'); this.TraerDetalleLocales(this.idProductoLocal);this.show = false;  }
     )
-    console.log(this.idProductoLocal);
-    this.TraerDetalleLocales(this.idProductoLocal);
+    // console.log(this.idProductoLocal);
     this.TraerDetalleLocales(this.idProductoLocal);
   }
 
@@ -1006,17 +999,7 @@ agregarEmpleadosLocal(id, nom){
         let objProductoOferta: ProductoOferta = new ProductoOferta(0, this.idOfertaProducto, this.ProductoOfertaEncargado);
         console.log(this.ofertaService);
         this.ofertaService.AddProductoOferta(objProductoOferta).subscribe();  
-//this.ofertasServiceAux(objProductoOferta).subscribe();  
-
-        /*let objProductoOferta: ProductoOferta = new ProductoOferta(0, this.idOfertaProducto, this.ProductoOfertaEncargado);
-        console.info(objProductoOferta);
-        this.ofertaService.AddProductoOferta(objProductoOferta).subscribe();                       */
-
-        /*this.ofertaService.AddProductoOferta(objProductoOferta).subscribe(
-          data => console.info('Id: ${data.id} insertado con éxito'),
-          err => console.error(err),
-          () => console.info('éxito')
-        )*/     
+        this.getDetalleProductosOferta(this.idOfertaProducto);          
     }    
     this.getDetalleProductosOferta(this.idOfertaProducto);        
   }
@@ -1026,10 +1009,8 @@ agregarEmpleadosLocal(id, nom){
     this.ofertaService.deleteProductoOferta(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
       err => console.error(err),
-      () => console.info('éxito')
+      () => {console.info('éxito');     this.getDetalleProductosOferta(this.idOfertaProducto);}
     )
-    console.log(this.idOfertaProducto);
-    this.getDetalleProductosOferta(this.idOfertaProducto);
     this.getDetalleProductosOferta(this.idOfertaProducto);
   }
 
@@ -1076,12 +1057,14 @@ CancelarReserva() {
   }
 
   GuardarReserva() {
+    this.show = true;  
     let band;
     band = 0;
     if (((this.idProductoSeleccionado == "") || (this.idProductoSeleccionado == undefined) || (this.idProductoSeleccionado == null)) ||        
         ((this.clienteProducto == "") || (this.clienteProducto == undefined) || (this.clienteProducto == null))) {
         alert("Debe existir un cliente para la reserva y seleccionar un producto en la seccion de productos y ofertas");
         band=1;
+        this.show = false;  
     }
 
     if((((this.fechaDesdeProducto == "") || (this.fechaDesdeProducto == undefined) || (this.fechaDesdeProducto == null)) ||
@@ -1089,6 +1072,7 @@ CancelarReserva() {
         && (this.tipoProducto == "Alquiler")){
           alert("Si el producto es un alquiler, debe ingresar la fecha desde y hasta");
           band=1;
+          this.show = false;  
         }
     
     if (this.tipoProducto == "Venta"){
@@ -1100,6 +1084,7 @@ CancelarReserva() {
         && (this.tipoProducto == "Alquiler")){      
         alert("No puede hacer una reserva de alquiler con fecha de inicio menor a 30 dias o mayor a 60 días a partir de hoy");
         band=1;
+        this.show = false;  
     }
 
     if(band==0){
@@ -1123,9 +1108,11 @@ CancelarReserva() {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;  
       },
-      () => console.log("Reservas traidos con éxito")
+      () => {console.log("Reservas traidos con éxito");this.show = false;  }
     );
+    console.log(this.reservas);
   }
 
   desloguearse()
@@ -1134,8 +1121,7 @@ CancelarReserva() {
     // this.router.navigate(['/login']);
   }
   exportarAExcelClientes(){    
-    this.TraerClientes();
-    console.log(this.clientes);
+    this.show = true;      
     var options = { 
       fieldSeparator: ';',
       quoteStrings: '',
@@ -1146,5 +1132,6 @@ CancelarReserva() {
     };
 
     new Angular2Csv(this.clientes, 'clientes', options);
+    this.TraerClientes();    
   }  
 }

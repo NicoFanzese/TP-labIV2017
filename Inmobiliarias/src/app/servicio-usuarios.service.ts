@@ -25,7 +25,8 @@ export class ServicioUsuariosService {
   deleteUsuario(id: number) {
       return this.http.delete(this.rutaUsuario + id).map(
       //return this.http.get(rutaDeleteUsuario + id).map(
-      data => data.json());
+      // data => data.json());
+      data => console.log("exitos"));            
   }
 
   public GuardarUsuario(usuario: Usuario) 

@@ -12,6 +12,9 @@ import { ServicioEstadisticasService } from '../servicio-estadisticas.service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { CarouselModule } from 'ngx-bootstrap';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { SpinnerComponentModule } from 'ng2-component-spinner';
+// import { RotatingPlaneComponent } from 'ng2-spin-kit/app/spinner/rotating-plane.component'
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle'
 
 const URL = 'http://nfranzeseutn.hol.es/miAPIRest/index.php/uploadFoto';
 
@@ -54,7 +57,9 @@ export class AdministradorComponent implements OnInit {
   public uploaderLocal:FileUploader = new FileUploader({url: URL});
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
- 
+
+  public show;
+
  //graficos
   public graficoUno;
   public localesG1;
@@ -74,6 +79,7 @@ export class AdministradorComponent implements OnInit {
               public router: Router,
               public authService: AuthService,
               public estadisticasService: ServicioEstadisticasService) {
+    this.show = false;                
     this.TraerUsuarios();
     this.TraerLocales();
     this.TraerUsuariosLocales();
@@ -120,7 +126,7 @@ export class AdministradorComponent implements OnInit {
     this.TraerUsuariosLocales();
     this.TraerEmpleados();
   }
-  MostrarUsuarios() {
+  MostrarUsuarios() {    
     document.getElementById("LocalesAdministrador").style.display = "none";
     document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "none";          
     document.getElementById("UsuariosAdministrador").style.display = "inline";
@@ -151,19 +157,20 @@ export class AdministradorComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;        
       },
-      () => console.log("Usuarios traidos con éxito")
+      () => {console.log("Usuarios traidos con éxito");       this.show = false;}
     );
   }
 
   deleteUsuario(id: number) {
+    this.show = true;    
     this.usuarioService.deleteUsuario(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
+      err => {console.error(err)},
+      () => {console.info('éxito'); this.TraerUsuarios()}
     );
     this.TraerUsuarios();
-    this.TraerUsuarios();    
   }
 
   mostrarUsuario(id, nom, usu, pass, tipo,est) {
@@ -190,15 +197,18 @@ export class AdministradorComponent implements OnInit {
     this.passwordUsuarioAdministrador = "";
     this.tipoUsuarioAdministrador = "";
     this.estadoUsuarioAdministrador = false;
+    this.show = false;       
   }
 
   GuardarUsuario() {
+    this.show = true;    
     console.log(this.estadoUsuarioAdministrador);
     if (((this.nombreUsuarioAdministrador == "") || (this.nombreUsuarioAdministrador == undefined) || (this.nombreUsuarioAdministrador == null)) ||
       ((this.usuarioUsuarioAdministrador == "") || (this.usuarioUsuarioAdministrador == undefined) || (this.usuarioUsuarioAdministrador == null)) ||
       ((this.passwordUsuarioAdministrador == "") || (this.passwordUsuarioAdministrador == undefined) || (this.passwordUsuarioAdministrador == null)) ||
       ((this.tipoUsuarioAdministrador == "") || (this.tipoUsuarioAdministrador == undefined) || (this.tipoUsuarioAdministrador == null))) {
         alert("Los Datos en pantalla son obligatorios");
+        this.show = false;     
     } else {
       if (this.operacion == "Insertar") {
         if((this.estadoUsuarioAdministrador == "true") || (this.estadoUsuarioAdministrador == 1)){
@@ -223,7 +233,9 @@ export class AdministradorComponent implements OnInit {
         );*/
         this.usuarioService.GuardarUsuario(objUsuario).subscribe();
 
-
+        this.TraerUsuarios();  
+        this.TraerUsuarios();          
+        this.CancelarUsuario();    
         /*this.usuarioService.GuardarUsuario(objUsuario).subscribe(
           data => console.info(`Id: ${data.usuario} Insertado con éxito`),
           err => console.error(err),
@@ -238,16 +250,19 @@ export class AdministradorComponent implements OnInit {
 
         let objUsuario: Usuario = new Usuario(this.idUsuarioAdministrador, this.nombreUsuarioAdministrador, this.usuarioUsuarioAdministrador, this.passwordUsuarioAdministrador, this.tipoUsuarioAdministrador, this.estadoUsuarioAdministrador);
         this.usuarioService.putUsuario(objUsuario).subscribe();
+        this.TraerUsuarios();  
+        this.TraerUsuarios();          
+        this.CancelarUsuario();        
       }
-      this.TraerUsuarios();
-      this.TraerUsuarios();      
+      this.TraerUsuarios();  
       this.CancelarUsuario();
+      this.show = false;
     }
 
   }
 
-    exportarAExcelUsuarios(){    
-    this.TraerUsuarios();
+  exportarAExcelUsuarios(){    
+    this.show = true;    
     console.log(this.usuarios);
     var options = { 
       fieldSeparator: ';',
@@ -259,6 +274,7 @@ export class AdministradorComponent implements OnInit {
     };
 
     new Angular2Csv(this.usuarios, 'usuarios', options);
+    this.TraerUsuarios();    
   }  
 
     //LOCALES
@@ -268,8 +284,9 @@ export class AdministradorComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;
       },
-      () => console.log("Locales traidos con éxito")
+      () => {console.log("Locales traidos con éxito"); this.show = false;}
     );
   }
 
@@ -286,10 +303,11 @@ export class AdministradorComponent implements OnInit {
 
 
   deleteLocal(id: number) {
+    this.show = true;
     this.localService.deleteLocal(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
-      err => console.error(err),
-      () => console.info('éxito')
+      err => {console.error(err); this.show = false;},
+      () => {console.info('éxito'); this.show = false;this.TraerLocales();}
     );
     this.TraerLocales();
   }
@@ -316,6 +334,7 @@ export class AdministradorComponent implements OnInit {
     this.foto2LocalAdministrador = "";
     this.foto3LocalAdministrador = "";    
     this.uploaderLocal.clearQueue();    
+    this.show = false;           
   }
 
     subirImagenesLocal() {
@@ -329,33 +348,32 @@ export class AdministradorComponent implements OnInit {
     }
 
   GuardarLocal() {
-    // document.getElementById("GuardarLocal").disabled = true;
-    // document.getElementById("CancelarLocal").disabled = true;
+    this.show = true;    
 
     if (((this.nombreLocalAdministrador == "") || (this.nombreLocalAdministrador == undefined) || (this.nombreLocalAdministrador == null)) ||
       ((this.direccionLocalAdministrador == "") || (this.direccionLocalAdministrador == undefined) || (this.direccionLocalAdministrador == null))) {
         alert("Los Datos en pantalla son obligatorios");
+        this.show = false;        
     } else {
       if (this.operacion == "Insertar") {
         let objLocal: Local = new Local(0, this.nombreLocalAdministrador, this.direccionLocalAdministrador, this.encargadoLocalAdministrador, this.foto1LocalAdministrador, this.foto2LocalAdministrador, this.foto3LocalAdministrador);
         this.localService.GuardarLocal(objLocal).subscribe();
-
+        this.TraerLocales();
+        this.CancelarLocal();
+        this.uploaderLocal.clearQueue();
       } else if (this.operacion == "Modificar") {
         let objLocal: Local = new Local(this.idLocalAdministrador, this.nombreLocalAdministrador, this.direccionLocalAdministrador, this.encargadoLocalAdministrador, this.foto1LocalAdministrador, this.foto2LocalAdministrador, this.foto3LocalAdministrador);
         console.log("se va a modificar: " + objLocal);
-        this.localService.putLocal(objLocal).subscribe();
+        this.localService.putLocal(objLocal).subscribe();        
+        this.TraerLocales();
+        this.CancelarLocal();
+        this.uploaderLocal.clearQueue();        
       }
-      this.TraerLocales();
-      this.TraerLocales();
-      this.CancelarLocal();
-      this.uploaderLocal.clearQueue();
-      // document.getElementById("GuardarLocal").disabled = false;
-      // document.getElementById("CancelarLocal").disabled = false;
     }
-
   }
-  exportarAExcelLocales(){    
-    this.TraerLocales();
+
+  exportarAExcelLocales(){  
+    this.show = true;      
     console.log(this.locales);
     var options = { 
       fieldSeparator: ';',
@@ -367,6 +385,7 @@ export class AdministradorComponent implements OnInit {
     };
 
     new Angular2Csv(this.locales, 'locales', options);
+    this.TraerLocales();
   }  
 
 //DETALLE EMPLEADO
@@ -387,13 +406,16 @@ export class AdministradorComponent implements OnInit {
       err => {
         console.error(err);
         this.error = true;
+        this.show = false;
       },
-      () => console.log("empleados de Local traidos con éxito")
+      () => {console.log("empleados de Local traidos con éxito");
+          this.show = false;}
     );
     console.log("Empleados:" +this.empleadosLocales);
   }
 
 agregarEmpleadosLocal(id, nom){
+    this.show = true;  
     console.log(id);
     document.getElementById("altaEmpleadosLocalesAdministrador").style.display = "inline";
     document.getElementById("altaLocalesAdministrador").style.display = "none";    
@@ -403,6 +425,7 @@ agregarEmpleadosLocal(id, nom){
   }
 
   AddEmpleadoLocal() {
+    this.show = true;    
 
     if ((this.EmpleadoLocalAdministrador == "") || (this.EmpleadoLocalAdministrador == undefined) || (this.EmpleadoLocalAdministrador == null)) {
         alert("Debe elegir un empleado en el Combo de empleados");
@@ -411,17 +434,16 @@ agregarEmpleadosLocal(id, nom){
         console.log(this.localService);
         this.localService.GuardarEmpleadoLocal(objEmpleadoLocal).subscribe();  
     }    
-    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);   
-    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);         
+    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);     
   }
   
   deleteEmpleadoLocal(id: number) {
+    this.show = true;    
     this.localService.deleteEmpleadoLocal(id).subscribe(
       data => console.info('Id: ${data.id} borrado con éxito'),
       err => console.error(err),
-      () => console.info('éxito')
+      () => {console.info('éxito'); this.getDetalleEmpleadosLocales(this.idLocalEmpleado);}
     )
-    this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
     this.getDetalleEmpleadosLocales(this.idLocalEmpleado);
   }
 

@@ -54,7 +54,11 @@ import { PaginaInicioComponent } from './pagina-inicio/pagina-inicio.component';
 //import {GoogleMapComponent, MapsManager} from "google-maps-ng2";
 import { ServicioEstadisticasService } from './servicio-estadisticas.service';
 
-import { ChartsModule } from 'ng2-charts';
+// import { ChartsModule } from 'ng2-charts';
+import { SpinnerComponentModule } from 'ng2-component-spinner';
+import * as spinner from 'ng2-spin-kit/app/spinners';
+// import { RotatingPlaneComponent } from 'ng2-spin-kit/app/spinner/rotating-plane.component'
+import { FadingCircleComponent } from 'ng2-spin-kit/app/spinner/fading-circle'
 
 const appRoutes: Routes = [
   { path: 'bienvenida', component: PaginaInicioComponent },  
@@ -80,8 +84,8 @@ const appRoutes: Routes = [
     EmpleadoComponent,
     ClienteComponent,
     RegistracionComponent,
-    PaginaInicioComponent
-    
+    PaginaInicioComponent,
+    spinner.FadingCircleComponent    
   ],
   imports: [
     BrowserModule,
@@ -95,7 +99,8 @@ const appRoutes: Routes = [
     CarouselModule,    
     GooglePlaceModule,
     RouterModule.forRoot(appRoutes),  
-    ChartsModule,  
+    // ChartsModule,  
+    SpinnerComponentModule,
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'     

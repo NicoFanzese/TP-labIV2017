@@ -18,22 +18,28 @@ export class ServicioProductosService {
   getProductos() {
     return this.http.get(this.ruta).map(
       data => data.json());
+
   }
 
   getProductosPorLocal(local: string) {
     return this.http.get(this.rutaProductosLocales +"?idLocal="+ local).map(
       data => data.json());
+ 
   }
 
   getProducto(id: number) {
     return this.http.get(this.ruta + id).map(
       data => data.json());
+
   }
 
   deleteProducto(id: number) {
       return this.http.delete(this.rutaProducto + id).map(
-      data => data.json());
+      // data => data.json());
+      data => console.log("exitos"));            
+
   }
+
 
   public GuardarProducto(producto: Producto) 
   {
@@ -74,6 +80,7 @@ export class ServicioProductosService {
   deleteLocalProducto(id: number) {
       return this.http.delete(this.rutaProductoLocal + id).map(
       data => data.json());
+
   }
 
   public GuardarLocalProducto(localProducto: LocalProducto) 

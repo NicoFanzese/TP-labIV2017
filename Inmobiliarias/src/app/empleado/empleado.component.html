@@ -63,6 +63,13 @@
   </div>
 
   <div style="text-align: center;">  
+     <spinner-component [spinnerShow]="show">
+      <div class="spinner-2">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </spinner-component>
+    <sk-fading-circle *ngIf="show"></sk-fading-circle>
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight">Listado de Clientes</h1>
       <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
@@ -142,6 +149,7 @@
         <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl" name="direccionProductoEmpleado" [(ngModel)]="direccionProductoEmpleado" id="direccionProductoEmpleado">
       </div>-->
     <div class="form-group">      
+      <label for="descripcionProductoEmpleado" style="text-align: center;" >Dirección:</label>      
        <input type="text" class="form-control" placeholder="Domicilio" [(ngModel)]="address" [options]='options' (setAddress)="getAddress($event)"
             (street_number)='street_number=$event' (street)='street=$event' (city)='city=$event' (state)='state=$event' (district)='district=$event'
             (country)='country=$event' (postal_code)='postal_code=$event' (lat)='lat=$event' (lng)='lng=$event' (adr_address)='adr_address=$event'
@@ -295,6 +303,13 @@
 
 
   <div style="text-align: center;">  
+     <spinner-component [spinnerShow]="show">
+      <div class="spinner-2">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </spinner-component>
+    <sk-fading-circle *ngIf="show"></sk-fading-circle>
     <div class="jumbotron margin-top-10 margin-bot-10">
       <h1 class="display-3 animated bounceInRight">Listado de Productos</h1>
       <!--<p class="lead animated animated bounceInRight">Acà podrás ver todos los usuarios registrados en la página.</p>-->
