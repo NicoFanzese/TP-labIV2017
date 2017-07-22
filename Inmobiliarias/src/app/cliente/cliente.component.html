@@ -5,15 +5,15 @@
     <ul class="nav navbar-nav">
       <li><a class="navbar-brand" (click)="MostrarOfertas()">Ver Productos y Ofertas</a>
 
-      <li><a class="navbar-brand" (click)="MostrarReservar()">Reservas</a></li>
+        <li><a class="navbar-brand" (click)="MostrarReservar()">Reservas</a></li>
 
     </ul>
-  </div>    
-   <div class="navbar-collapse collapse dual-nav">
-        <ul class="nav navbar-nav ml-auto">
-          <li class="nav-item"><a class="navbar-brand mr-0" (click)="desloguearse()">Desloguearme</a></li>
-        </ul>
-    </div>
+  </div>
+  <div class="navbar-collapse collapse dual-nav">
+    <ul class="nav navbar-nav ml-auto">
+      <li class="nav-item"><a class="navbar-brand mr-0" (click)="desloguearse()">Desloguearme</a></li>
+    </ul>
+  </div>
 </nav>
 
 <p>
@@ -53,22 +53,22 @@
           <div class="card margin-top-10">
             <div class="card-block">
               <h2 align="center"><b>{{p.nombre}}</b></h2>
-                  <!--<table>
+              <!--<table>
                     <tr style="width: 100%;  height:100%;">-->
-                      <div align="center">
-                        <carousel style="text-align: center;">
-                          <slide style="text-align: center;">
-                            <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto1}}">
-                          </slide>
-                          <slide style="text-align: center;">
-                            <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto2}}">
-                          </slide>
-                          <slide style="text-align: center;">
-                            <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto3}}">
-                          </slide>
-                        </carousel>
-                      </div>
-                    <!--</tr>
+              <div align="center">
+                <carousel style="text-align: center;">
+                  <slide style="text-align: center;">
+                    <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto1}}">
+                  </slide>
+                  <slide style="text-align: center;">
+                    <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto2}}">
+                  </slide>
+                  <slide style="text-align: center;">
+                    <img style="width:300px;  height:300px;" src="http://nfranzeseutn.hol.es/miAPIRest/fotos/{{p.foto3}}">
+                  </slide>
+                </carousel>
+              </div>
+              <!--</tr>
                   </table>-->
               <h3 align="center"><b>{{p.tipo}}</b></h3>
               <h4 align="center"><b>Vigencia Desde:</b> {{p.vDesde}}</h4>
@@ -135,9 +135,17 @@
     <!--<div class='agm-map-content'>
       <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom"></agm-map>
     </div>-->
-    <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom">
+    <!-- <agm-map [latitude]="latMap" [longitude]="lngMap" [zoom]="zoom">
       <agm-marker [latitude]="latMap" [longitude]="lngMap"></agm-marker>
-    </agm-map>
+    </agm-map> -->
+
+    <ngui-map zoom="13" center="latMap, lngMap" (mapReady$)="onMapReady($event)" (mapClick)="onMapClick($event)" (idle)="onIdle($event)"
+      mapTypeId="roadmap">
+      <!-- <marker *ngFor="let pos of positions" [position]="pos" (initialized$)="onMarkerInit($event)"></marker> -->
+      <marker [position]="{lat: latMap, lng: lngMap}" (initialized$)="onMarkerInit($event)"></marker>
+      <!-- <marker [latitude]="latMap" [longitude]="lngMap" (initialized$)="onMarkerInit($event)"></marker>        -->
+    </ngui-map>
+
     <div style="text-align:center">
       <button class="btn btn-primary" (click)="volverAProductos()"><i class="material-icons">Volver a Productos</i></button>
     </div>

@@ -41,6 +41,7 @@ import { ProductoOferta } from '../clases/productoOferta.class';
 
 // import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AgmCoreModule } from '@agm/core';
+import { NguiMapModule} from '@ngui/map';
 import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 //import { Ng2MapModule} from 'ng2-map';
 //en imports:
@@ -108,6 +109,7 @@ const appRoutes: Routes = [
     SpinnerComponentModule,
     RecaptchaModule.forRoot(),  
     //Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyA1DHRuo02hKYjdhODQgaENNVpiQN8_W24'}),    
+    NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o&sensor=false&callback=initMap"'}),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCp3OmUot6QK-FqlR7mrpn7mIZ-mvG0K7o'     
     })/*,

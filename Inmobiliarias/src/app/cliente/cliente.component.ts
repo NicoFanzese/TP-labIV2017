@@ -54,6 +54,8 @@ export class ClienteComponent implements OnInit {
 
   public filtroLocal:string;
 
+  public positions;
+
   constructor(private productoService: ServicioProductosService,
               private localService: ServicioLocalesService,
               private reservaService: ServicioReservasService,
@@ -156,10 +158,10 @@ cambiarFiltro(){
     localStorage.setItem("Lng",p.lng);
 
     // this.router.navigate(['/mapa']); 
-    // this.latMap = parseFloat(p.lat);
-    // this.lngMap = parseFloat(p.lng);
-    this.latMap= -34.7562049;
-    this.lngMap = -58.20878540000001;    
+    this.latMap = parseFloat(p.lat);
+    this.lngMap = parseFloat(p.lng);
+    // this.latMap= -34.7562049;
+    // this.lngMap = -58.20878540000001;    
     this.mapaProd = p.nombre;
     document.getElementById("divProductos").style.display = "none";      
     document.getElementById("mapaProducto").style.display = "inline";    
@@ -265,6 +267,24 @@ cambiarFiltro(){
   {
     this.authService.logOut();
     // this.router.navigate(['/login']);
+  }
+
+   onMapReady(map) {
+    console.log('map', map);
+    console.log('markers', map.markers);  // to get all markers as an array 
+  }
+  onIdle(event) {
+    console.log('map', event.target);
+  }
+  onMarkerInit(marker) {
+    console.log('marker', marker);
+  }
+  onMapClick(event) {
+    console.log(this.latMap)
+    console.log(this.lngMap)
+    console.log(event.latLng);
+    this.positions.push(event.latLng);
+    event.target.panTo(event.latLng);
   }
 
 }

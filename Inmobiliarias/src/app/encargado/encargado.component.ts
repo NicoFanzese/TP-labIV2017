@@ -163,6 +163,9 @@ export class EncargadoComponent implements OnInit {
 
   public show;
 
+  public latMap: number;
+  public lngMap: number;
+  public mapaProd;
 
   public mensaje: string;
   public success: boolean = false;
@@ -1021,13 +1024,22 @@ agregarEmpleadosLocal(id, nom){
   //RESERVAS   
 
   verMapa(p: Producto){
-    //window.open(fileURL, "_self");
-    window.open(p.dirURL, '_blank');
+    //window.open(p.dirURL, '_blank');
 
-    console.log(p);
+
     localStorage.setItem("Direccion",p.direccion);
     localStorage.setItem("Lat",p.lat);
     localStorage.setItem("Lng",p.lng);
+
+    // this.router.navigate(['/mapa']); 
+    this.latMap = parseFloat(p.lat);
+    this.lngMap = parseFloat(p.lng);
+    // this.latMap= -34.7562049;
+    // this.lngMap = -58.20878540000001;    
+    this.mapaProd = p.nombre;
+    document.getElementById("OfertasEncargado").style.display = "none";      
+    document.getElementById("mapaProducto").style.display = "inline";    
+
 
   }
 
@@ -1134,4 +1146,22 @@ CancelarReserva() {
     new Angular2Csv(this.clientes, 'clientes', options);
     this.TraerClientes();    
   }  
+
+  onMapReady(map) {
+    console.log('map', map);
+    console.log('markers', map.markers);  // to get all markers as an array 
+  }
+  onIdle(event) {
+    console.log('map', event.target);
+  }
+  onMarkerInit(marker) {
+    console.log('marker', marker);
+  }
+  onMapClick(event) {
+    console.log(this.latMap)
+    console.log(this.lngMap)
+    console.log(event.latLng);
+    // this.positions.push(event.latLng);
+    event.target.panTo(event.latLng);
+  }
 }

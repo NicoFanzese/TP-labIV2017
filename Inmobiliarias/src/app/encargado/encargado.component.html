@@ -830,6 +830,23 @@
   </div>
 </div>
 
+<div id="mapaProducto" style="display: none">
+  <div class="jumbotron margin-top-10 margin-bot-10">
+    <h1 class="display-3 animated bounceInRight" style="text-align: center;">Mapa</h1>
+    <p class="lead animated bounceInRight" style="text-align: center;">Mapa del Producto {{mapaProd}}</p>
+    <hr class="my-4">
+
+
+    <ngui-map zoom="13" center="latMap, lngMap" (mapReady$)="onMapReady($event)" (mapClick)="onMapClick($event)" (idle)="onIdle($event)"
+      mapTypeId="roadmap">
+      <marker [position]="{lat: latMap, lng: lngMap}" (initialized$)="onMarkerInit($event)"></marker>
+    </ngui-map>
+
+    <div style="text-align:center">
+      <button class="btn btn-primary" (click)="volverAProductos()"><i class="material-icons">Volver a Productos</i></button>
+    </div>
+  </div>
+</div>
 
 <div id="ReservasEncargado" style="display: none">
   <br>
